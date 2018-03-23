@@ -1,0 +1,15 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #FFFFFF;
+    line-height: 20px;
+    overflow-x: hidden;
+    font-size: 14px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+}
+
+.modal-lg {
+    max-width: 80% !important;
+}

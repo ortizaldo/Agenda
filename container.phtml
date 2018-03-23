@@ -1,0 +1,163 @@
+<!-- Begin page content -->
+<main class="container" style="padding-top: 60px">
+  	<h1 class="mt-5">Agenda Grupo TI</h1>
+  	<div class="row">
+  		<span>
+  			<button type="button" class="btn btn-primary add-agenda">Agregar</button>
+  		</span>
+  	</div>
+  	<div class="row" style="padding-top: 20px">
+  		<table id="list-agenda" class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col"></th>
+					<th scope="col"></th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Direccion</th>
+					<th scope="col">Numeros Telefonicos registrados</th>
+					<th scope="col">Fecha de Actualizacion</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+  	</div>
+  	<!--Modales-->
+  	<div class="row" style="padding-top: 20px">
+  		<div id="modal-add-agenda" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+				<div class="modal-content">
+					<div class="modal-header">
+					    <h5 class="modal-title">Agregar Elemento a la Agenda</h5>
+					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					      <span aria-hidden="true">&times;</span>
+					    </button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-8 order-md-1">
+				          	<form>
+				            	<div class="row">
+				              
+					              	<div class="col-md-6 mb-3">
+					                	<label for="nombre">Nombre</label>
+					                	<input type="text" class="form-control" id="nombre" placeholder="" value="" required="true">
+					              	</div>
+
+					              	<div class="col-md-6 mb-3">
+					                	<label for="apellidos">Apellidos</label>
+					                	<input type="text" class="form-control" id="apellidos" placeholder="" value="" required="true">
+					              	</div>
+					            </div>
+
+					            <div class="mb-3">
+					              	<label for="dir">Direccion</label>
+					              	<input type="text" class="form-control" id="dir" placeholder="1234 Main St" required="true">
+					            </div>
+
+					            <div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="telefono">Telefono</label>
+					                	<input type="text" class="form-control" id="telefono" placeholder="" value="" required="true">
+					              	</div>
+
+					              	<div class="col-md-2 mb-3">
+					              		<label for="add-phone">AgregarTelefono</label>
+					                	<button class="btn btn-primary btn-lg btn-block" id="add-phone" type="button"><i class="fas fa-plus"></i></button>
+					              	</div>
+					            </div>
+
+					            <div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="nombre">Telefonos</label>
+					                	<table class="table" id="list-telefonos">
+					                		<thead>
+					                			<th>Telefono</th>
+					                			<th></th>
+					                		</thead>
+					                		<tbody></tbody>
+					                	</table>
+					              	</div>
+					            </div>
+
+				            	<hr class="mb-4">
+				            	<button class="btn btn-primary btn-lg btn-block" id="save-item" type="button">Guardar</button>
+				          	</form>
+				        </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal-edit-agenda" class="modal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+				<div class="modal-content">
+					<div class="modal-header">
+					    <h5 class="modal-title">Editar Direccion</h5>
+					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					      <span aria-hidden="true">&times;</span>
+					    </button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-8 order-md-1">
+				          	<form>
+				            	<div class="row">
+				              
+					              	<div class="col-md-6 mb-3">
+					                	<label for="nombre-edit">Nombre</label>
+					                	<input type="text" class="form-control" id="nombre-edit" placeholder="" value="" required="true">
+					              	</div>
+
+					              	<div class="col-md-6 mb-3">
+					                	<label for="apellidos-edit">Apellidos</label>
+					                	<input type="text" class="form-control" id="apellidos-edit" placeholder="" value="" required="true">
+					              	</div>
+					            </div>
+
+					            <div class="mb-3">
+					              	<label for="dir-edit">Direccion</label>
+					              	<input type="text" class="form-control" id="dir-edit" placeholder="1234 Main St" required="true">
+					            </div>
+
+					            <div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="telefono-edit">Telefono</label>
+					                	<input type="text" class="form-control" id="telefono-edit" placeholder="" value="" required="true">
+					              	</div>
+
+					              	<div class="col-md-2 mb-3">
+					              		<label for="edit-phone">Editar</label>
+					                	<button class="btn btn-primary btn-lg btn-block" id="edit-phone" type="button"><i class="fas fa-plus"></i></button>
+					              	</div>
+					            </div>
+
+					            <div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="edit-tbl-telefonos">Telefonos</label>
+					                	<table class="table" id="list-telefonos-edit">
+					                		<thead>
+					                			<th>Telefono</th>
+					                			<th></th>
+					                		</thead>
+					                		<tbody></tbody>
+					                	</table>
+					              	</div>
+					            </div>
+
+				            	<hr class="mb-4">
+				            	<input type="hidden" id="idagenda-edit">
+				            	<button class="btn btn-primary btn-lg btn-block" id="update-item" type="button">Guardar</button>
+				          	</form>
+				        </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary edit-close" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+  	</div>
+</main>
