@@ -1,8 +1,4 @@
 <?php
-/*
-$stmt = mysqli_prepare($link, "INSERT INTO CountryLanguage VALUES (?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, 'sssd', $code, $language, $official, $percent);
-*/
 include_once("../db/db.php");
 
 $DB = new DAO();
