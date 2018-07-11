@@ -1,5 +1,5 @@
 <?php
-include_once("../db/db.php");
+include_once("../../db/db.php");
 
 $DB = new DAO();
 $conn = $DB->getConnect();
@@ -29,11 +29,11 @@ if ($cmd = $conn->prepare($query)) {
             $agendaArr[$cont]["telefonos"] = GetTelefonos($conn, $idagenda);
             $cont++;
         }
-        $info["respuesta"] = $agendaArr;
+        
         $requests = null;
         $response["status"] = "OK";
         $response["code"] = "200";
-        $response["response"] = $info;
+        $response["response"] = $agendaArr;
     }
 }else{
     echo "error ".$conn->error;

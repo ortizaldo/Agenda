@@ -3,7 +3,7 @@ class DAO {
    var $server='localhost';
     var $admin='root';
     var $pass='';
-    var $base='grupoti';
+    var $base='histmedico';
     function __Construct() {
         
     }

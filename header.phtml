@@ -10,33 +10,59 @@ include_once "db/db.php";
     <meta name="description" content=""/>
     <link rel="shortcut icon" href="javascript:;" type="image/png">
 
-    <title>Grupo TI Agenda - Examen</title>
+    <title>Grupo Medico ISRI</title>
     </style>
 
     <!--common style-->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="assets/css/alertify.min.css"/>
     <!-- Default theme -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="assets/css/themes/default.min.css"/>
     <!-- Semantic UI theme -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/semantic.min.css"/>
+    <link rel="stylesheet" href="assets/css/themes/semantic.min.css"/>
     <!-- Bootstrap theme -->
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/css/themes/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/css/themes/bootstrap.min.css"/>
 </head>
 <body>
 
     <header>
       <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Grupo TI</a>
+      <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="assets/img/isri.png">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link add-agenda" href="#">Agregar Numero de Telefono <span class="sr-only">(current)</span></a>
+                <button type="button" class="btn btn-light add-agenda">
+                    <i class="fas fa-plus"></i>
+                    <span>Agenda</span>
+                </button>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Catalogos
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#" id="personal-med">
+                        <i class="fas fa-plus"></i>
+                        <span>Personal Medico</span>
+                    </a>
+                    <a class="dropdown-item" href="#" id="empleados">
+                        <i class="fas fa-plus"></i>
+                        <span>Empleados</span>
+                    </a>
+
+                    <a class="dropdown-item" href="#" id="empleados">
+                        <i class="fas fa-plus"></i>
+                        <span>Medicamentos y Procedimientos</span>
+                    </a>
+                </div>
             </li>
           </ul>
         </div>
@@ -45,19 +71,20 @@ include_once "db/db.php";
 
     <?php include("container.phtml") ?>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    
-<script type="text/javascript" src="assets/js/underscore-min.js"></script>
-<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="assets/js/bootstrap-switch.min.js"></script>
-<script type="text/javascript" src="assets/js/data-table/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="assets/js/notify.js"></script>
-<script type="text/javascript" src="assets/js/pace.js"></script>
-<script type="text/javascript" src="assets/js/select2.js"></script>
-<script type="text/javascript" src="assets/js/moment.min.js"></script>
-<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/popper.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.0/build/alertify.min.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
-<script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="assets/js/alertify.min.js"></script>
+    <script type="text/javascript" src="assets/js/underscore-min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="assets/js/notify.js"></script>
+    <script type="text/javascript" src="assets/js/pace.js"></script>
+    <script type="text/javascript" src="assets/js/papaparse.js"></script>
+    <script type="text/javascript" src="assets/js/select2.js"></script>
+    <script type="text/javascript" src="assets/js/moment.min.js"></script>
+    <script type="text/javascript" src="assets/js/popper.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
 </body>

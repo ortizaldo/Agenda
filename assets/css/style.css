@@ -13,3 +13,20 @@ body {
 .modal-lg {
     max-width: 80% !important;
 }
+
+.nav-tabs .nav-link{
+    color: #fff !important;
+    background-color: #f99c1c !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
+}
+
+.alertify .ajs-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    overflow-y: auto;
+    z-index: 2981 !important;
+}
