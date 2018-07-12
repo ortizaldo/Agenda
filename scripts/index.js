@@ -327,8 +327,8 @@ $(function () {
                 success: function (data) {
                     if(parseInt(data.code) == 200){
                         alertify.success(data.response);
-                        CleanModalAddPersMed();
-                        GetPersonalMedico(0, false, false);
+                        btn.prop("disabled", false);
+                        $('#UploadCSV').val("");
                     }else{
                         alertify.error(data.response);
                     }
