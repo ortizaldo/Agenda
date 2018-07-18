@@ -14,8 +14,8 @@ if(isset($desc) && $CMed != "0"){
         $response["response"] = "Ya existe un un registro con la informacion que esta tratando de enviar..";
         echo json_encode($response);
 	}else{
-		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt) 
-                        VALUES(?, ?, NOW(), NOW());";
+		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt, IsEnabled) 
+                        VALUES(?, ?, NOW(), NOW(), 1);";
 		if ($createItem = $conn->prepare($createItemSQL)) {
 		    $createItem->bind_param("is", $CMed, $desc );
 		    if (!$createItem->execute()) {

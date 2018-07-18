@@ -3,6 +3,7 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     var IDoc = 0;
     var IEmp = 0;
+    var ICMed = 0;
 
     $(".add-agenda").on("click", function(e) {
         e.preventDefault();
@@ -27,6 +28,7 @@ $(function () {
     $("#medicamentos").on("click", function(e) {
         e.preventDefault();
         GetListCat(0, "CMed", $(".ClasifMed"));
+        GetMedicamentos(0, false, false);
         $('#modal-add-medicamento').modal({backdrop: 'static', keyboard: false});
     });
 
@@ -357,6 +359,46 @@ $(function () {
 
     });
 
+    //save-cmed
+    $("#save-cmed").on("click", function(e) {
+        e.preventDefault();
+        
+        var AddClasifMed = parseInt($("#AddClasifMed option:selected").val());
+        var DescripcionMedicamento = $("#DescripcionMedicamento").val();
+
+        if(_.isEmpty(AddClasifMed) && AddClasifMed === 0){
+            alertify.error("El campo 'Clasif. de Med.' es obligatorio");
+            return false;
+        }
+        
+        if(_.isEmpty(DescripcionMedicamento)){
+            alertify.error("El campo 'Medicamento y/o Procedimiento' es obligatorio");
+            return false;
+        }
+
+        var obj = {
+            'desc':DescripcionMedicamento,
+            'CMed':AddClasifMed
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/InsMedicamento.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddMedicamento();
+                    GetMedicamentos(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
+            }
+        });
+
+    });
+
     $("#upd-item-med").on("click", function(e) {
         e.preventDefault();
         var nombre = $("#nomb_personal").val();
@@ -471,6 +513,47 @@ $(function () {
         });
     });
 
+    $("#upd-cmed").on("click", function(e) {
+        e.preventDefault();
+
+        e.preventDefault();
+        
+        var AddClasifMed = parseInt($("#AddClasifMed option:selected").val());
+        var DescripcionMedicamento = $("#DescripcionMedicamento").val();
+
+        if(_.isEmpty(AddClasifMed) && AddClasifMed === 0){
+            alertify.error("El campo 'Numero de Empleado' es obligatorio");
+            return false;
+        }
+        
+        if(_.isEmpty(DescripcionMedicamento)){
+            alertify.error("El campo 'Nombre' es obligatorio");
+            return false;
+        }
+
+        var obj = {
+            'desc':DescripcionMedicamento,
+            'CMed':AddClasifMed,
+            'IdMed':AddClasifMed
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/UpdateMedicamentos.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddMedicamento();
+                    GetMedicamentos(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
+            }
+        });
+    });
+
     function SendData(data_, btn) {
         if(data_.length > 0){
             $.ajax({
@@ -539,6 +622,46 @@ $(function () {
         });
     }
 
+    function GetMedicamentos(IdMedicamento, IsUpdate, dd) {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Medicamentos/ListMedicamentos.php",
+            data: {id_medicamento: IdMedicamento},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate && !dd){
+                        if(data.response.length === 1){
+                            
+                            $("#DescripcionMedicamento").val(data.response[0].Descripcion);
+                            
+                            var select_html = $("#AddClasifMed");
+
+                            select_html.find('option').each(function() {
+                                if ($(this).text() === data.response[0].ClasifMedDescripcion) {
+                                    select_html.val($(this).val()).change();
+                                }
+                            });
+
+                            ICMed = data.response[0].IdMedicamento;
+
+                            $("#save-cmed").hide();
+                            $("#upd-cmed").show();
+
+                            $( "#AddClasifMed" ).focus();
+                        }
+                    }else if(dd && !IsUpdate){
+                        //BuildArrTBLEmp(data.response);
+                    }else{
+                        BuildArrTBLCMed(data.response);
+                    }
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
+                }
+            }
+        });
+    }
+
     //upload csv
     $('#UploadCSV').change(function(evt){
         var input = this;
@@ -579,6 +702,14 @@ $(function () {
         GetEmpleados(id, true, false);
     });
 
+    $("#tbl_cmed").on("click", ".btn-update-cmed", function(e) {
+        e.preventDefault();
+        var id = $(this).attr("data-id");
+        GetMedicamentos(id, true, false);
+    });
+
+    //btn-update-cmed
+
     //btn-del-pmed
     $("#tbl_personalmed").on("click", ".btn-del-pmed", function(e) {
         e.preventDefault();
@@ -600,6 +731,17 @@ $(function () {
         });
     });
 
+    //btn-del-cmed
+    $("#tbl_cmed").on("click", ".btn-del-cmed", function(e) {
+        e.preventDefault();
+        var id = $(this).attr("data-id");
+        alertify.confirm('Eliminar Registros', 'Desea Eliminar este Registro', function(){ 
+            DelMedicamentos(id, true);
+        }, function(){ 
+            alertify.error('Se cancelo la accion..')
+        });
+    });
+
     $("#clean-item-med").on("click", function(e) {
         e.preventDefault();
         CleanModalAddPersMed();
@@ -613,9 +755,21 @@ $(function () {
         GetListCat(0, "Area", $(".SelectArea"));
     });
 
+    $("#clean-cmed").on("click", function(e) {
+        e.preventDefault();
+        CleanModalAddMedicamento();
+        GetMedicamentos(0, false, false);
+        GetListCat(0, "CMed", $(".ClasifMed"));
+    });
+
     $(".close-mod-emp").on("click", function(e) {
         e.preventDefault();
         CleanModalAddEmpleados();
+    });
+
+    $(".close-mod-medic").on("click", function(e) {
+        e.preventDefault();
+        CleanModalAddMedicamento();
     });
 
     function buildConfig()
@@ -711,6 +865,23 @@ $(function () {
                 if(parseInt(data.code) === 200){
                     alertify.success(data.response);
                     GetEmpleados(0, false, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+                }
+            }
+        });
+    }
+
+    function DelMedicamentos(IdMedicamento) {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/DelMedicamento.php",
+            data: {IdMedicamento: IdMedicamento},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetMedicamentos(0, false, false);
                 }else{
                     alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
                 }
@@ -846,6 +1017,43 @@ $(function () {
         });
 
         FillDTabs(arr_new, $("#tbl_emp"), $("#tbl_emp tbody"));
+    }
+
+    function BuildArrTBLCMed(data) {
+        var html = "", arr_new = [], html_dropdown_ = "", telefonos_ = "", titulo_ = "", fecha_ = "";
+        
+        _.each(data, function(rows) {
+            //creamos el boton para eliminar y editar
+            html_dropdown_ = '<div class="btn-group">';
+            html_dropdown_ += '<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            html_dropdown_ += 'Acciones';
+            html_dropdown_ += '</button>';
+                html_dropdown_ += '<div class="dropdown-menu">';
+
+                html_dropdown_ += '<a class="dropdown-item btn-update-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+                html_dropdown_ += '<i class="fas fa-edit"></i>';
+                html_dropdown_ += '&nbsp;&nbsp;Update Record';
+                html_dropdown_ += '</a>';
+                
+                html_dropdown_ += '<a class="dropdown-item btn-del-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+                html_dropdown_ += '<i class="fas fa-trash"></i>';
+                html_dropdown_ += '&nbsp;&nbsp;Delete Record';
+                html_dropdown_ += '</a>';
+
+                html_dropdown_ += '</div>';
+            html_dropdown_ += '</div>';
+
+            fecha_ = moment(new Date(rows.CreatedAt)).format("YYYY-MM-DD hh:mm:ss");
+            
+            arr_new.push([
+                html_dropdown_,
+                rows.ClasifMedDescripcion,
+                rows.Descripcion,
+                fecha_,
+            ]);
+        });
+
+        FillDTabs(arr_new, $("#tbl_cmed"), $("#tbl_cmed tbody"));
     }
 
     function BuildDD(data) {
@@ -985,6 +1193,16 @@ $(function () {
 
         $("#tbl_emp").DataTable().destroy();
         $("#tbl_emp tbody").html("");
+    }
+
+    function CleanModalAddMedicamento(){
+        $("#AddClasifMed").val(0).change();
+        $("#DescripcionMedicamento").val("");
+        $("#save-cmed").show();
+        $("#upd-cmed").hide();
+
+        $("#tbl_medicamento").DataTable().destroy();
+        $("#tbl_medicamento tbody").html("");
     }
 
     function CleanModalEdit(){
