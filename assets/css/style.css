@@ -1,6 +1,5 @@
 body {
-    font-family: 'Source Sans Pro', sans-serif;
-    color: #FFFFFF;
+    font-family: 'Roboto Slab', serif;
     line-height: 20px;
     overflow-x: hidden;
     font-size: 14px;
@@ -10,11 +9,13 @@ body {
     -moz-font-smoothing: antialiased;
 }
 
-.modal-lg {
-    max-width: 80% !important;
+.nav-tabs .nav-link{
+    color: #fff !important;
+    background-color: #f1900b !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
 }
 
-.nav-tabs .nav-link{
+.nav-tabs:hover .nav-link:hover{
     color: #fff !important;
     background-color: #f99c1c !important;
     border-color: #dee2e6 #dee2e6 #fff !important;
@@ -29,4 +30,13 @@ body {
     padding: 0;
     overflow-y: auto;
     z-index: 2981 !important;
+}
+
+.select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 38px !important;
+    user-select: none;
+    -webkit-user-select: none;
 }

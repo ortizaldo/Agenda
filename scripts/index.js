@@ -2,10 +2,10 @@
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     var IDoc = 0;
+    var IEmp = 0;
 
     $(".add-agenda").on("click", function(e) {
         e.preventDefault();
-        console.log('e', e);
         $('#modal-add-agenda').modal({backdrop: 'static', keyboard: false});
     });
 
@@ -19,6 +19,8 @@ $(function () {
 
     $("#empleados").on("click", function(e) {
         e.preventDefault();
+        GetEmpleados(0, false, false);
+        GetListCat(0);
         $('#modal-add-empleados').modal({backdrop: 'static', keyboard: false});
     });
 
@@ -264,6 +266,66 @@ $(function () {
         });
     });
 
+    $("#save-emp").on("click", function(e) {
+        e.preventDefault();
+        
+        var num_emp = $("#num_emp").val();
+        var nombre = $("#nomb_emp").val();
+        var ape_pat = $("#ape_pat_emp").val();
+        var ape_mat = $("#ape_mat_emp").val();
+        var sel_area = $("#sel_area option:selected").val();
+
+        if(_.isEmpty(num_emp)){
+            alertify.error("El campo 'Numero de Empleado' es obligatorio");
+            return false;
+        }
+        
+        if(_.isEmpty(nombre)){
+            alertify.error("El campo 'Nombre' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(ape_pat)){
+            alertify.error("El campo 'Apellido Paterno' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(ape_mat)){
+            alertify.error("El campo 'Apellido Materno' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(sel_area)){
+            alertify.error("El campo 'Area' es obligatorio");
+            return false;
+        }
+
+        var obj = {
+            'num_emp':num_emp,
+            'nombre':nombre,
+            'apellido_pat':ape_pat,
+            'apellido_mat':ape_mat,
+            'area':sel_area
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/InsEmpleados.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddEmpleados();
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
+            }
+        });
+
+    });
+
     $("#upd-item-med").on("click", function(e) {
         e.preventDefault();
         var nombre = $("#nomb_personal").val();
@@ -317,6 +379,67 @@ $(function () {
         });
     });
 
+    $("#upd-emp").on("click", function(e) {
+        e.preventDefault();
+
+        var num_emp = $("#num_emp").val();
+        var nomb_emp = $("#nomb_emp").val();
+        var ape_pat_emp = $("#ape_pat_emp").val();
+        var ape_mat_emp = $("#ape_mat_emp").val();
+        var sel_area = $("#sel_area option:selected").val();
+
+        if(_.isEmpty(num_emp)){
+            alertify.error("El campo 'Num. de Empleado' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(nomb_emp)){
+            alertify.error("El campo 'Nombre' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(ape_pat_emp)){
+            alertify.error("El campo 'Apellido Paterno' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(ape_mat_emp)){
+            alertify.error("El campo 'Apellido Materno' es obligatorio");
+            return false;
+        }
+
+        if(_.isEmpty(sel_area)){
+            alertify.error("El campo 'Area' es obligatorio");
+            return false;
+        }
+
+        var obj = {
+            'num_empleado':num_emp,
+            'nombre':nomb_emp,
+            'apellido_pat':ape_pat_emp,
+            'apellido_mat':ape_mat_emp,
+            'area':sel_area,
+            'IdEmp' : IEmp
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/UpdateEmpleados.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    IDoc = 0;
+                    alertify.success(data.response);
+                    CleanModalAddEmpleados();
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
+            }
+        });
+    });
+
     function SendData(data_, btn) {
         if(data_.length > 0){
             $.ajax({
@@ -326,6 +449,8 @@ $(function () {
                 data: {data_},
                 success: function (data) {
                     if(parseInt(data.code) == 200){
+                        //Cargamos la tabla de empleados
+                        GetEmpleados(0, false, false);
                         alertify.success(data.response);
                         btn.prop("disabled", false);
                         $('#UploadCSV').val("");
@@ -338,6 +463,49 @@ $(function () {
             alertify.error("No se obtuvieron datos del Archivo Seleccionado");
             btn.prop('disabled', false);
         }
+    }
+
+    function GetEmpleados(IdEmpleado, IsUpdate, dd) {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Empleados/ListEmpleados.php",
+            data: {id_empleado: IdEmpleado},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate && !dd){
+                        if(data.response.length === 1){
+                            
+                            $("#num_emp").val(data.response[0].NumEmpleado);
+                            $("#nomb_emp").val(data.response[0].Nombre);
+                            $("#ape_pat_emp").val(data.response[0].ApellidoPaterno);
+                            $("#ape_mat_emp").val(data.response[0].ApellidoMaterno);
+                            
+                            var select_html = $("#sel_area");
+
+                            select_html.find('option').each(function() {
+                                if ($(this).text() === data.response[0].Area) {
+                                    select_html.val($(this).val()).change();
+                                }
+                            });
+
+                            IEmp = data.response[0].IdEmpleado;
+
+                            $("#save-emp").hide();
+                            $("#upd-emp").show();
+
+                            $( "#num_emp" ).focus();
+                        }
+                    }else if(dd && !IsUpdate){
+                        //BuildArrTBLEmp(data.response);
+                    }else{
+                        BuildArrTBLEmp(data.response);
+                    }
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
+                }
+            }
+        });
     }
 
     //upload csv
@@ -357,7 +525,6 @@ $(function () {
                 header: true,
                 dynamicTyping: true,
                 complete: function(results) {
-                    console.log('results', results);
                     data = results.data;
                     SendData(data, btn);
                 }
@@ -375,6 +542,12 @@ $(function () {
         GetPersonalMedico(id, true, false);
     });
 
+    $("#tbl_emp").on("click", ".btn-update-emp", function(e) {
+        e.preventDefault();
+        var id = $(this).attr("data-id");
+        GetEmpleados(id, true, false);
+    });
+
     //btn-del-pmed
     $("#tbl_personalmed").on("click", ".btn-del-pmed", function(e) {
         e.preventDefault();
@@ -389,6 +562,19 @@ $(function () {
     $("#clean-item-med").on("click", function(e) {
         e.preventDefault();
         CleanModalAddPersMed();
+        GetPersonalMedico(0, false, false);
+    });
+
+    $("#clean-emp").on("click", function(e) {
+        e.preventDefault();
+        CleanModalAddEmpleados();
+        GetEmpleados(0, false, false);
+        GetListCat(0);
+    });
+
+    $(".close-mod-emp").on("click", function(e) {
+        e.preventDefault();
+        CleanModalAddEmpleados();
     });
 
     function buildConfig()
@@ -565,6 +751,47 @@ $(function () {
         FillDTabs(arr_new, $("#tbl_agenda"), $("#tbl_agenda tbody"));
     }
 
+    function BuildArrTBLEmp(data) {
+        var html = "", arr_new = [], html_dropdown_ = "", telefonos_ = "", titulo_ = "", fecha_ = "";
+        
+        _.each(data, function(rows) {
+
+            //creamos el boton para eliminar y editar
+            html_dropdown_ = '<div class="btn-group">';
+            html_dropdown_ += '<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+            html_dropdown_ += 'Acciones';
+            html_dropdown_ += '</button>';
+                html_dropdown_ += '<div class="dropdown-menu">';
+
+                html_dropdown_ += '<a class="dropdown-item btn-update-emp" data-id="' + rows.IdEmpleado + '" href="#">';
+                html_dropdown_ += '<i class="fas fa-edit"></i>';
+                html_dropdown_ += '&nbsp;&nbsp;Update Record';
+                html_dropdown_ += '</a>';
+                
+                html_dropdown_ += '<a class="dropdown-item btn-del-emp" data-id="' + rows.IdEmpleado + '" href="#">';
+                html_dropdown_ += '<i class="fas fa-trash"></i>';
+                html_dropdown_ += '&nbsp;&nbsp;Delete Record';
+                html_dropdown_ += '</a>';
+
+                html_dropdown_ += '</div>';
+            html_dropdown_ += '</div>';
+
+            fecha_ = moment(new Date(rows.CreatedAt)).format("YYYY-MM-DD hh:mm:ss");
+            
+            arr_new.push([
+                html_dropdown_,
+                rows.NumEmpleado,
+                rows.Nombre,
+                rows.ApellidoPaterno,
+                rows.ApellidoMaterno,
+                rows.Area,
+                fecha_,
+            ]);
+        });
+
+        FillDTabs(arr_new, $("#tbl_emp"), $("#tbl_emp tbody"));
+    }
+
     function BuildDD(data) {
         var html = "", arr_new = [], html_dropdown_ = "", titulo_ = "", fecha_ = "";
         $("#SelectAtendio").html("");    
@@ -662,6 +889,7 @@ $(function () {
                     $(".SelectArea").html("");
 
                     $(".SelectArea").html(html);
+                    $(".SelectArea").select2();
                 }
             }
         });
@@ -683,7 +911,23 @@ $(function () {
         $("#SelectTitulo").val(0).change();
         $("#upd-item-med").hide();
         $("#save-item-med").show();
+        $("#tbl_personalmed").DataTable().destroy();
+        $("#tbl_personalmed tbody").html("");
         //llamamos la funcion para obtener los registros de la tabla de personal medico
+    }
+
+    function CleanModalAddEmpleados(){
+        $("#num_emp").val("");
+        $("#nomb_emp").val("");
+        $("#ape_pat_emp").val("");
+        $("#ape_mat_emp").val("");
+        $("#sel_area").val(0).change();
+        $("#UploadCSV").val("");
+        $("#save-emp").show();
+        $("#upd-emp").hide();
+
+        $("#tbl_emp").DataTable().destroy();
+        $("#tbl_emp tbody").html("");
     }
 
     function CleanModalEdit(){

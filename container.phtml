@@ -397,12 +397,12 @@
 			</div>
 		</div>
 
-		<div id="modal-add-empleados" class="modal" tabindex="-1" role="dialog">
+		<div id="modal-add-empleados" class="modal" role="dialog">
 			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
 				<div class="modal-content">
 					<div class="modal-header">
 					    <h5 class="modal-title">Agregar Empleados</h5>
-					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					    <button type="button" class="close close-mod-emp" data-dismiss="modal" aria-label="Close">
 					      <span aria-hidden="true">&times;</span>
 					    </button>
 					</div>
@@ -418,20 +418,20 @@
 
 				            	<div class="row">
 					              	<div class="col-md-6 mb-3">
-					                	<label for="nombre">Nombre</label>
-					                	<input type="text" class="form-control" id="nomb_personal" placeholder="" value="" required="true">
+					                	<label for="nomb_personal">Nombre</label>
+					                	<input type="text" class="form-control" id="nomb_emp" placeholder="" value="" required="true">
 					              	</div>
 					            </div>
 
 					            <div class="row">
 					            	<div class="col-md-6 mb-3">
-					                	<label for="apellidos">Apellido Paterno</label>
-					                	<input type="text" class="form-control" id="ape_pat" placeholder="" value="" required="true">
+					                	<label for="ape_pat">Apellido Paterno</label>
+					                	<input type="text" class="form-control" id="ape_pat_emp" placeholder="" value="" required="true">
 					              	</div>
 
 					              	<div class="col-md-6 mb-3">
-					                	<label for="apellidos">Apellido Materno</label>
-					                	<input type="text" class="form-control" id="ape_mat" placeholder="" value="" required="true">
+					                	<label for="ape_mat">Apellido Materno</label>
+					                	<input type="text" class="form-control" id="ape_mat_emp" placeholder="" value="" required="true">
 					              	</div>
 					            </div>
 
@@ -440,7 +440,7 @@
 										<div class="input-group-prepend">
 											<label class="input-group-text" for="sel_area">Area</label>
 										</div>
-										<select class="custom-select SelectArea" id="sel_area">
+										<select class="custom-select SelectArea inputSize" id="sel_area">
 										</select>
 										<button class="btn btn-danger add-emp-area"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
 									</div>
@@ -469,9 +469,11 @@
 								<thead class="thead-dark">
 									<tr>
 										<th scope="col"></th>
+										<th scope="col">Num. Empleado</th>
 										<th scope="col">Nombre</th>
 										<th scope="col">Apellido Paterno</th>
 										<th scope="col">Apellido Materno</th>
+										<th scope="col">Area</th>
 										<th scope="col">Fecha Creacion</th>
 									</tr>
 								</thead>
@@ -481,7 +483,7 @@
 				        </div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-secondary close-mod-emp" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>
