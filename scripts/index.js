@@ -12,7 +12,7 @@ $(function () {
     $(".add-bitacora").on("click", function(e) {
         e.preventDefault();
         $(".fec-bitacora").text(moment(new Date()).format("DD-MM-YYYY HH:mm:ss"));
-        GetListCat(0);
+        GetListCat(0, "Area", $(".SelectArea"));
         GetPersonalMedico(0, false, true);
         $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
     });
@@ -20,8 +20,14 @@ $(function () {
     $("#empleados").on("click", function(e) {
         e.preventDefault();
         GetEmpleados(0, false, false);
-        GetListCat(0);
+        GetListCat(0, "Area", $(".SelectArea"));
         $('#modal-add-empleados').modal({backdrop: 'static', keyboard: false});
+    });
+
+    $("#medicamentos").on("click", function(e) {
+        e.preventDefault();
+        GetListCat(0, "CMed", $(".ClasifMed"));
+        $('#modal-add-medicamento').modal({backdrop: 'static', keyboard: false});
     });
 
     $("#save-item").on("click", function(e) {
@@ -161,6 +167,31 @@ $(function () {
             $("#modal-add-empleados").show();
         });
     });
+
+    $(".add-clasif-med").on("click", function(e) {
+        e.preventDefault();
+        console.log('e', e);
+        $("#modal-add-medicamento").hide();
+        alertify.prompt( 'Agregar una Clasificacion de Medicamento', 'Clasificacion', 'Clasificacion', function(evt, value) {
+            if(value !== 'Area de Trabajo'){
+                
+                var obj = {
+                    'Cmed':value,
+                }
+
+                AddClasifMed(obj, $("#modal-add-medicamento"));
+
+            }else{
+                alertify.error("Debe de capturar un valor diferente al de default..");
+            }
+            $("#modal-add-medicamento").show();    
+        }, function() { 
+            alertify.error('Cancel');
+            $("#modal-add-medicamento").show();
+        });
+    });
+
+    //add-clasif-med
 
     $(".add-area").on("click", function(e) {
         e.preventDefault();
@@ -559,6 +590,16 @@ $(function () {
         });
     });
 
+    $("#tbl_emp").on("click", ".btn-del-emp", function(e) {
+        e.preventDefault();
+        var id = $(this).attr("data-id");
+        alertify.confirm('Eliminar Registros', 'Desea Eliminar este Registro', function(){ 
+            DelEmpleados(id, true);
+        }, function(){ 
+            alertify.error('Se cancelo la accion..')
+        });
+    });
+
     $("#clean-item-med").on("click", function(e) {
         e.preventDefault();
         CleanModalAddPersMed();
@@ -569,7 +610,7 @@ $(function () {
         e.preventDefault();
         CleanModalAddEmpleados();
         GetEmpleados(0, false, false);
-        GetListCat(0);
+        GetListCat(0, "Area", $(".SelectArea"));
     });
 
     $(".close-mod-emp").on("click", function(e) {
@@ -589,8 +630,6 @@ $(function () {
             encoding: "UTF-8",
             worker: false,
             comments: "",
-            //complete: completeFn,
-            //error: errorFn,
         };
     }
 
@@ -657,6 +696,23 @@ $(function () {
                     GetPersonalMedico(0, false);
                 }else{
                     alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
+                }
+            }
+        });
+    }
+
+    function DelEmpleados(IdEmpleado) {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/DelEmpleado.php",
+            data: {IdEmpleado: IdEmpleado},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
                 }
             }
         });
@@ -872,24 +928,25 @@ $(function () {
       return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
-    function GetListCat(idCat) {
+    function GetListCat(idCat, bandera, select_html) {
         $.ajax({
             method: "GET",
             url: "CallsWeb/Catalogs/GetListCat.php",
-            data: {idCat: idCat},
+            data: {idCat: idCat, bandera:bandera},
             dataType: "JSON",
             success: function (data) {
                 if(parseInt(data.code) === 200){
                     var html = "";
                     html = '<option value="0">Seleccionar una Opcion</option>';
+                    
                     _.each(data.response.respuesta, function(rows) {
-                        html += '<option value="'+rows.idAreasPlanta+'">'+rows.Area+'</option>';
+                        html += '<option value="'+rows.Id+'">'+rows.Desc+'</option>';
                     });
 
-                    $(".SelectArea").html("");
+                    select_html.html("");
 
-                    $(".SelectArea").html(html);
-                    $(".SelectArea").select2();
+                    select_html.html(html);
+                    select_html.select2();
                 }
             }
         });
@@ -948,7 +1005,24 @@ $(function () {
             success: function (data) {
                 if(parseInt(data.code) == 200){
                     alertify.success(data.response);
-                    GetListCat(0);
+                    GetListCat(0, "Area", $(".SelectArea"));
+                }else{
+                    alertify.error(data.response);
+                }
+            }
+        });
+    }
+
+    function AddClasifMed(obj, modal) {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Catalogs/InsClasifMed.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    GetListCat(0, "CMed", $(".ClasifMed"));
                 }else{
                     alertify.error(data.response);
                 }

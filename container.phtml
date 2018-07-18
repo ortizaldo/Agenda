@@ -442,7 +442,9 @@
 										</div>
 										<select class="custom-select SelectArea inputSize" id="sel_area">
 										</select>
-										<button class="btn btn-danger add-emp-area"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+										<button class="btn btn-danger add-emp-area" data-toggle="tooltip" data-placement="top" title="Agregar un nuevo elemento..">
+											<i class="fa fa-plus-circle" aria-hidden="true"></i>
+										</button>
 									</div>
 					            </div>
 
@@ -484,6 +486,76 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary close-mod-emp" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="modal-add-medicamento" class="modal" role="dialog">
+			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+				<div class="modal-content">
+					<div class="modal-header">
+					    <h5 class="modal-title">Agregar Medicamentos</h5>
+					    <button type="button" class="close close-mod-medic" data-dismiss="modal" aria-label="Close">
+					      <span aria-hidden="true">&times;</span>
+					    </button>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-8 order-md-1">
+				          	<form>
+							  	<div class="mb-3">
+					              	<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<label class="input-group-text" for="AddClasifMed">
+												<i class="fas fa-pills"></i>
+											</label>
+										</div>
+										<select class="custom-select ClasifMed inputSize" id="AddClasifMed">
+										</select>
+										<button class="btn btn-danger add-clasif-med" data-toggle="tooltip" data-placement="top" title="Agregar nueva clasificacion..">
+											<i class="fa fa-plus-circle" aria-hidden="true"></i>
+										</button>
+									</div>
+					            </div>
+
+				            	<div class="row">
+					              	<div class="col-md-6 mb-3">
+					                	<label for="DescripcionMedicamento">Nombre</label>
+					                	<input type="text" class="form-control" id="DescripcionMedicamento" placeholder="" value="" required="true">
+					              	</div>
+					            </div>
+
+					            <div class="mb-3">
+					              	<hr class="mb-4">
+				            		<button class="btn btn-outline-success" id="save-cmed" type="button" data-toggle="tooltip" data-placement="top" title="Guardar la Información capturada">Guardar</button>
+				            		<button class="btn btn-outline-info" id="upd-cmed" type="button" style="display: none;" data-toggle="tooltip" data-placement="top" title="Actualizar">
+				            			Actualizar
+				            		</button>
+									<button class="btn btn-outline-info" id="clean-cmed" type="button" data-toggle="tooltip" data-placement="top" title="Limpiar Campos">
+										<i class="fas fa-recycle"></i>
+									</button>
+					            </div>
+				          	</form>
+				        </div>
+				        <br>
+				        <div class="col-lg-12">
+				          	<table class="table table-responsive" id="tbl_cmed">
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col"></th>
+										<th scope="col">Clasificacion Medicamento</th>
+										<th scope="col">Descripcion</th>
+										<th scope="col">Fecha Creacion</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+				        </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary close-mod-medic" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>

@@ -10,6 +10,7 @@ if($idempleado_ > 0){
               FROM empleados as emp, areasplanta as ap
               where 0=0
               and emp.Area = ap.idAreasPlanta
+              and IsEnabled = 1
               and emp.IdEmpleado = ? 
               order by emp.IdEmpleado desc;";
 }else{
@@ -17,6 +18,7 @@ if($idempleado_ > 0){
               FROM empleados as emp, areasplanta as ap
               where 0=0
               and emp.Area = ap.idAreasPlanta
+              and IsEnabled = 1
               order by emp.IdEmpleado desc;";
 }
 
