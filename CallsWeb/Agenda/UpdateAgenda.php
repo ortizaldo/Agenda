@@ -47,8 +47,9 @@ if(isset($nombre) && isset($apellidos) && isset($dir)){
 
 function InsertTelefonos($tels, $id_agenda, $conn)
 {
+	$done = false;
+	
 	foreach ($tels as $key => $value) {
-		$done = false;
 		$createTelefonoSQL="INSERT INTO TelefonosAgenda(IdAgenda, Telefono, FecCreacion, Habilitado) VALUES(?, ?, NOW(), 1);";
 		if ($createTelefono = $conn->prepare($createTelefonoSQL)) {
 		    $createTelefono->bind_param("is", $id_agenda, $value[0]);
@@ -58,8 +59,9 @@ function InsertTelefonos($tels, $id_agenda, $conn)
 		    	$done = true;
 		    }
 		}
-		return $done;
 	}
+
+	return $done;
 }
 
 function DeleteTeelfonos($id_agenda, $conn)

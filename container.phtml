@@ -160,81 +160,93 @@
 					                	<h4>Fecha: <span class="badge badge-secondary fec-bitacora"></span></h4>
 					              	</div>
 				          		</div>
-				          		<div class="row">
-					            	<div class="col-md-6 mb-3">
-					                	<label for="NumEmpleado">Numero de Empleado</label>
-						                <input type="text" class="form-control" id="NumEmpleado" placeholder="" value="" required="true">
-					              	</div>
-					            </div>
-
-				            	<div class="row">
-				            		<div class="col-md-6 mb-3">
-					                	<label for="nombre">Nombre</label>
-					                	<input type="text" class="form-control" id="nombre" placeholder="" value="" required="true">
-					              	</div>
-
-					              	<div class="col-md-6 mb-3">
-					                	<label for="apellidos">Apellidos</label>
-					                	<input type="text" class="form-control" id="apellidos" placeholder="" value="" required="true">
-					              	</div>
-					            </div>
-
-					            <div class="mb-3">
-					              	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="SelectArea">Area</label>
-										</div>
-										<select class="custom-select SelectArea" id="SelectArea">
+				          		
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<label for="nombre-edit">Num. Empleado</label>
+										<select class="custom-select SelectEmpleado" id="SelectEmpleado">
 											<option selected value="0">Seleccionar...</option>
-										</select>
-										<button class="btn btn-danger add-area"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-									</div>
-					            </div>
-
-					            <div class="mb-3">
-					              	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="SelectGenero">Sexo</label>
-										</div>
-										<select class="custom-select" id="SelectGenero">
-											<option selected value="0">Seleccionar...</option>
-											<option selected value="Masculino">Masculino</option>
-											<option selected value="Femenino">Femenino</option>
 										</select>
 									</div>
 					            </div>
 
-					            <div class="mb-3">
-					            	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="SelectSupervisor">Supervisor</label>
-										</div>
+					            <div class="row">
+									<div class="col-md-6 mb-3">
+										<label for="SelectSupervisor">Supervisor</label>
 										<select class="custom-select" id="SelectSupervisor">
 										</select>
-										<button class="btn btn-danger add-supervisor"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+										<button class="btn btn-danger add-supervisor" data-toggle="tooltip" data-placement="top" title="Agregar un Supervisor..">
+											<i class="fa fa-plus-circle" aria-hidden="true"></i>
+										</button>
 									</div>
-					            </div>
-
-					            <div class="mb-3">
-					              	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="SelectClasificacion">Clasificacion</label>
-										</div>
+					              	<div class="col-md-6 mb-3">
+									  	<label for="SelectClasificacion">Clasificacion</label>
 										<select class="custom-select" id="SelectClasificacion">
 										</select>
-										<button class="btn btn-danger add-clasif"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+										<button class="btn btn-danger add-clasif" data-toggle="tooltip" data-placement="top" title="Agregar clasificación..">
+											<i class="fa fa-plus-circle" aria-hidden="true"></i>
+										</button>
 									</div>
 					            </div>
 
-					            <div class="mb-3">
-					              	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="SelectAtendio">Atendio</label>
-										</div>
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<label for="SelectTurno">Turno</label>
+										<select class="custom-select" id="SelectTurno">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+										</select>
+									</div>
+									<div class="col-md-6 mb-3">
+										<label for="SelectAtendio">Atendio</label>
 										<select class="custom-select" id="SelectAtendio">
 										</select>
 									</div>
-					            </div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<label for="diagnostico">Diagnostico</label>
+										<textarea id="diagnostico" class="form-control"></textarea>
+									</div>
+								</div>
+
+								<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="SelectMedicamento">Medicamento</label>
+											<select class="custom-select" id="SelectMedicamento">
+											</select>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="diagnostico">Cantidad</label>
+											<input type="text" id="diagnostico" class="form-control" placeholder="" value="" required="true"></input>
+										</div>
+									</div>
+
+								<div class="row">
+									<div class="col-md-6 mb-3">
+										<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Agregar medicamentos a la bitacora..">
+											<span>Agregar Medicamento</span>&nbsp;<i class="fas fa-cart-plus"></i>
+										</button>
+									</div>
+								</div>
+
+								<div class="row">
+									<table class="table table-responsive" id="tbl_personalmed">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col"></th>
+												<th scope="col">Tipo Med.</th>
+												<th scope="col">Medicamento</th>
+												<th scope="col">Inventario</th>
+												<th scope="col">Fecha Creacion</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
 
 				            	<hr class="mb-4">
 				            	<button class="btn btn-outline-success" id="save-item" type="button">Guardar</button>
@@ -305,7 +317,7 @@
 
 				            	<hr class="mb-4">
 				            	<input type="hidden" id="idagenda-edit">
-				            	<button class="btn btn-primary btn-lg btn-block" id="update-item" type="button">Guardar</button>
+				            	<button class="btn btn-outline-success" id="update-item" type="button">Guardar</button>
 				          	</form>
 				        </div>
 					</div>

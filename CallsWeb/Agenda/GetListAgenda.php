@@ -6,9 +6,14 @@ $conn = $DB->getConnect();
 $agendaArr =  [];
 $idagenda_ = $_GET["id_agenda"];
 if($idagenda_ > 0){
-    $query = "SELECT idagenda, nombre, apellidos, DirArchivo, direccion, FecActualizacion FROM agenda where idagenda = ?;";
+    $query = "SELECT idagenda, nombre, apellidos, DirArchivo, direccion, FecActualizacion 
+              FROM agenda 
+              where idagenda = ? 
+              order by idagenda desc;";
 }else{
-    $query = "SELECT idagenda, nombre, apellidos, DirArchivo, direccion, FecActualizacion FROM agenda;";
+    $query = "SELECT idagenda, nombre, apellidos, DirArchivo, direccion, FecActualizacion 
+              FROM agenda 
+              order by idagenda desc;";
 }
 
 if ($cmd = $conn->prepare($query)) {
