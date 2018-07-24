@@ -81,6 +81,9 @@ function GetQueryExistCat($tcat)
 		case 'ClasifBit':
 			$query = "SELECT idClasificacionDolor FROM clasificaciondolor where ClasifDesc = ? order by idClasificacionDolor desc limit 1;";
 			break;
+		case 'depto':
+			$query = "SELECT IdDepto FROM departamento where NombreDepto = ? order by IdDepto desc limit 1;";
+			break;
 	}
 
 	return $query;
@@ -96,6 +99,9 @@ function GetQueryCat($tcat)
 			break;
 		case 'ClasifBit':
 			$query = "INSERT INTO clasificaciondolor(ClasifDesc) VALUES(?);";
+			break;
+		case 'depto':
+			$query = "INSERT INTO departamento(NombreDepto) VALUES(?);";
 			break;
 	}
 

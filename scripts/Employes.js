@@ -2,29 +2,59 @@ $("#empleados").on("click", function(e) {
     e.preventDefault();
     GetEmpleados(0, false, false);
     GetListCat(0, "Area", $(".SelectArea"));
+    GetListCat(0, "depto", $("#sel_dpto"));
+
+    $('#antiguedad').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+    
     $('#modal-add-empleados').modal({backdrop: 'static', keyboard: false});
 });
 
 $(".add-area").on("click", function(e) {
     e.preventDefault();
     console.log('e', e);
-    $("#modal-add-bitacora").hide();
+    $("#modal-add-empleados").hide();
     alertify.prompt( 'Agregar un Area de Trabajo', 'Area de Trabajo', 'Area de Trabajo', function(evt, value) {
         if(value !== 'Area de Trabajo'){
             
             var obj = {
-                'area':value,
+                'area':value
             }
 
-            AddArea(obj, $("#modal-add-bitacora"));
+            AddArea(obj, $("#modal-add-empleados"));
 
         }else{
             alertify.error("Debe de capturar un valor diferente al de default..");
         }
-        $("#modal-add-bitacora").show();    
+        $("#modal-add-empleados").show();    
     }, function() { 
         alertify.error('Cancel');
-        $("#modal-add-bitacora").show();
+        $("#modal-add-empleados").show();
+    });
+});
+
+$(".add-emp-dpto").on("click", function(e) {
+    e.preventDefault();
+    console.log('e', e);
+    $("#modal-add-empleados").hide();
+    alertify.prompt( 'Agregar un Depto de Trabajo', 'Depto. de Trabajo', 'Depto. de Trabajo', function(evt, value) {
+        if(value !== 'Depto. de Trabajo'){
+            
+            var obj = {
+                'val':value,
+                'cat':'depto'
+            }
+
+            AddCatalog(obj, $("#modal-add-empleados"));
+
+        }else{
+            alertify.error("Debe de capturar un valor diferente al de default..");
+        }
+        $("#modal-add-empleados").show();    
+    }, function() { 
+        alertify.error('Cancel');
+        $("#modal-add-empleados").show();
     });
 });
 
@@ -36,6 +66,10 @@ $("#save-emp").on("click", function(e) {
     var ape_pat = $("#ape_pat_emp").val();
     var ape_mat = $("#ape_mat_emp").val();
     var sel_area = $("#sel_area option:selected").val();
+    var sexo = $("#sexo option:selected").val();
+    var sel_dpto = $("#sel_dpto option:selected").val();
+    var actividad = $("#actividad").val();
+    var antiguedad = $("#antiguedad").val();
 
     if(_.isEmpty(num_emp)){
         alertify.error("El campo 'Numero de Empleado' es obligatorio");
@@ -62,14 +96,39 @@ $("#save-emp").on("click", function(e) {
         return false;
     }
 
+    if(_.isEmpty(sexo)){
+        alertify.error("El campo 'Sexo' es obligatorio");
+        return false;
+    }
+
+    if( parseInt(sel_dpto) === 0 ){
+        alertify.error("El campo 'Departamento' es obligatorio");
+        return false;
+    }
+
+    if(_.isEmpty(actividad)){
+        alertify.error("El campo 'Actividad' es obligatorio");
+        return false;
+    }
+
+    if(_.isEmpty(antiguedad)){
+        alertify.error("El campo 'Antiguedad' es obligatorio");
+        return false;
+    }
+
+
     var obj = {
         'num_emp':num_emp,
         'nombre':nombre,
         'apellido_pat':ape_pat,
         'apellido_mat':ape_mat,
-        'area':sel_area
+        'area':sel_area,
+        'sexo':sexo,
+        'depto':sel_dpto,
+        'actividad':actividad,
+        'antiguedad':antiguedad
     }
-
+    
     $.ajax({
         method: "POST",
         url: "CallsWeb/Empleados/InsEmpleados.php",
@@ -96,6 +155,10 @@ $("#upd-emp").on("click", function(e) {
     var ape_pat_emp = $("#ape_pat_emp").val();
     var ape_mat_emp = $("#ape_mat_emp").val();
     var sel_area = $("#sel_area option:selected").val();
+    var sexo = $("#sexo option:selected").val();
+    var sel_dpto = $("#sel_dpto option:selected").val();
+    var actividad = $("#actividad").val();
+    var antiguedad = $("#antiguedad").val();
 
     if(_.isEmpty(num_emp)){
         alertify.error("El campo 'Num. de Empleado' es obligatorio");
@@ -122,13 +185,38 @@ $("#upd-emp").on("click", function(e) {
         return false;
     }
 
+    if(_.isEmpty(sexo)){
+        alertify.error("El campo 'Sexo' es obligatorio");
+        return false;
+    }
+
+    if( parseInt(sel_dpto) === 0 ){
+        alertify.error("El campo 'Departamento' es obligatorio");
+        return false;
+    }
+
+    if(_.isEmpty(actividad)){
+        alertify.error("El campo 'Actividad' es obligatorio");
+        return false;
+    }
+
+    if(_.isEmpty(antiguedad)){
+        alertify.error("El campo 'Antiguedad' es obligatorio");
+        return false;
+    }
+
+
     var obj = {
-        'num_empleado':num_emp,
+        'num_emp':num_emp,
         'nombre':nomb_emp,
         'apellido_pat':ape_pat_emp,
         'apellido_mat':ape_mat_emp,
         'area':sel_area,
-        'IdEmp' : IEmp
+        'sexo':sexo,
+        'depto':sel_dpto,
+        'actividad':actividad,
+        'antiguedad':antiguedad,
+        'IdEmp': IEmp
     }
 
     $.ajax({

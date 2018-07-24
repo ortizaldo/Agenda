@@ -449,7 +449,7 @@ function FillDTabs(data, tbl, tbl_body) {
 function AddArea(obj, modal) {
     $.ajax({
         method: "POST",
-        url: "CallsWeb/Catalogs/InsAreas.php",
+        url: "CallsWeb/Catalogs/InsArea.php",
         dataType: "JSON",
         data: {obj},
         success: function (data) {
@@ -479,6 +479,9 @@ function AddCatalog(obj) {
                     case 'ClasifBit':
                         GetListCat(0, "ClasifBit", $("#SelectClasificacion"));
                         break;
+                    case 'depto':
+                        GetListCat(0, "depto", $(".sel_dpto"));
+                        break;
                 }
             }else{
                 alertify.error(data.response);
@@ -493,6 +496,10 @@ function CleanModalAddEmpleados(){
     $("#ape_pat_emp").val("");
     $("#ape_mat_emp").val("");
     $("#sel_area").val(0).change();
+    $("#sexo").val("M").change();
+    $("#sel_dpto").val(0).change();
+    $("#actividad").val("");
+    $("#antiguedad").val("");
     $("#UploadCSV").val("");
     $("#save-emp").show();
     $("#upd-emp").hide();
@@ -516,14 +523,17 @@ function GetEmpleados(IdEmpleado, IsUpdate, dd) {
                         $("#nomb_emp").val(data.response[0].Nombre);
                         $("#ape_pat_emp").val(data.response[0].ApellidoPaterno);
                         $("#ape_mat_emp").val(data.response[0].ApellidoMaterno);
+                        $("#actividad").val(data.response[0].actividad);
+                        $("#antiguedad").val(data.response[0].FecAntiguedad);
                         
                         var select_html = $("#sel_area");
+                        SetDD(select_html, data.response[0].Area);
+                        
+                        select_html = $("#sexo");
+                        SetDD(select_html, data.response[0].sexo);
 
-                        select_html.find('option').each(function() {
-                            if ($(this).text() === data.response[0].Area) {
-                                select_html.val($(this).val()).change();
-                            }
-                        });
+                        select_html = $(".sel_dpto");
+                        SetDD(select_html, data.response[0].NombreDepto);
 
                         IEmp = data.response[0].IdEmpleado;
 
@@ -540,6 +550,14 @@ function GetEmpleados(IdEmpleado, IsUpdate, dd) {
             }else{
                 alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
             }
+        }
+    });
+}
+
+function SetDD(select_html, Val) {
+    select_html.find('option').each(function() {
+        if ($(this).text() === Val) {
+            select_html.val($(this).val()).change();
         }
     });
 }
@@ -585,12 +603,7 @@ function GetMedicamentos(IdMedicamento, IsUpdate, dd) {
                         $("#DescripcionMedicamento").val(data.response[0].Descripcion);
                         
                         var select_html = $("#AddClasifMed");
-
-                        select_html.find('option').each(function() {
-                            if ($(this).text() === data.response[0].ClasifMedDescripcion) {
-                                select_html.val($(this).val()).change();
-                            }
-                        });
+                        SetDD(select_html, data.response[0].ClasifMedDescripcion);
 
                         ICMed = data.response[0].idMedicamento;
 

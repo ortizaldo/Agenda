@@ -33,13 +33,19 @@ function InsertarEmpleados($arr){
     $ApellidoPaterno = $arr["apellido_pat"];
     $ApellidoMaterno = $arr["apellido_mat"];
     $Area = $arr["area"];
+    $sexo = $arr["sexo"];
+    $depto = $arr["depto"];
+    $actividad = $arr["actividad"];
+    $antiguedad = $arr["antiguedad"];
     
     //(IdEmpleado,NumEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,Area,IsEnabled,CreatedAt,ModifiedAt)
-    $createItemSQL="INSERT INTO empleados(NumEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,
-                                          Area,IsEnabled,CreatedAt,ModifiedAt) 
-                    VALUES(?, ?, ?, ?, ?, 1, NOW(), NOW());";
+    $createItemSQL="INSERT INTO empleados(NumEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,Area,
+                                          sexo,IdDpto,actividad,FecAntiguedad,
+                                          IsEnabled,CreatedAt,ModifiedAt) 
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW());";
     if ($createItem = $conn->prepare($createItemSQL)) {
-        $createItem->bind_param("ssssi", $NumEmpleado,$Nombre,$ApellidoPaterno,$ApellidoMaterno,$Area);
+        $createItem->bind_param("ssssisiss", $NumEmpleado,$Nombre,$ApellidoPaterno,$ApellidoMaterno,$Area,
+        $sexo,$depto,$actividad,$antiguedad);
         if (!$createItem->execute()) {
             $response = false;
         }else{

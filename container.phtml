@@ -447,17 +447,45 @@
 					              	</div>
 					            </div>
 
-					            <div class="mb-3">
-					              	<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<label class="input-group-text" for="sel_area">Area</label>
-										</div>
+								<div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="sexo">Sexo</label>
+					                	<select class="custom-select SelectSexo sexo" id="sexo">
+											<option value="M">Masculino</option>
+											<option value="F">Femenino</option>
+										</select>
+					              	</div>
+					            </div>
+
+					            <div class="row">
+					              	<div class="col-md-6 mb-3">
+									  	<label for="sel_area">Area</label>&nbsp
 										<select class="custom-select SelectArea inputSize" id="sel_area">
 										</select>
 										<button class="btn btn-danger add-emp-area" data-toggle="tooltip" data-placement="top" title="Agregar un nuevo elemento..">
 											<i class="fa fa-plus-circle" aria-hidden="true"></i>
 										</button>
 									</div>
+									<div class="col-md-6 mb-3">
+										<label for="sel_dpto">Departamento</label>
+										<select class="custom-select sel_dpto inputSize" id="sel_dpto">
+										</select>
+										<button class="btn btn-danger add-emp-dpto" data-toggle="tooltip" data-placement="top" title="Agregar un nuevo elemento..">
+											<i class="fa fa-plus-circle" aria-hidden="true"></i>
+										</button>
+									</div>
+					            </div>
+
+								<div class="row">
+					            	<div class="col-md-6 mb-3">
+					                	<label for="actividad">Actividad</label>
+					                	<input type="text" class="form-control" id="actividad" placeholder="" value="" required="true">
+					              	</div>
+
+					              	<div class="col-md-6 mb-3">
+									  	<label for="antiguedad">Antiguedad</label>
+										<input type="text" class="form-control" id="antiguedad" placeholder="" value="" required="true">
+					              	</div>
 					            </div>
 
 					            <div class="mb-3">

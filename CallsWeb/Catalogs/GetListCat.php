@@ -57,6 +57,9 @@ function GetQuery($IdCat, $bandera)
         case 'Emp':
             $query = ($IdCat != 0) ? GetQueryEmpById() : GetQueryEmp();
             break;
+        case 'depto':
+            $query = ($IdCat != 0) ? GetQueryDeptoById() : GetQueryDepto();
+            break;
     }
 
     return $query;
@@ -129,13 +132,27 @@ function GetQueryLMed()
 
 function GetQueryEmpById()
 {
-    $query = "SELECT IdEmpleado,NumEmpleado FROM empleados where IdEmpleado = ? and IsEnabled = 1 order by IdEmpleado desc;";
+    $query = "SELECT IdEmpleado,NumEmpleado FROM empleados 
+              where IdEmpleado = ? and IsEnabled = 1 order by IdEmpleado desc;";
     return $query;
 }
 
 function GetQueryEmp()
 {
     $query = "SELECT IdEmpleado,NumEmpleado FROM empleados where IsEnabled = 1 order by IdEmpleado desc;";
+    return $query;
+}
+
+function GetQueryDeptoById()
+{
+    $query = "SELECT IdDepto,NombreDepto FROM departamento
+              where IdDepto = ? order by IdDepto desc;";
+    return $query;
+}
+
+function GetQueryDepto()
+{
+    $query = "SELECT IdDepto,NombreDepto FROM departamento order by IdDepto desc;";
     return $query;
 }
 ?>
