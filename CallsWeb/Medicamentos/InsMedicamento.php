@@ -6,6 +6,8 @@ $conn = $DB->getConnect();
 $response = [];
 $desc = $_POST["obj"]["desc"];
 $CMed = $_POST["obj"]["CMed"];
+$InvMinimo = $_POST["obj"]["InvMinimo"];
+$Inventario = $_POST["obj"]["Inventario"];
 
 if(isset($desc) && $CMed != "0"){
 	if (GetMedExists($CMed, $desc)) {
@@ -14,10 +16,10 @@ if(isset($desc) && $CMed != "0"){
         $response["response"] = "Ya existe un un registro con la informacion que esta tratando de enviar..";
         echo json_encode($response);
 	}else{
-		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt, IsEnabled) 
-                        VALUES(?, ?, NOW(), NOW(), 1);";
+		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt,IsEnabled,CantidadMinima,Total) 
+                        VALUES(?, ?, NOW(), NOW(), 1, ?, ?);";
 		if ($createItem = $conn->prepare($createItemSQL)) {
-		    $createItem->bind_param("is", $CMed, $desc );
+		    $createItem->bind_param("isii", $CMed, $desc, $InvMinimo, $Inventario );
 		    if (!$createItem->execute()) {
 		    	$response = null;
 		        $response["status"] = "ERROR";
@@ -54,7 +56,8 @@ function GetMedExists($CMed, $desc)
 			  FROM medicamentos 
 			  where 0=0
 			  and Descripcion = ? 
-			  and IdClasificacion = ? 
+			  and IdClasificacion = ?
+			  and IsEnabled = 1
 			  order by idMedicamento desc limit 1;";
 
 	if ($cmd = $conn->prepare($query)) {

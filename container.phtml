@@ -25,9 +25,10 @@
   		<div class="tab-content" id="myTabContent">
 		  	<div class="tab-pane fade show active" id="bicatora" role="tabpanel" aria-labelledby="bicatora-tab">
 		  		<br>
-		  		<table class="table">
+		  		<table class="table" id="tbl_bitacora">
 					<thead class="thead-dark">
 						<tr>
+							<th scope="col"></th>
 							<th scope="col">Fecha</th>
 							<th scope="col">Hora</th>
 							<th scope="col">Nombre</th>
@@ -39,16 +40,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>01/03/2018</td>
-							<td>12:42</td>
-							<td>GERARDO VAZQUEZ MARTINEZ</td>
-							<td>MASC</td>
-							<td>SOLDADURA</td>
-							<td>6109</td>
-							<td>RAUL  RODARTE</td>
-							<td>NAUSEAS+ VERTIGO</td>
-						<tr>
 					</tbody>
 				</table>
 		  	</div>
@@ -155,91 +146,117 @@
 					<div class="modal-body">
 						<div class="col-md-8 order-md-1">
 				          	<form>
-				          		<div class="row">
-				          			<div class="col-md-8 mb-3">
-					                	<h4>Fecha: <span class="badge badge-secondary fec-bitacora"></span></h4>
-					              	</div>
-				          		</div>
-				          		
-								<div class="row">
-									<div class="col-md-6 mb-3">
-										<label for="nombre-edit">Num. Empleado</label>
-										<select class="custom-select SelectEmpleado" id="SelectEmpleado">
-											<option selected value="0">Seleccionar...</option>
-										</select>
+							  	<div id="FormBitacora">
+									<div class="row">
+										<div class="col-md-8 mb-3">
+											<h4>Fecha: <span class="badge badge-secondary fec-bitacora"></span></h4>
+										</div>
 									</div>
-					            </div>
-
-					            <div class="row">
-									<div class="col-md-6 mb-3">
-										<label for="SelectSupervisor">Supervisor</label>
-										<select class="custom-select" id="SelectSupervisor">
-										</select>
-										<button class="btn btn-danger add-supervisor" data-toggle="tooltip" data-placement="top" title="Agregar un Supervisor..">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</button>
-									</div>
-					              	<div class="col-md-6 mb-3">
-									  	<label for="SelectClasificacion">Clasificacion</label>
-										<select class="custom-select" id="SelectClasificacion">
-										</select>
-										<button class="btn btn-danger add-clasif" data-toggle="tooltip" data-placement="top" title="Agregar clasificación..">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</button>
-									</div>
-					            </div>
-
-								<div class="row">
-									<div class="col-md-6 mb-3">
-										<label for="SelectTurno">Turno</label>
-										<select class="custom-select" id="SelectTurno">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-										</select>
-									</div>
-									<div class="col-md-6 mb-3">
-										<label for="SelectAtendio">Atendio</label>
-										<select class="custom-select" id="SelectAtendio">
-										</select>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-md-6 mb-3">
-										<label for="diagnostico">Diagnostico</label>
-										<textarea id="diagnostico" class="form-control"></textarea>
-									</div>
-								</div>
-
-								<div class="row">
+									
+									<div class="row">
 										<div class="col-md-6 mb-3">
-											<label for="SelectMedicamento">Medicamento</label>
-											<select class="custom-select" id="SelectMedicamento">
+											<label for="nombre-edit">Num. Empleado</label>
+											<select class="custom-select SelectEmpleado" id="SelectEmpleado">
+												<option selected value="0">Seleccionar...</option>
+											</select>
+										</div>
+	
+										<div class="col-md-6 mb-3" id="InfoEmpleado" style="display:none">
+											
+										</div>
+									</div>
+	
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="SelectSupervisor">Supervisor</label>
+											<select class="custom-select" id="SelectSupervisor">
+											</select>
+											<button class="btn btn-danger add-supervisor" data-toggle="tooltip" data-placement="top" title="Agregar un Supervisor..">
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</button>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="SelectClasificacion">Clasificacion</label>
+											<select class="custom-select" id="SelectClasificacion">
+											</select>
+											<button class="btn btn-danger add-clasif" data-toggle="tooltip" data-placement="top" title="Agregar clasificación..">
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</button>
+										</div>
+									</div>
+	
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="SelectTurno">Turno</label>
+											<select class="custom-select" id="SelectTurno">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
 											</select>
 										</div>
 										<div class="col-md-6 mb-3">
-											<label for="diagnostico">Cantidad</label>
-											<input type="text" id="diagnostico" class="form-control" placeholder="" value="" required="true"></input>
+											<label for="SelectAtendio">Atendio</label>
+											<select class="custom-select" id="SelectAtendio">
+											</select>
+										</div>
+									</div>
+	
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="diagnostico">Diagnostico</label>
+											<textarea id="diagnostico" class="form-control"></textarea>
+										</div>
+									</div>
+	
+									<hr class="mb-4">
+									<button class="btn btn-outline-success" id="save-bitacora" type="button">Guardar</button>
+								</div>
+
+								<div class="row" id="DetailFormBitacora" style="display: none">
+									<div class="col-md-6 mb-3 InfoPaciente">
+										
+									</div>
+									<div class="col-md-6 mb-3 InfoBitacora">
+										
+									</div>
+								</div>
+
+								<div class="row addMedBit" style="display:none">
+									<div class="col-md-6 mb-3">
+										<label for="SelectMedicamento">Medicamento</label>
+										<select class="custom-select" id="SelectMedicamento" style="width: 200px">
+										</select>
+									</div>
+									<div class="col-md-6 mb-3 TotQuantity" style="display: none">
+										<label for="TotQuantity">Cantidad</label>
+										<input type="text" name="TotQuantity" id="TotQuantity" class="form-control" placeholder="" value="" required="true">
+									</div>
+								</div>
+
+								<div class="row addMedBit" style="display:none">
+										<div class="col-md-6 mb-3">
+											<label for="Indicaciones">Indicaciones</label>
+											<textarea id="Indicaciones" class="form-control"></textarea>
 										</div>
 									</div>
 
-								<div class="row">
+								<div class="row addMedBit" style="display:none">
 									<div class="col-md-6 mb-3">
-										<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Agregar medicamentos a la bitacora..">
+										<button type="button" class="btn btn-warning add-med-bit" data-toggle="tooltip" data-placement="top" title="Agregar medicamentos a la bitacora..">
 											<span>Agregar Medicamento</span>&nbsp;<i class="fas fa-cart-plus"></i>
 										</button>
 									</div>
 								</div>
 
-								<div class="row">
-									<table class="table table-responsive" id="tbl_personalmed">
+								<div class="row addMedBit" style="display:none">
+									<table class="table table-responsive" id="tbl_bitmed">
 										<thead class="thead-dark">
 											<tr>
 												<th scope="col"></th>
 												<th scope="col">Tipo Med.</th>
 												<th scope="col">Medicamento</th>
-												<th scope="col">Inventario</th>
+												<th scope="col">Cantidad</th>
+												<th scope="col">Indicaciones</th>
 												<th scope="col">Fecha Creacion</th>
 											</tr>
 										</thead>
@@ -247,9 +264,6 @@
 										</tbody>
 									</table>
 								</div>
-
-				            	<hr class="mb-4">
-				            	<button class="btn btn-outline-success" id="save-item" type="button">Guardar</button>
 				          	</form>
 				        </div>
 					</div>
@@ -419,7 +433,12 @@
 					    </button>
 					</div>
 					<div class="modal-body">
-						<div class="col-md-8 order-md-1">
+						<div class="col-md-6 mb-3">
+							<a class="btn btn-primary" data-toggle="collapse" href="#form-emp" role="button" aria-expanded="false" aria-controls="form-emp">
+								<i class="fas fa-user-plus"></i> Agregar Empleados
+							</a>
+						</div>
+						<div class="col-md-8 order-md-1 collapse hide" aria-labelledby="headingOne" data-parent="#modal-add-personalmed" id="form-emp">
 				          	<form>
 				            	<div class="row">
 					              	<div class="col-md-6 mb-3">
@@ -563,6 +582,18 @@
 					              	<div class="col-md-6 mb-3">
 					                	<label for="DescripcionMedicamento">Medicamento y/o Procedimiento</label>
 					                	<input type="text" class="form-control" id="DescripcionMedicamento" placeholder="" value="" required="true">
+					              	</div>
+					            </div>
+
+								<div class="row totales" style="display:none">
+					              	<div class="col-md-6 mb-3">
+					                	<label for="InvMinimo">Cantidad minima</label>
+					                	<input type="text" class="form-control" id="InvMinimo" placeholder="" value="" required="true">
+					              	</div>
+
+									<div class="col-md-6 mb-3">
+					                	<label for="Inventario">Inventario</label>
+					                	<input type="text" class="form-control" id="Inventario" placeholder="" value="" required="true">
 					              	</div>
 					            </div>
 

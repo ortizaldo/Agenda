@@ -3,6 +3,7 @@ var IDoc = 0;
 var IEmp = 0;
 var ICMed = 0;
 var IMed = 0;
+var IBitacora = 0;
 
 function SendData(data_, btn) {
     if(data_.length > 0){
@@ -347,6 +348,89 @@ function BuildArrTBLCMed(data) {
     FillDTabs(arr_new, $("#tbl_cmed"), $("#tbl_cmed tbody"));
 }
 
+function BuildArrTBLBitMed(data) {
+    var html = "", arr_new = [], html_dropdown_ = "", telefonos_ = "", titulo_ = "", fecha_ = "";
+    
+    _.each(data, function(rows) {
+        //creamos el boton para eliminar y editar
+        html_dropdown_ = '<div class="btn-group">';
+        html_dropdown_ += '<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        html_dropdown_ += 'Acciones';
+        html_dropdown_ += '</button>';
+            html_dropdown_ += '<div class="dropdown-menu">';
+
+            html_dropdown_ += '<a class="dropdown-item btn-update-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+            html_dropdown_ += '<i class="fas fa-edit"></i>';
+            html_dropdown_ += '&nbsp;&nbsp;Update Record';
+            html_dropdown_ += '</a>';
+            
+            html_dropdown_ += '<a class="dropdown-item btn-del-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+            html_dropdown_ += '<i class="fas fa-trash"></i>';
+            html_dropdown_ += '&nbsp;&nbsp;Delete Record';
+            html_dropdown_ += '</a>';
+
+            html_dropdown_ += '</div>';
+        html_dropdown_ += '</div>';
+
+        fecha_ = moment(new Date(rows.CreatedAt)).format("YYYY-MM-DD hh:mm:ss");
+        
+        arr_new.push([
+            html_dropdown_,
+            rows.ClasifMedDescripcion,
+            rows.Descripcion,
+            fecha_,
+        ]);
+    });
+
+    FillDTabs(arr_new, $("#tbl_bitmed"), $("#tbl_bitmed tbody"));
+}
+
+function BuildArrTBLBitacora(data) {
+    var html = "", arr_new = [], html_dropdown_ = "", fecha_ = "", hora_ = "", nombre = "";
+    
+    _.each(data, function(rows) {
+        //creamos el boton para eliminar y editar
+        html_dropdown_ = '<div class="btn-group">';
+        html_dropdown_ += '<button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+        html_dropdown_ += 'Acciones';
+        html_dropdown_ += '</button>';
+            html_dropdown_ += '<div class="dropdown-menu">';
+
+            html_dropdown_ += '<a class="dropdown-item btn-update-bitacora" data-id="' + rows.idBitacoraConsulta + '" href="#">';
+            html_dropdown_ += '<i class="fas fa-edit"></i>';
+            html_dropdown_ += '&nbsp;&nbsp;Update Record';
+            html_dropdown_ += '</a>';
+            
+            html_dropdown_ += '<a class="dropdown-item btn-del-bitacora" data-id="' + rows.idBitacoraConsulta + '" href="#">';
+            html_dropdown_ += '<i class="fas fa-trash"></i>';
+            html_dropdown_ += '&nbsp;&nbsp;Delete Record';
+            html_dropdown_ += '</a>';
+
+            html_dropdown_ += '</div>';
+        html_dropdown_ += '</div>';
+
+        nombre = rows.Nombre + " " + rows.ApellidoPaterno + " " + rows.ApellidoMaterno,
+
+        fecha_ = moment(new Date(rows.CreationDate)).format("YYYY-MM-DD");
+        hora_ = moment(new Date(rows.CreationDate)).format("hh:mm:ss");
+        // hh:mm:ss
+        
+        arr_new.push([
+            html_dropdown_,
+            fecha_,
+            hora_,
+            nombre,
+            rows.sexo,
+            rows.Area,
+            rows.NumeroEmpleado,
+            rows.SupervisorName,
+            rows.Diagnostico
+        ]);
+    });
+
+    FillDTabs(arr_new, $("#tbl_bitacora"), $("#tbl_bitacora tbody"));
+}
+
 function BuildDD(data, select_html) {
     var html = "", arr_new = [], html_dropdown_ = "", titulo_ = "", fecha_ = "";
     select_html.html("");    
@@ -587,6 +671,7 @@ function CleanModalAddMedicamento(){
 
     $("#tbl_medicamento").DataTable().destroy();
     $("#tbl_medicamento tbody").html("");
+    $(".totales").hide();
 }
 
 function GetMedicamentos(IdMedicamento, IsUpdate, dd) {
