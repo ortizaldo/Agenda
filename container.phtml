@@ -28,7 +28,7 @@
 		  		<table class="table" id="tbl_bitacora">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col"></th>
+							<th scope="col" style="width: 111px;"></th>
 							<th scope="col">Fecha</th>
 							<th scope="col">Hora</th>
 							<th scope="col">Nombre</th>
@@ -229,16 +229,9 @@
 									</div>
 									<div class="col-md-6 mb-3 TotQuantity" style="display: none">
 										<label for="TotQuantity">Cantidad</label>
-										<input type="text" name="TotQuantity" id="TotQuantity" class="form-control" placeholder="" value="" required="true">
+										<input type="text" name="TotQuantity" id="TotQuantity" class="form-control" placeholder="" value="" required="true" style="width: 100px">
 									</div>
 								</div>
-
-								<div class="row addMedBit" style="display:none">
-										<div class="col-md-6 mb-3">
-											<label for="Indicaciones">Indicaciones</label>
-											<textarea id="Indicaciones" class="form-control"></textarea>
-										</div>
-									</div>
 
 								<div class="row addMedBit" style="display:none">
 									<div class="col-md-6 mb-3">
@@ -256,7 +249,6 @@
 												<th scope="col">Tipo Med.</th>
 												<th scope="col">Medicamento</th>
 												<th scope="col">Cantidad</th>
-												<th scope="col">Indicaciones</th>
 												<th scope="col">Fecha Creacion</th>
 											</tr>
 										</thead>
@@ -552,7 +544,7 @@
 
 
 		<div id="modal-add-medicamento" class="modal" role="dialog">
-			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+			<div class="modal-dialog modal-lg med" role="document" style="width: 90%;">
 				<div class="modal-content">
 					<div class="modal-header">
 					    <h5 class="modal-title">Agregar Medicamentos</h5>
@@ -570,7 +562,7 @@
 											Clasif. de Med.
 											</label>
 										</div>
-										<select class="custom-select ClasifMed inputSize" id="AddClasifMed">
+										<select class="custom-select ClasifMed inputSize" id="AddClasifMed" style="width: 40%">
 										</select>
 										<button class="btn btn-danger add-clasif-med" data-toggle="tooltip" data-placement="top" title="Agregar nueva clasificacion..">
 											<i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -588,14 +580,33 @@
 								<div class="row totales" style="display:none">
 					              	<div class="col-md-6 mb-3">
 					                	<label for="InvMinimo">Cantidad minima</label>
-					                	<input type="text" class="form-control" id="InvMinimo" placeholder="" value="" required="true">
+					                	<input type="text" class="form-control" id="InvMinimo" placeholder="" value="" required="true" style="width: 50%;">
 					              	</div>
 
 									<div class="col-md-6 mb-3">
 					                	<label for="Inventario">Inventario</label>
-					                	<input type="text" class="form-control" id="Inventario" placeholder="" value="" required="true">
+					                	<input type="text" class="form-control" id="Inventario" placeholder="" value="" required="true" style="width: 50%;">
 					              	</div>
-					            </div>
+								</div>
+								
+								<div class="row totales" style="display:none">
+									<div class="col-md-6 mb-3">
+									  	<label for="PresentacionMed">Presentacion</label>
+									  	<select class="custom-select PresentacionMed inputSize" id="PresentacionMed" style="width: 80%;">
+											<option value="0">Seleccionar una opcion..</option>
+											<option value="NA">NA</option>
+											<option value="ml">Mililitros</option>
+											<option value="tab">Tableta</option>
+											<option value="cap">Capsula</option>
+											<option value="pza">Pieza</option>
+										</select>
+									</div>
+
+								  	<div class="col-md-6 mb-3">
+									  	<label for="CantPresentacion">Cantidad X Presentacion</label>
+									  	<input type="text" class="form-control" id="CantPresentacion" placeholder="" value="" required="true" style="width: 50%;">
+									</div>
+							  	</div>
 
 					            <div class="mb-3">
 					              	<hr class="mb-4">
@@ -617,6 +628,10 @@
 										<th scope="col"></th>
 										<th scope="col">Clasificacion Medicamento</th>
 										<th scope="col">Descripcion</th>
+										<th scope="col">Presentacion</th>
+										<th scope="col">Cantidad de Presentacion</th>
+										<th scope="col">Inventario Minimo</th>
+										<th scope="col">Inventario Total</th>
 										<th scope="col">Fecha Creacion</th>
 									</tr>
 								</thead>

@@ -4,6 +4,7 @@ var IEmp = 0;
 var ICMed = 0;
 var IMed = 0;
 var IBitacora = 0;
+var TMed = "";
 
 function SendData(data_, btn) {
     if(data_.length > 0){
@@ -312,7 +313,7 @@ function BuildArrTBLEmp(data) {
 }
 
 function BuildArrTBLCMed(data) {
-    var html = "", arr_new = [], html_dropdown_ = "", telefonos_ = "", titulo_ = "", fecha_ = "";
+    var html = "", arr_new = [], html_dropdown_ = "", span = '', fecha_ = "";
     
     _.each(data, function(rows) {
         //creamos el boton para eliminar y editar
@@ -336,16 +337,65 @@ function BuildArrTBLCMed(data) {
         html_dropdown_ += '</div>';
 
         fecha_ = moment(new Date(rows.CreatedAt)).format("YYYY-MM-DD hh:mm:ss");
+
+        rows.Presentacion = GetPresentacion(rows.Presentacion);
+
+        if(rows.Total == rows.CantidadMinima){
+            span = GetSpan(40, rows.Total);
+        }else if(rows.Total < rows.CantidadMinima){
+            span = GetSpan(50, rows.Total);
+        }else{
+            span = GetSpan(30, rows.Total);
+        }
         
         arr_new.push([
             html_dropdown_,
             rows.ClasifMedDescripcion,
             rows.Descripcion,
+            rows.Presentacion,
+            rows.CantidadPresentacion,
+            rows.CantidadMinima,
+            span,
             fecha_,
         ]);
     });
 
     FillDTabs(arr_new, $("#tbl_cmed"), $("#tbl_cmed tbody"));
+}
+
+function GetPresentacion(Presentacion) {
+    var res = "";
+    switch (Presentacion) {
+        case "NA":
+            res = "NA";
+        break;
+        case "ml":
+            res = "Mililitros";
+        break;
+        case "tab":
+            res = "Tableta";
+        break;
+        case "cap":
+            res = "Capsula";
+        break;
+        case "pza":
+            res = "Pieza";
+        break;
+    }
+
+    return res;
+}
+
+function GetSpan(IdStatus, Quantity) {
+    var status = '';
+    if (parseInt(IdStatus) == 30) {
+        status = '<span class="badge badge-success">' + Quantity + '</span>';
+    } else if (parseInt(IdStatus) == 40) {
+        status = '<span class="badge badge-warning">' + Quantity + '</span>';
+    } else if (parseInt(IdStatus) == 50) {
+        status = '<span class="badge badge-danger">' + Quantity + '</span>';
+    }
+    return status;
 }
 
 function BuildArrTBLBitMed(data) {
@@ -359,12 +409,12 @@ function BuildArrTBLBitMed(data) {
         html_dropdown_ += '</button>';
             html_dropdown_ += '<div class="dropdown-menu">';
 
-            html_dropdown_ += '<a class="dropdown-item btn-update-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+            html_dropdown_ += '<a class="dropdown-item btn-update-cmed" data-id="' + rows.IdTratBitacora + '" href="#">';
             html_dropdown_ += '<i class="fas fa-edit"></i>';
             html_dropdown_ += '&nbsp;&nbsp;Update Record';
             html_dropdown_ += '</a>';
             
-            html_dropdown_ += '<a class="dropdown-item btn-del-cmed" data-id="' + rows.idMedicamento + '" href="#">';
+            html_dropdown_ += '<a class="dropdown-item btn-del-cmed" data-id="' + rows.IdTratBitacora + '" href="#">';
             html_dropdown_ += '<i class="fas fa-trash"></i>';
             html_dropdown_ += '&nbsp;&nbsp;Delete Record';
             html_dropdown_ += '</a>';
@@ -372,12 +422,13 @@ function BuildArrTBLBitMed(data) {
             html_dropdown_ += '</div>';
         html_dropdown_ += '</div>';
 
-        fecha_ = moment(new Date(rows.CreatedAt)).format("YYYY-MM-DD hh:mm:ss");
+        fecha_ = moment(new Date(rows.CreationDate)).format("YYYY-MM-DD hh:mm:ss");
         
         arr_new.push([
             html_dropdown_,
             rows.ClasifMedDescripcion,
             rows.Descripcion,
+            rows.CantidadMed,
             fecha_,
         ]);
     });
@@ -513,7 +564,7 @@ function FillDTabs(data, tbl, tbl_body) {
                 "targets": "_all"
             }
         ],
-        autoWidth: true,
+        autoWidth: false,
         searching: true,
         "language": {
             "lengthMenu": "Mostrar _MENU_",
@@ -664,8 +715,13 @@ function AddClasifMed(obj, modal) {
 }
 
 function CleanModalAddMedicamento(){
+    
     $("#AddClasifMed").val(0).change();
     $("#DescripcionMedicamento").val("");
+    $("#InvMinimo").val("");
+    $("#Inventario").val("");
+    $("#CantPresentacion").val("");
+    $("#PresentacionMed").val(0).change();
     $("#save-cmed").show();
     $("#upd-cmed").hide();
 

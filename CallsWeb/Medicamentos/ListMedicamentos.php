@@ -6,7 +6,8 @@ $conn = $DB->getConnect();
 $medArr =  [];
 $id_medicamento_ = $_GET["id_medicamento"];
 if($id_medicamento_ > 0){
-    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion
+    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion,
+              med.Presentacion,med.CantidadPresentacion,med.CantidadMinima,med.Total
               FROM medicamentos as med, clasificacionmedicamento as cmed
               where 0=0
               and med.IdClasificacion = cmed.idClasificacionMedicamento
@@ -14,7 +15,8 @@ if($id_medicamento_ > 0){
               and med.idMedicamento = ? 
               order by med.idMedicamento desc;";
 }else{
-    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion
+    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion,
+              med.Presentacion,med.CantidadPresentacion,med.CantidadMinima,med.Total
               FROM medicamentos as med, clasificacionmedicamento as cmed
               where 0=0
               and med.IdClasificacion = cmed.idClasificacionMedicamento
@@ -28,7 +30,8 @@ if ($cmd = $conn->prepare($query)) {
     }
     if ($cmd->execute()) {
         $cmd->store_result();
-        $cmd->bind_result($idMedicamento,$Descripcion,$CreatedAt,$ClasifMedDescripcion);
+        $cmd->bind_result($idMedicamento,$Descripcion,$CreatedAt,$ClasifMedDescripcion,
+        $Presentacion,$CantidadPresentacion,$CantidadMinima,$Total);
         $cont=0;
         
         while ($cmd->fetch()) {
@@ -36,6 +39,10 @@ if ($cmd = $conn->prepare($query)) {
             $medArr[$cont]["Descripcion"] = $Descripcion;
             $medArr[$cont]["CreatedAt"] = $CreatedAt;
             $medArr[$cont]["ClasifMedDescripcion"] = $ClasifMedDescripcion;
+            $medArr[$cont]["Presentacion"] = $Presentacion;
+            $medArr[$cont]["CantidadPresentacion"] = $CantidadPresentacion;
+            $medArr[$cont]["CantidadMinima"] = $CantidadMinima;
+            $medArr[$cont]["Total"] = $Total;
             $cont++;
         }
         

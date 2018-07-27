@@ -4,37 +4,46 @@ include_once("../../db/db.php");
 $DB = new DAO();
 $conn = $DB->getConnect();
 $medArr =  [];
-$id_medicamento_ = $_GET["id_medicamento"];
-if($id_medicamento_ > 0){
-    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion
-              FROM medicamentos as med, clasificacionmedicamento as cmed
+$IdBitacora = $_GET["IdBitacora"];
+$IdMedBit = $_GET["IdMedBit"];
+if($IdMedBit > 0){
+    $query = "SELECT tb.IdTratBitacora,tb.CantidadMed,tb.CreationDate,med.Descripcion,
+              cm.ClasifMedDescripcion
+              FROM bitacoraconsulta as bc, medicamentos as med, tratamientobitacora as tb, clasificacionmedicamento as cm
               where 0=0
-              and med.IdClasificacion = cmed.idClasificacionMedicamento
-              and med.IsEnabled = 1
-              and med.idMedicamento = ? 
-              order by med.idMedicamento desc;";
+              and tb.IdBitacora = bc.idBitacoraConsulta
+              and tb.IdMedicamento = med.idMedicamento
+              and med.IdClasificacion = cm.idClasificacionMedicamento
+              and bc.IdTratBitacora = ?
+              order by tb.IdTratBitacora desc;";
 }else{
-    $query = "SELECT med.idMedicamento,med.Descripcion,med.CreatedAt,cmed.ClasifMedDescripcion
-              FROM medicamentos as med, clasificacionmedicamento as cmed
+    $query = "SELECT tb.IdTratBitacora,tb.CantidadMed,tb.CreationDate,med.Descripcion,
+              cm.ClasifMedDescripcion
+              FROM bitacoraconsulta as bc, medicamentos as med, tratamientobitacora as tb, clasificacionmedicamento as cm
               where 0=0
-              and med.IdClasificacion = cmed.idClasificacionMedicamento
-              and med.IsEnabled = 1
-              order by med.idMedicamento desc;";
+              and tb.IdBitacora = bc.idBitacoraConsulta
+              and tb.IdMedicamento = med.idMedicamento
+              and med.IdClasificacion = cm.idClasificacionMedicamento
+              and bc.idBitacoraConsulta = ?
+              order by tb.IdTratBitacora desc;";
 }
 
 if ($cmd = $conn->prepare($query)) {
-    if($id_medicamento_ > 0){
-        $cmd->bind_param("i", $id_medicamento_);
+    if($IdMedBit > 0){
+        $cmd->bind_param("i", $IdMedBit);
+    }else{
+        $cmd->bind_param("i", $IdBitacora);
     }
     if ($cmd->execute()) {
         $cmd->store_result();
-        $cmd->bind_result($idMedicamento,$Descripcion,$CreatedAt,$ClasifMedDescripcion);
+        $cmd->bind_result($IdTratBitacora,$CantidadMed,$CreationDate,$Descripcion,$ClasifMedDescripcion);
         $cont=0;
         
         while ($cmd->fetch()) {
-            $medArr[$cont]["idMedicamento"] = $idMedicamento;
+            $medArr[$cont]["IdTratBitacora"] = $IdTratBitacora;
             $medArr[$cont]["Descripcion"] = $Descripcion;
-            $medArr[$cont]["CreatedAt"] = $CreatedAt;
+            $medArr[$cont]["CantidadMed"] = $CantidadMed;
+            $medArr[$cont]["CreationDate"] = $CreationDate;
             $medArr[$cont]["ClasifMedDescripcion"] = $ClasifMedDescripcion;
             $cont++;
         }

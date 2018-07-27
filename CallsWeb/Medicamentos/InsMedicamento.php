@@ -8,6 +8,8 @@ $desc = $_POST["obj"]["desc"];
 $CMed = $_POST["obj"]["CMed"];
 $InvMinimo = $_POST["obj"]["InvMinimo"];
 $Inventario = $_POST["obj"]["Inventario"];
+$CantPresentacion = $_POST["obj"]["CantPresentacion"];
+$PresentacionMed = $_POST["obj"]["PresentacionMed"];
 
 if(isset($desc) && $CMed != "0"){
 	if (GetMedExists($CMed, $desc)) {
@@ -16,10 +18,11 @@ if(isset($desc) && $CMed != "0"){
         $response["response"] = "Ya existe un un registro con la informacion que esta tratando de enviar..";
         echo json_encode($response);
 	}else{
-		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt,IsEnabled,CantidadMinima,Total) 
-                        VALUES(?, ?, NOW(), NOW(), 1, ?, ?);";
+		$createItemSQL="INSERT INTO medicamentos(IdClasificacion,Descripcion,CreatedAt,ModifiedAt,IsEnabled,
+						CantidadMinima,Total,CantidadPresentacion,CantidadTempo,Presentacion) 
+                        VALUES(?, ?, NOW(), NOW(), 1, ?, ?, ?, ?);";
 		if ($createItem = $conn->prepare($createItemSQL)) {
-		    $createItem->bind_param("isii", $CMed, $desc, $InvMinimo, $Inventario );
+		    $createItem->bind_param("isiiiis", $CMed, $desc, $InvMinimo, $Inventario, $CantPresentacion,$CantPresentacion, $PresentacionMed );
 		    if (!$createItem->execute()) {
 		    	$response = null;
 		        $response["status"] = "ERROR";

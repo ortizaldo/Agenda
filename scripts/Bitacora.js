@@ -164,27 +164,21 @@ $("#save-bitacora").on("click", function(e) {
 $(".add-med-bit").on("click", function(e) {
     var SelectMedicamento = $("#SelectMedicamento option:selected").val();
     var TotQuantity = $("#TotQuantity").val();
-    var Indicaciones = $("#Indicaciones").val();
     
     if( SelectMedicamento === 0 ){
         alertify.error("El campo 'Medicamento' es obligatorio");
         return false;
     }
 
-    if( TotQuantity === 0 ){
+    if( TotQuantity === 0  && TMed !== "PADECIMIENTOS"){
         alertify.error("El campo 'Cantidad' es obligatorio");
-        return false;
-    }
-    if( _.isEmpty(Indicaciones) ){
-        alertify.error("El campo 'Indicaciones' es obligatorio");
         return false;
     }
     
     var obj = {
         'IBitacora':IBitacora,
         'Medicamento': SelectMedicamento,
-        'TotQuantity': TotQuantity,
-        'Indicaciones': Indicaciones
+        'TotQuantity': TotQuantity
     }
     
     $.ajax({
@@ -336,6 +330,7 @@ $("#SelectMedicamento").on("change", function(e) {
                     console.log("data", data);
                     if(data.response.length === 1){
                         var row = data.response[0];
+                        TMed = row.ClasifMedDescripcion.toUpperCase();
                         if(row.ClasifMedDescripcion.toUpperCase() !== "PADECIMIENTOS"){
                             $(".TotQuantity").show();
                         }else{

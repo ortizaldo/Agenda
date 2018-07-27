@@ -36,6 +36,8 @@ $("#save-cmed").on("click", function(e) {
     var DescripcionMedicamento = $("#DescripcionMedicamento").val();
     var InvMinimo = parseInt($("#InvMinimo").val());
     var Inventario = parseInt($("#Inventario").val());
+    var CantPresentacion = parseInt($("#CantPresentacion").val());
+    var PresentacionMed = $("#PresentacionMed option:selected").val();
 
     if(_.isEmpty(AddClasifMed) && AddClasifMed === 0){
         alertify.error("El campo 'Clasif. de Med.' es obligatorio");
@@ -70,18 +72,32 @@ $("#save-cmed").on("click", function(e) {
             return false;
         }
 
+        if(CantPresentacion === 0 && (PresentacionMed !== "0" && PresentacionMed !== "NA") ){
+            alertify.error("El campo 'Cantidad Minima' es obligatorio");
+            return false;
+        }
+
+        if(PresentacionMed === 0){
+            alertify.error("El campo 'Presentacion' es obligatorio");
+            return false;
+        }
+
         obj = {
             'desc':DescripcionMedicamento,
             'CMed':AddClasifMed,
             'InvMinimo':InvMinimo,
-            'Inventario':Inventario
+            'Inventario':Inventario,
+            'CantPresentacion':CantPresentacion,
+            'PresentacionMed':PresentacionMed
         }
     }else{
         obj = {
             'desc':DescripcionMedicamento,
             'CMed':AddClasifMed,
             'InvMinimo':0,
-            'Inventario':0
+            'Inventario':0,
+            'CantPresentacion':0,
+            'PresentacionMed':"NA"
         }
     }
 
@@ -105,7 +121,7 @@ $("#save-cmed").on("click", function(e) {
 
 $("#AddClasifMed").on("change", function(e) {
     e.preventDefault();
-    if( $("#AddClasifMed option:selected").text() === "PROCEDIMIENTOS"){
+    if( $("#AddClasifMed option:selected").text() === "PROCEDIMIENTOS" || $("#AddClasifMed option:selected").val() === "0"){
         $(".totales").hide();
     }else{
         $(".totales").show();
@@ -184,4 +200,46 @@ $("#clean-cmed").on("click", function(e) {
 $(".close-mod-medic").on("click", function(e) {
     e.preventDefault();
     CleanModalAddMedicamento();
+});
+
+$( "#CantPresentacion" ).keypress(function(e) {
+    var tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+        
+    // Patron de entrada, en este caso solo acepta numeros
+    patron =/[0-9]/;
+    var tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+});
+
+$( "#InvMinimo" ).keypress(function(e) {
+    var tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+        
+    // Patron de entrada, en este caso solo acepta numeros
+    patron =/[0-9]/;
+    var tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
+});
+
+$( "#Inventario" ).keypress(function(e) {
+    var tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==8){
+        return true;
+    }
+        
+    // Patron de entrada, en este caso solo acepta numeros
+    patron =/[0-9]/;
+    var tecla_final = String.fromCharCode(tecla);
+    return patron.test(tecla_final);
 });

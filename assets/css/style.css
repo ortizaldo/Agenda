@@ -40,3 +40,7 @@ body {
     user-select: none;
     -webkit-user-select: none;
 }
+
+.modal-lg med {
+    max-width: 80% !important;
+}
