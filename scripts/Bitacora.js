@@ -1,11 +1,8 @@
 
 $(".add-bitacora").on("click", function(e) {
     e.preventDefault();
-    $(".fec-bitacora").text(moment(new Date()).format("DD-MM-YYYY HH:mm:ss"));
-    GetListCat(0, "Emp", $("#SelectEmpleado"));
-    GetListCat(0, "Supervisor", $("#SelectSupervisor"));
-    GetListCat(0, "ClasifBit", $("#SelectClasificacion"));
-    GetPersonalMedico(0, false, true);
+    $(".title-modal-bit").text("Agregar Bitacora");
+    BuildFormAddBitacora();
     $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
 });
 
@@ -140,24 +137,159 @@ $("#save-bitacora").on("click", function(e) {
         'Turno': Turno
     }
     
+    SaveBitacora(obj, "CallsWeb/Bitacora/InsBitacora.php", "POST", false);
+});
+
+$("#upd-bitacora").on("click", function(e) {
+    var IdEmpleado = $("#SelectEmpleado option:selected").val();
+    var IdSupervisor = $("#SelectSupervisor option:selected").val();
+    var IdClasificacion = $("#SelectClasificacion option:selected").val();
+    var Turno = $("#SelectTurno option:selected").val();
+    var IdEnfDoc = $("#SelectAtendio option:selected").val();
+    var Diagnostico = $("#diagnostico").val();
+    
+    if( IdEmpleado === 0 ){
+        alertify.error("El campo 'Num. Empleado' es obligatorio");
+        return false;
+    }
+
+    if( IdSupervisor === 0 ){
+        alertify.error("El campo 'Supervisor' es obligatorio");
+        return false;
+    }
+    if( IdClasificacion === 0 ){
+        alertify.error("El campo 'Clasificacion' es obligatorio");
+        return false;
+    }
+    if( Turno === 0 ){
+        alertify.error("El campo 'Turno' es obligatorio");
+        return false;
+    }
+    if( IdEnfDoc === 0 ){
+        alertify.error("El campo 'Atendio' es obligatorio");
+        return false;
+    }
+
+    if(_.isEmpty(Diagnostico)){
+        alertify.error("El campo 'Diagnostico' es obligatorio");
+        return false;
+    }
+
+    var obj = {
+        'IdSupervisor': IdSupervisor,
+        'IdEnfDoc': IdEnfDoc,
+        'IdClasificacion': IdClasificacion,
+        'IdEmpleado': IdEmpleado,
+        'Diagnostico': Diagnostico,
+        'Turno': Turno,
+        'IdBitacora': IBitacora
+    }
+
+    SaveBitacora(obj, "CallsWeb/Bitacora/UpdateBitacora.php", "POST", true);
+});
+
+function SaveBitacora(obj, url, method_url, IsUpdate) {
     $.ajax({
-        method: "POST",
-        url: "CallsWeb/Bitacora/InsBitacora.php",
+        method: method_url,
+        url: url,
         dataType: "JSON",
         data: {obj},
         success: function (data) {
-            console.log("data", data);
             if(parseInt(data.code) == 200){
                 alertify.success(data.response);
                 $("#FormBitacora").hide();
                 BuildDetailBitacora(data.bitacora);
                 IBitacora = data.bitacora.idBitacoraConsulta;
-                GetBitacora(0, false);
+                GetBitacora(IBitacora, IsUpdate, false);
             }else{
                 alertify.error(data.response);
             }
         }
     });
+}
+
+$("#tbl_bitacora").on("click", ".btn-update-bitacora", function(e) {
+    e.preventDefault();
+    var IdBitacora = $(this).attr("data-id");
+    IBitacora = $(this).attr("data-id");
+    $(".title-modal-bit").text("Bitacora");
+    GetBitacora(IdBitacora, true, true);
+});
+
+$("#tbl_bitmed").on("click", ".btn-del-bmed", function(e) {
+    e.preventDefault();
+    var id = $(this).attr("data-id");
+    alertify.confirm('Eliminar Registros', 'Desea Eliminar este Registro', function(){ 
+        DelMedBit(id, true);
+    }, function(){ 
+        alertify.error('Se cancelo la accion..')
+    });
+});
+
+function DelMedBit(IdMedBit) {
+    $.ajax({
+        method: "POST",
+        url: "CallsWeb/Bitacora/DeleteMedBitacora.php",
+        data: {IdMedBit: IdMedBit},
+        dataType: "JSON",
+        success: function (data) {
+            if(parseInt(data.code) === 200){
+                alertify.success(data.response);
+                GetBitacoraMed(IBitacora,0, false);
+            }else{
+                alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+            }
+        }
+    });
+}
+
+$(".InfoBitacora").on("click", "#update-bitacora", function(e) {
+    e.preventDefault();
+    $(".title-modal-bit").text("Actualizar Bitacora");
+    $(".InfoPaciente").html("");
+    $(".InfoBitacora").html("");
+    $("#DetailFormBitacora").hide();
+    $(".addMedBit").hide();
+    $("#save-bitacora").hide();
+    $("#upd-bitacora").show();
+    $("#cancel-upd").show();
+    
+    
+    
+    GetListCat(0, "Emp", $("#SelectEmpleado"), Bitacora.NumeroEmpleado);
+    GetListCat(0, "Supervisor", $("#SelectSupervisor"), Bitacora.SupervisorName);
+    GetListCat(0, "ClasifBit", $("#SelectClasificacion"), Bitacora.ClasifDesc);
+    
+    var doc = Bitacora.Titulo +' '+ Bitacora.NomDoc +' '+ Bitacora.ApePatDoc;
+    
+    GetPersonalMedico(0, false, true, doc);
+    
+    $("#SelectTurno").val(Bitacora.Turno).change();
+    $("#diagnostico").val(Bitacora.Diagnostico);
+    
+    $("#FormBitacora").show();
+
+    
+
+    $("#tbl_bitmed").DataTable().destroy();
+    $("#tbl_bitmed tbody").html("");
+    
+
+    IBitacora = $(this).attr("data-id");
+});
+
+
+
+$("#cancel-upd").on("click",function(e) {
+    e.preventDefault();
+    var IdBitacora = $(this).attr("data-id");
+    GetBitacora(IBitacora, true, false);
+});
+
+//close-bitacora
+$(".close-bitacora").on("click", function(e) {
+    e.preventDefault();
+    CleanModalAddBitacora();
 });
 
 //add-med-bit
@@ -200,7 +332,7 @@ $(".add-med-bit").on("click", function(e) {
 
 $("#bicatora-tab").on("click", function(e) {
     e.preventDefault();
-    GetBitacora(0,false);
+    GetBitacora(0,false, false);
 });
 
 function GetBitacoraMed(IdBitacora,IdMedBit, IsUpdate) {
@@ -228,7 +360,7 @@ function GetBitacoraMed(IdBitacora,IdMedBit, IsUpdate) {
     });
 }
 
-function GetBitacora(IdBitacora,IsUpdate) {
+function GetBitacora(IdBitacora,IsUpdate, IsModal) {
     $.ajax({
         method: "GET",
         url: "CallsWeb/Bitacora/GetListBitacoras.php",
@@ -240,9 +372,17 @@ function GetBitacora(IdBitacora,IsUpdate) {
             if(parseInt(data.code) === 200){
                 if(IsUpdate){
                     if(data.response.length === 1){
-                        console.log('res', data.response);
+                        $("#FormBitacora").hide();
+                        Bitacora = data.response[0];
+                        BuildDetailBitacora(data.response[0]);
+                        GetBitacoraMed(IdBitacora,0, false);
+                        BuildFormAddBitacora();
+                        if(IsModal){
+                            $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
+                        }
                     }
                 }else{
+                    Bitacoras = data.response;
                     BuildArrTBLBitacora(data.response);
                 }
             }else{
@@ -277,7 +417,7 @@ function BuildDetailBitacora(data) {
     html_bit += '<strong>Diagnostico:</strong> '+data.Diagnostico+'<br>';
     html_bit += '</address>';
     html_bit += '<hr class="mb-4">';
-    html_bit += '<button class="btn btn-outline-warning" id="update-bitacora" type="button">Actualizar Bitacora</button>';
+    html_bit += '<button class="btn btn-outline-warning" id="update-bitacora" type="button" data-id="'+data.idBitacoraConsulta+'">Actualizar Bitacora</button>';
     
     GetListCat(0, "LMed", $("#SelectMedicamento"));
     
@@ -286,6 +426,14 @@ function BuildDetailBitacora(data) {
     $("#DetailFormBitacora").show();
 
     $(".addMedBit").show();
+}
+
+function BuildFormAddBitacora() {
+    $(".fec-bitacora").text(moment(new Date()).format("DD-MM-YYYY HH:mm:ss"));
+    GetListCat(0, "Emp", $("#SelectEmpleado"));
+    GetListCat(0, "Supervisor", $("#SelectSupervisor"));
+    GetListCat(0, "ClasifBit", $("#SelectClasificacion"));
+    GetPersonalMedico(0, false, true);
 }
 
 function CleanModalAddBitacora() {
@@ -300,7 +448,13 @@ function CleanModalAddBitacora() {
     $(".InfoBitacora").html("");
     $("#DetailFormBitacora").hide();
     $(".addMedBit").hide();
+    $("#save-bitacora").show();
+    $("#upd-bitacora").hide();
+    $("#cancel-upd").hide();
     $("#FormBitacora").show();
+
+    $("#tbl_bitmed").DataTable().destroy();
+    $("#tbl_bitmed tbody").html("");
 }
 
 $( "#TotQuantity" ).keypress(function(e) {
@@ -345,4 +499,4 @@ $("#SelectMedicamento").on("change", function(e) {
     }
 });
 
-GetBitacora(0,false);
+GetBitacora(0,false, false);

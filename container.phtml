@@ -138,8 +138,8 @@
 			<div class="modal-dialog modal-lg" role="document" style="width: 70%;">
 				<div class="modal-content">
 					<div class="modal-header">
-					    <h5 class="modal-title">Agregar Bitacora</h5>
-					    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					    <h5 class="modal-title title-modal-bit">Agregar Bitacora</h5>
+					    <button type="button" class="close close-bitacora" data-dismiss="modal" aria-label="Close">
 					      <span aria-hidden="true">&times;</span>
 					    </button>
 					</div>
@@ -210,6 +210,12 @@
 	
 									<hr class="mb-4">
 									<button class="btn btn-outline-success" id="save-bitacora" type="button">Guardar</button>
+									<button class="btn btn-outline-primary" id="upd-bitacora" type="button" style="display: none;" data-toggle="tooltip" data-placement="top" title="Actualizar">
+										Actualizar
+									</button>
+									<button class="btn btn-danger" id="cancel-upd" type="button" style="display: none;" data-toggle="tooltip" data-placement="top" title="Cancelar Actualizacion">
+										<i class="fas fa-ban"></i>
+									</button>
 								</div>
 
 								<div class="row" id="DetailFormBitacora" style="display: none">
@@ -241,12 +247,13 @@
 									</div>
 								</div>
 
-								<div class="row addMedBit" style="display:none">
+								<div class="row col-md-8 order-md-1 addMedBit" style="display:none;margin-left: 45px !important;">
 									<table class="table table-responsive" id="tbl_bitmed">
 										<thead class="thead-dark">
 											<tr>
 												<th scope="col"></th>
 												<th scope="col">Tipo Med.</th>
+												<th scope="col">Presentacion</th>
 												<th scope="col">Medicamento</th>
 												<th scope="col">Cantidad</th>
 												<th scope="col">Fecha Creacion</th>
@@ -260,7 +267,7 @@
 				        </div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-secondary close-bitacora" data-dismiss="modal">Cerrar</button>
 					</div>
 				</div>
 			</div>

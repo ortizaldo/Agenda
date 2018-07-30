@@ -8,7 +8,7 @@ $IdBitacora = $_GET["IdBitacora"];
 $IdMedBit = $_GET["IdMedBit"];
 if($IdMedBit > 0){
     $query = "SELECT tb.IdTratBitacora,tb.CantidadMed,tb.CreationDate,med.Descripcion,
-              cm.ClasifMedDescripcion
+              cm.ClasifMedDescripcion, med.Presentacion
               FROM bitacoraconsulta as bc, medicamentos as med, tratamientobitacora as tb, clasificacionmedicamento as cm
               where 0=0
               and tb.IdBitacora = bc.idBitacoraConsulta
@@ -18,7 +18,7 @@ if($IdMedBit > 0){
               order by tb.IdTratBitacora desc;";
 }else{
     $query = "SELECT tb.IdTratBitacora,tb.CantidadMed,tb.CreationDate,med.Descripcion,
-              cm.ClasifMedDescripcion
+              cm.ClasifMedDescripcion, med.Presentacion
               FROM bitacoraconsulta as bc, medicamentos as med, tratamientobitacora as tb, clasificacionmedicamento as cm
               where 0=0
               and tb.IdBitacora = bc.idBitacoraConsulta
@@ -36,7 +36,7 @@ if ($cmd = $conn->prepare($query)) {
     }
     if ($cmd->execute()) {
         $cmd->store_result();
-        $cmd->bind_result($IdTratBitacora,$CantidadMed,$CreationDate,$Descripcion,$ClasifMedDescripcion);
+        $cmd->bind_result($IdTratBitacora,$CantidadMed,$CreationDate,$Descripcion,$ClasifMedDescripcion, $presentacion);
         $cont=0;
         
         while ($cmd->fetch()) {
@@ -45,6 +45,7 @@ if ($cmd = $conn->prepare($query)) {
             $medArr[$cont]["CantidadMed"] = $CantidadMed;
             $medArr[$cont]["CreationDate"] = $CreationDate;
             $medArr[$cont]["ClasifMedDescripcion"] = $ClasifMedDescripcion;
+            $medArr[$cont]["Presentacion"] = $presentacion;
             $cont++;
         }
         

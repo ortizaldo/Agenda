@@ -4,6 +4,8 @@ var IEmp = 0;
 var ICMed = 0;
 var IMed = 0;
 var IBitacora = 0;
+var Bitacora = {};
+var Bitacoras = [];
 var TMed = "";
 
 function SendData(data_, btn) {
@@ -31,7 +33,7 @@ function SendData(data_, btn) {
     }
 }
 
-function GetListCat(idCat, bandera, select_html) {
+function GetListCat(idCat, bandera, select_html, value) {
     $.ajax({
         method: "GET",
         url: "CallsWeb/Catalogs/GetListCat.php",
@@ -50,6 +52,10 @@ function GetListCat(idCat, bandera, select_html) {
 
                 select_html.html(html);
                 select_html.select2();
+
+                if( !_.isEmpty(value) ){
+                    SetDD(select_html, value);
+                }
             }
         }
     });
@@ -74,7 +80,7 @@ function buildConfig()
     };
 }
 
-function GetPersonalMedico(IdPersonalMed, update, dd) {
+function GetPersonalMedico(IdPersonalMed, update, dd, value) {
     $.ajax({
         method: "GET",
         url: "CallsWeb/PersonalMedico/GetListPMed.php",
@@ -98,6 +104,7 @@ function GetPersonalMedico(IdPersonalMed, update, dd) {
                     }
                 }else if(dd && !update){
                     BuildDD(data.response, $("#SelectAtendio"));
+                    SetDD($("#SelectAtendio"), value);
                 }else{
                     BuildArr(data.response);
                 }
@@ -409,12 +416,7 @@ function BuildArrTBLBitMed(data) {
         html_dropdown_ += '</button>';
             html_dropdown_ += '<div class="dropdown-menu">';
 
-            html_dropdown_ += '<a class="dropdown-item btn-update-cmed" data-id="' + rows.IdTratBitacora + '" href="#">';
-            html_dropdown_ += '<i class="fas fa-edit"></i>';
-            html_dropdown_ += '&nbsp;&nbsp;Update Record';
-            html_dropdown_ += '</a>';
-            
-            html_dropdown_ += '<a class="dropdown-item btn-del-cmed" data-id="' + rows.IdTratBitacora + '" href="#">';
+            html_dropdown_ += '<a class="dropdown-item btn-del-bmed" data-id="' + rows.IdTratBitacora + '" href="#">';
             html_dropdown_ += '<i class="fas fa-trash"></i>';
             html_dropdown_ += '&nbsp;&nbsp;Delete Record';
             html_dropdown_ += '</a>';
@@ -423,10 +425,12 @@ function BuildArrTBLBitMed(data) {
         html_dropdown_ += '</div>';
 
         fecha_ = moment(new Date(rows.CreationDate)).format("YYYY-MM-DD hh:mm:ss");
+        rows.Presentacion = GetPresentacion(rows.Presentacion);
         
         arr_new.push([
             html_dropdown_,
             rows.ClasifMedDescripcion,
+            rows.Presentacion,
             rows.Descripcion,
             rows.CantidadMed,
             fecha_,
@@ -449,12 +453,7 @@ function BuildArrTBLBitacora(data) {
 
             html_dropdown_ += '<a class="dropdown-item btn-update-bitacora" data-id="' + rows.idBitacoraConsulta + '" href="#">';
             html_dropdown_ += '<i class="fas fa-edit"></i>';
-            html_dropdown_ += '&nbsp;&nbsp;Update Record';
-            html_dropdown_ += '</a>';
-            
-            html_dropdown_ += '<a class="dropdown-item btn-del-bitacora" data-id="' + rows.idBitacoraConsulta + '" href="#">';
-            html_dropdown_ += '<i class="fas fa-trash"></i>';
-            html_dropdown_ += '&nbsp;&nbsp;Delete Record';
+            html_dropdown_ += '&nbsp;&nbsp;Actualizar Bitacora';
             html_dropdown_ += '</a>';
 
             html_dropdown_ += '</div>';
