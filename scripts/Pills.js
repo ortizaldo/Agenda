@@ -135,26 +135,47 @@ $("#upd-cmed").on("click", function(e) {
     
     var AddClasifMed = parseInt($("#AddClasifMed option:selected").val());
     var DescripcionMedicamento = $("#DescripcionMedicamento").val();
+    var InvMinimo = parseInt($("#InvMinimo").val());
+    var Inventario = parseInt($("#Inventario").val());
+    var CantPresentacion = parseInt($("#CantPresentacion").val());
+    var PresentacionMed = $("#PresentacionMed option:selected").val();
 
-    if(_.isEmpty(AddClasifMed) && AddClasifMed === 0){
-        alertify.error("El campo 'Numero de Empleado' es obligatorio");
-        return false;
-    }
-    
-    if(_.isEmpty(DescripcionMedicamento)){
-        alertify.error("El campo 'Nombre' es obligatorio");
-        return false;
-    }
+    if( $("#AddClasifMed option:selected").text() !== "PROCEDIMIENTOS"){
+        if(InvMinimo === 0){
+            alertify.error("El campo 'Cantidad Minima' es obligatorio");
+            return false;
+        }
+        
+        if(Inventario === 0){
+            alertify.error("El campo 'Inventario' es obligatorio");
+            return false;
+        }
 
-    if(ICMed === 0){
-        alertify.error("No se puede editar este registro");
-        return false;
-    }
+        if(Inventario < InvMinimo){
+            alertify.error("El campo 'Inventario' no puede ser menor a la Cantidad Minima");
+            return false;
+        }
 
-    var obj = {
-        'desc':DescripcionMedicamento,
-        'CMed':AddClasifMed,
-        'IdMed':ICMed
+        if(InvMinimo > Inventario){
+            alertify.error("El campo 'Cantidad Minima' no puede ser mayor al Inventario");
+            return false;
+        }
+
+        obj = {
+            'desc':DescripcionMedicamento,
+            'CMed':AddClasifMed,
+            'InvMinimo':InvMinimo,
+            'Inventario':Inventario,
+            'IdMed':ICMed
+        }
+    }else{
+        obj = {
+            'desc':DescripcionMedicamento,
+            'CMed':AddClasifMed,
+            'InvMinimo':0,
+            'Inventario':0,
+            'IdMed':ICMed
+        }
     }
 
     $.ajax({

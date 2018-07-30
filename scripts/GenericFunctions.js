@@ -719,8 +719,8 @@ function CleanModalAddMedicamento(){
     $("#DescripcionMedicamento").val("");
     $("#InvMinimo").val("");
     $("#Inventario").val("");
-    $("#CantPresentacion").val("");
-    $("#PresentacionMed").val(0).change();
+    $("#CantPresentacion").val("").prop("disabled", false);
+    $("#PresentacionMed").val(0).change().prop("disabled", false);
     $("#save-cmed").show();
     $("#upd-cmed").hide();
 
@@ -739,8 +739,13 @@ function GetMedicamentos(IdMedicamento, IsUpdate, dd) {
             if(parseInt(data.code) === 200){
                 if(IsUpdate && !dd){
                     if(data.response.length === 1){
+                        var data_ = data.response[0];
                         
-                        $("#DescripcionMedicamento").val(data.response[0].Descripcion);
+                        $("#DescripcionMedicamento").val(data_.Descripcion);
+                        $("#InvMinimo").val(data_.CantidadMinima);
+                        $("#Inventario").val(data_.Total);
+                        $("#CantPresentacion").val(data_.CantidadPresentacion).prop("disabled", true);
+                        $("#PresentacionMed").val(data_.Presentacion).change().prop("disabled", true);
                         
                         var select_html = $("#AddClasifMed");
                         SetDD(select_html, data.response[0].ClasifMedDescripcion);
