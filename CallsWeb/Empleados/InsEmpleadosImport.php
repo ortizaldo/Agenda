@@ -37,7 +37,7 @@ function InsertarEmpleados($arr){
 	$conn = $DB->getConnect();
     $response = false;
     
-    $ResArea = GetArea($arr["Area"]);
+    $ResArea = GetCatalog($arr["Area"], "area");
 
     $NumEmpleado = $arr["Num. Empleado"];
     $Nombre = $arr["Nombre"];
@@ -45,12 +45,18 @@ function InsertarEmpleados($arr){
     $ApellidoMaterno = $arr["Ape. Materno"];
     $Area = $arr["Area"];
     
+    $ResDepto = GetCatalog($arr["Departamento"], "depto");
+    $Sexo = $arr["Sexo"];
+    $Actividad = $arr["Actividad"];
+    $FecAntiguedad = $arr["FecAntiguedad"];
+
     //(IdEmpleado,NumEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,Area,IsEnabled,CreatedAt,ModifiedAt)
     $createItemSQL="INSERT INTO empleados(NumEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,
-                                          Area,IsEnabled,CreatedAt,ModifiedAt) 
-                    VALUES(?, ?, ?, ?, ?, 1, NOW(), NOW());";
+                                          sexo, IdDpto, actividad, FecAntiguedad,Area,IsEnabled,CreatedAt,ModifiedAt) 
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW());";
     if ($createItem = $conn->prepare($createItemSQL)) {
-        $createItem->bind_param("ssssi", $NumEmpleado,$Nombre,$ApellidoPaterno,$ApellidoMaterno,$ResArea);
+        $createItem->bind_param("sssssissi", $NumEmpleado,$Nombre,$ApellidoPaterno,$ApellidoMaterno,
+        $Sexo,$ResDepto,$Actividad,$FecAntiguedad,$ResArea);
         if (!$createItem->execute()) {
             $response = false;
         }else{
@@ -63,37 +69,43 @@ function InsertarEmpleados($arr){
     return $response;
 }
 
-function GetArea($Area)
+function GetCatalog($Cat, $band)
 {
     $res = 0;
-    if ($Area != "") {
+    if ($Cat != "") {
         //validamos que exista y si existe devolvemos el id pero si no existe insertamos el area y devolvemos el id
-        $res = GetIdArea($Area);
+        $res = GetIdCat($Cat, $band);
         if($res == 0){
             //Insertamos el Area
-            $res = InsArea($Area);
+            $res = InsCat($Cat, $band);
         }
     }
 
     return $res;    
 }
 
-function GetIdArea($Area)
+function GetIdCat($cat, $band)
 {
     $res = 0;
     $DB = new DAO();
 	$conn = $DB->getConnect();
-	//obtenemos un valor true o false si el area que intentamos registrar existe
-	$query = "SELECT idAreasPlanta FROM areasplanta where Area = ? order by idAreasPlanta desc limit 1;";
+    //obtenemos un valor true o false si el area que intentamos registrar existe
+    $query = "";
+    if($band == "area"){
+        $query = "SELECT idAreasPlanta FROM areasplanta where Area = ? order by idAreasPlanta desc limit 1;";
+    }else if($band == "depto"){
+        $query = "SELECT IdDepto FROM departamento where NombreDepto = ? order by IdDepto desc limit 1;";
+    }
+	
 
 	if ($cmd = $conn->prepare($query)) {
-	    $cmd->bind_param("s", $Area);
+	    $cmd->bind_param("s", $cat);
 	    if ($cmd->execute()) {
 	        $cmd->store_result();
-	        $cmd->bind_result($idAreasPlanta_);
+	        $cmd->bind_result($iCat_);
 	        $cont=0;
             while ($cmd->fetch()) {
-                $res = $idAreasPlanta_;
+                $res = $iCat_;
             }
 	    }
 	}else{
@@ -103,15 +115,19 @@ function GetIdArea($Area)
 	return $res;
 }
 
-function InsArea($Area)
+function InsCat($cat, $band)
 {
     $res = 0;
     $DB = new DAO();
     $conn = $DB->getConnect();
-    
-    $createItemSQL="INSERT INTO areasplanta(Area) VALUES(?);";
+    $createItemSQL = "";
+    if($band == "area"){
+        $createItemSQL="INSERT INTO areasplanta(Area) VALUES(?);";
+    }else if($band == "depto"){
+        $createItemSQL="INSERT INTO departamento(NombreDepto) VALUES(?);";
+    }
 	if ($createItem = $conn->prepare($createItemSQL)) {
-        $createItem->bind_param("s", $Area);
+        $createItem->bind_param("s", $cat);
         if ($createItem->execute()) {
             $res = $conn->insert_id;
         }

@@ -10,7 +10,6 @@ $CMed = $_POST["obj"]["CMed"];
 $InvMinimo = $_POST["obj"]["InvMinimo"];
 $Inventario = $_POST["obj"]["Inventario"];
 $IdMed = $_POST["obj"]["IdMed"];
-
 if(isset($desc) && $CMed != "0"){
     $createItemSQL="UPDATE medicamentos 
                     SET 

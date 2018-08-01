@@ -24,11 +24,11 @@ if(isset($nombre) && isset($apellidos) && isset($dir)){
 	    	$res = InsertTelefonos($telefonos, $id_agenda, $conn);
 	    	$response = null;
 	        $response["status"] = "SUCCESS";
-	        $response["code"] = "200";
-	        if($res){
+			$response["code"] = "200";
+			if($res["done"]){
 	        	$response["response"] = "Se realizo correctamente el registro";
 	        }else{
-	        	$response["response"] = "Hubo un problema al insertar los numeros de telefono";
+	        	$response["response"] = "Hubo un problema al insertar los numeros de telefono" . $res["err"];
 	        }
 	        echo json_encode($response);
 	    }
@@ -46,19 +46,25 @@ if(isset($nombre) && isset($apellidos) && isset($dir)){
 
 function InsertTelefonos($tels, $id_agenda, $conn)
 {
-	$done = false;
+    $response = [];
 	foreach ($tels as $key => $value) {
-		$createTelefonoSQL="INSERT INTO TelefonosAgenda(IdAgenda, Telefono, FecCreacion, Habilitado) VALUES(?, ?, NOW(), 1);";
-		if ($createTelefono = $conn->prepare($createTelefonoSQL)) {
+	    $createTelefonoSQL="INSERT INTO telefonosagenda(IdAgenda, Telefono, FecCreacion, Habilitado) VALUES(?, ?, NOW(), 1);";
+	    if ($createTelefono = $conn->prepare($createTelefonoSQL)) {
 		    $createTelefono->bind_param("is", $id_agenda, $value[0]);
+		    var_dump($createTelefono);
 		    if (!$createTelefono->execute()) {
-		    	$done = false;
+		    	$response["done"] = false;
+	    		$response["err"] = $conn->error;
 		    }else{
-		    	$done = true;
+		        $response["done"] = true;
+	    		$response["err"] = "ok";
 		    }
+		}else{
+		    $response["done"] = false;
+	    	$response["err"] = $conn->error;
 		}
 	}
-	return $done;
+	return $response;
 }
 //idagenda, nombre, apellidos, IdTelefono, DirArchivo, direccion, FecCreacion, FecActualizacion, Habilitado
 ?>
