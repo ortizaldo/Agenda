@@ -3,6 +3,8 @@ $(".add-bitacora").on("click", function(e) {
     e.preventDefault();
     $(".title-modal-bit").text("Agregar Bitacora");
     BuildFormAddBitacora();
+    ChangeClassActive($("#bitacorad"), "dash");
+    HideModalsF("bitacora");
     $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
 });
 
@@ -294,7 +296,7 @@ $(".close-bitacora").on("click", function(e) {
 
 //add-med-bit
 $(".add-med-bit").on("click", function(e) {
-    var SelectMedicamento = $("#SelectMedicamento option:selected").val();
+    var SelectMedicamento = parseInt($("#SelectMedicamento option:selected").val());
     var TotQuantity = $("#TotQuantity").val();
     
     if( SelectMedicamento === 0 ){
@@ -306,13 +308,16 @@ $(".add-med-bit").on("click", function(e) {
         alertify.error("El campo 'Cantidad' es obligatorio");
         return false;
     }
-    
+
     var obj = {
         'IBitacora':IBitacora,
         'Medicamento': SelectMedicamento,
         'TotQuantity': TotQuantity
     }
+
+    console.log("obj", obj);
     
+    return false;
     $.ajax({
         method: "POST",
         url: "CallsWeb/Bitacora/InsMedBitacora.php",
@@ -330,9 +335,10 @@ $(".add-med-bit").on("click", function(e) {
     });
 });
 
-$("#bicatora-tab").on("click", function(e) {
+$("#bitacorad").on("click", function(e) {
     e.preventDefault();
-    GetBitacora(0,false, false);
+    HideModalsF("bitacora");
+    ChangeClassActive($("#bitacorad"), "dash");
 });
 
 function GetBitacoraMed(IdBitacora,IdMedBit, IsUpdate) {
@@ -378,6 +384,8 @@ function GetBitacora(IdBitacora,IsUpdate, IsModal) {
                         GetBitacoraMed(IdBitacora,0, false);
                         BuildFormAddBitacora();
                         if(IsModal){
+                            ChangeClassActive($("#bitacorad"), "dash");
+                            HideModalsF("bitacora");
                             $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
                         }
                     }

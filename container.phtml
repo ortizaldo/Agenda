@@ -68,6 +68,73 @@
 
         <!-- Begin Modals -->
         <div class="row">
+            <div id="modal-add-agenda" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Elemento a la Agenda</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-8 order-md-1">
+                                    <form>
+                                    <div class="row">
+                                    
+                                            <div class="col-md-6 mb-3">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" placeholder="" value="" required="true">
+                                            </div>
+    
+                                            <div class="col-md-6 mb-3">
+                                            <label for="apellidos">Apellidos</label>
+                                            <input type="text" class="form-control" id="apellidos" placeholder="" value="" required="true">
+                                            </div>
+                                    </div>
+    
+                                    <div class="mb-3">
+                                            <label for="dir">Direccion</label>
+                                            <input type="text" class="form-control" id="dir" placeholder="1234 Main St" required="true">
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telefono">Telefono</label>
+                                            <input type="text" class="form-control" id="telefono" placeholder="" value="" required="true">
+                                            </div>
+    
+                                            <div class="col-md-2 mb-3">
+                                                <label for="add-phone">AgregarTelefono</label>
+                                            <button class="btn btn-primary" id="add-phone" type="button"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombre">Telefonos</label>
+                                            <table class="table mb-0" id="list-telefonos">
+                                                <thead class="bg-light">
+                                                    <th>Telefono</th>
+                                                    <th></th>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+    
+                                    <hr class="mb-4">
+                                    <button class="btn btn-outline-success" id="save-item" type="button">Guardar</button>
+                                    </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Begin AddBitacora -->
             <div id="modal-add-bitacora" class="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
                     <div class="modal-content">
@@ -79,46 +146,58 @@
                         </div>
                         <div class="modal-body">
                             <div class="col-md-8 order-md-1">
-                                    <form>
-                                        <div id="FormBitacora">
+                                <form>
+                                    <div id="FormBitacora">
                                         <div class="row">
                                             <div class="col-md-8 mb-3">
                                                 <h4>Fecha: <span class="badge badge-secondary fec-bitacora"></span></h4>
                                             </div>
                                         </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="nombre-edit">Num. Empleado</label>
-                                                <select class="custom-select SelectEmpleado" id="SelectEmpleado">
-                                                    <option selected value="0">Seleccionar...</option>
-                                                </select>
+                                        <div class="row" style="width:700px">
+                                            <div class="col-md-8 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text" for="SelectEmpleado">
+                                                            Num. Empleado
+                                                        </label>
+                                                    </div>
+                                                    <select class="custom-select SelectEmpleado" id="SelectEmpleado" style="width:200px">
+                                                        <option selected value="0">Seleccionar...</option>
+                                                    </select>
+                                                </div>
                                             </div>
-        
-                                            <div class="col-md-6 mb-3" id="InfoEmpleado" style="display:none">
-                                                
-                                            </div>
-                                        </div>
-        
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="SelectSupervisor">Supervisor</label>
-                                                <select class="custom-select" id="SelectSupervisor">
-                                                </select>
-                                                <button class="btn btn-danger add-supervisor" data-toggle="tooltip" data-placement="top" title="Agregar un Supervisor..">
-                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="SelectClasificacion">Clasificacion</label>
-                                                <select class="custom-select" id="SelectClasificacion">
-                                                </select>
-                                                <button class="btn btn-danger add-clasif" data-toggle="tooltip" data-placement="top" title="Agregar clasificación..">
-                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                </button>
+                                            <div class="mb-3" id="InfoEmpleado" style="display:none">
+
                                             </div>
                                         </div>
-        
+    
+                                        <div class="row" style="width:700px">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text" for="SelectSupervisor">Supervisor</label>
+                                                    </div>
+                                                    <select class="custom-select" id="SelectSupervisor" style="width:200px">
+                                                    </select>
+                                                    <button class="btn btn-danger add-supervisor" data-toggle="tooltip" data-placement="top" title="Agregar un Supervisor..">
+                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text" for="SelectClasificacion">Clasificacion</label>
+                                                    </div>
+                                                    <select class="custom-select" id="SelectClasificacion" style="width:200px">
+                                                    </select>
+                                                    <button class="btn btn-danger add-clasif" data-toggle="tooltip" data-placement="top" title="Agregar clasificación..">
+                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+    
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="SelectTurno">Turno</label>
@@ -134,7 +213,7 @@
                                                 </select>
                                             </div>
                                         </div>
-        
+    
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="diagnostico">Diagnostico</label>
@@ -151,7 +230,7 @@
                                             <i class="fas fa-ban"></i>
                                         </button>
                                     </div>
-    
+
                                     <div class="row" id="DetailFormBitacora" style="display: none">
                                         <div class="col-md-6 mb-3 InfoPaciente">
                                             
@@ -180,10 +259,12 @@
                                             </button>
                                         </div>
                                     </div>
-    
-                                    <div class="row col-md-8 order-md-1 addMedBit" style="display:none;margin-left: 45px !important;">
-                                        <table class="table table-responsive" id="tbl_bitmed">
-                                            <thead class="thead-dark">
+                                    
+
+                                    <!-- TBL Bitacora -->
+                                    <div class="row col-md-6 addMedBit" style="display:none;">
+                                        <table class="table mb-0" id="tbl_bitmed">
+                                            <thead class="bg-light">
                                                 <tr>
                                                     <th scope="col"></th>
                                                     <th scope="col">Tipo Med.</th>
@@ -194,14 +275,415 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
-                                    </form>
+                                    <!-- End TBL Bitacora -->
+                                </form>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary close-bitacora" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End AddBitacora -->
+            <div id="modal-edit-agenda" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Direccion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-8 order-md-1">
+                                    <form>
+                                    <div class="row">
+                                    
+                                            <div class="col-md-6 mb-3">
+                                            <label for="nombre-edit">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre-edit" placeholder="" value="" required="true">
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                            <label for="apellidos-edit">Apellidos</label>
+                                            <input type="text" class="form-control" id="apellidos-edit" placeholder="" value="" required="true">
+                                            </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                            <label for="dir-edit">Direccion</label>
+                                            <input type="text" class="form-control" id="dir-edit" placeholder="1234 Main St" required="true">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telefono-edit">Telefono</label>
+                                            <input type="text" class="form-control" id="telefono-edit" placeholder="" value="" required="true">
+                                            </div>
+
+                                            <div class="col-md-2 mb-3">
+                                                <label for="edit-phone">Editar</label>
+                                            <button class="btn btn-primary btn-lg btn-block" id="edit-phone" type="button"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="edit-tbl-telefonos">Telefonos</label>
+                                            <table class="table" id="list-telefonos-edit">
+                                                <thead>
+                                                    <th>Telefono</th>
+                                                    <th></th>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                            </div>
+                                    </div>
+
+                                    <hr class="mb-4">
+                                    <input type="hidden" id="idagenda-edit">
+                                    <button class="btn btn-outline-success" id="update-item" type="button">Guardar</button>
+                                    </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary edit-close" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="modal-add-personalmed" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Personal Medico</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-8 order-md-1">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" class="form-control" id="nomb_personal" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="apellidos">Apellido Paterno</label>
+                                            <input type="text" class="form-control" id="ape_pat" placeholder="" value="" required="true">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="apellidos">Apellido Materno</label>
+                                            <input type="text" class="form-control" id="ape_mat" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="SelectTitulo">Titulo</label>
+                                            </div>
+                                            <select class="custom-select" id="SelectTitulo">
+                                                <option selected value="0">Seleccionar...</option>
+                                                <option selected value="Dr.">Dr.</option>
+                                                <option selected value="Dra.">Dra.</option>
+                                                <option selected value="Enfermero/a">Enfermero/a</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <hr class="mb-4">
+                                        <button class="btn btn-outline-success" id="save-item-med" type="button">Guardar</button>
+                                        <button class="btn btn-outline-info" id="upd-item-med" type="button" style="display: none;">
+                                            Actualizar
+                                        </button>
+                                        <button class="btn btn-outline-info" id="clean-item-med" type="button">
+                                            <i class="fas fa-recycle"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <br>
+                            <div class="col-lg-12">
+                                <table class="table mb-0" id="tbl_personalmed">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Apellido Paterno</th>
+                                            <th scope="col">Apellido Materno</th>
+                                            <th scope="col">Fecha Creacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary cerrar" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-add-empleados" class="modal" role="dialog">
+                <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Empleados</h5>
+                            <button type="button" class="close close-mod-emp" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-6 mb-3">
+                                <a class="btn btn-primary" data-toggle="collapse" href="#form-emp" role="button" aria-expanded="false" aria-controls="form-emp">
+                                    <i class="fas fa-user-plus"></i> Agregar Empleados
+                                </a>
+                            </div>
+                            <div class="col-md-8 order-md-1 collapse hide" aria-labelledby="headingOne" data-parent="#modal-add-personalmed" id="form-emp">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="num_emp">Numero de Empleado</label>
+                                            <input type="text" class="form-control" id="num_emp" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nomb_personal">Nombre</label>
+                                            <input type="text" class="form-control" id="nomb_emp" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ape_pat">Apellido Paterno</label>
+                                            <input type="text" class="form-control" id="ape_pat_emp" placeholder="" value="" required="true">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ape_mat">Apellido Materno</label>
+                                            <input type="text" class="form-control" id="ape_mat_emp" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="mb-3">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <label class="input-group-text" for="sexo">
+                                                        Sexo
+                                                    </label>
+                                                </div>
+                                                <select class="custom-select SelectSexo sexo" id="sexo">
+                                                    <option value="M">Masculino</option>
+                                                    <option value="F">Femenino</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="width: 700px;">
+                                        <div class="mb-3">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <label class="input-group-text" for="sel_area">
+                                                        Area
+                                                    </label>
+                                                </div>
+                                                <select class="custom-select SelectArea inputSize" id="sel_area">
+                                                </select>
+                                                <button class="btn btn-danger add-emp-area" data-toggle="tooltip" data-placement="top" title="Agregar un nuevo elemento..">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        &nbsp;&nbsp;
+                                        <div class="mb-3">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <label class="input-group-text" for="sel_dpto">
+                                                            Departamento
+                                                    </label>
+                                                </div>
+                                                <select class="custom-select sel_dpto" id="sel_dpto">
+                                                </select>
+                                                <button class="btn btn-danger add-emp-dpto" data-toggle="tooltip" data-placement="top" title="Agregar un nuevo elemento..">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="actividad">Actividad</label>
+                                            <input type="text" class="form-control" id="actividad" placeholder="" value="" required="true">
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label for="antiguedad">Antiguedad</label>
+                                            <input type="text" class="form-control" id="antiguedad" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <hr class="mb-4">
+                                        <button class="btn btn-outline-success" id="save-emp" type="button" data-toggle="tooltip" data-placement="top" title="Guardar la Información capturada">Guardar</button>
+                                        <label class="btn btn-outline-success" for="UploadCSV" style="margin-top: 9px" data-toggle="tooltip" data-placement="top" title="Importar desde un CSV">
+                                            <input id="UploadCSV" type="file" style="display:none;">
+                                            <i class="fas fa-file-excel" aria-hidden="true">
+                                            </i>
+                                        </label>
+                                        <button class="btn btn-outline-info" id="upd-emp" type="button" style="display: none;" data-toggle="tooltip" data-placement="top" title="Actualizar">
+                                            Actualizar
+                                        </button>
+                                        <button class="btn btn-outline-info" id="clean-emp" type="button" data-toggle="tooltip" data-placement="top" title="Limpiar Campos">
+                                            <i class="fas fa-recycle"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <br>
+                            <div class="col-lg-12">
+                                <table class="table mb-0" id="tbl_emp">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Num. Empleado</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Apellido Paterno</th>
+                                            <th scope="col">Apellido Materno</th>
+                                            <th scope="col">Area</th>
+                                            <th scope="col">Fecha Creacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-mod-emp" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modal-add-medicamento" class="modal" role="dialog">
+                <div class="modal-dialog modal-lg med" role="document" style="width: 90%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Medicamentos</h5>
+                            <button type="button" class="close close-mod-medic" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-8 order-md-1">
+                                <form>
+                                    <div class="mb-3">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="AddClasifMed">
+                                                Clasif. de Med.
+                                                </label>
+                                            </div>
+                                            <select class="custom-select ClasifMed inputSize" id="AddClasifMed" style="width: 40%">
+                                            </select>
+                                            <button class="btn btn-danger add-clasif-med" data-toggle="tooltip" data-placement="top" title="Agregar nueva clasificacion..">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="DescripcionMedicamento">Medicamento y/o Procedimiento</label>
+                                            <input type="text" class="form-control" id="DescripcionMedicamento" placeholder="" value="" required="true">
+                                        </div>
+                                    </div>
+
+                                    <div class="row totales" style="display:none">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="InvMinimo">Cantidad minima</label>
+                                            <input type="text" class="form-control" id="InvMinimo" placeholder="" value="" required="true" style="width: 50%;">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="Inventario">Inventario</label>
+                                            <input type="text" class="form-control" id="Inventario" placeholder="" value="" required="true" style="width: 50%;">
+                                        </div>
+                                    </div>
+                                
+                                    <div class="row totales" style="display:none">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="PresentacionMed">Presentacion</label>
+                                            <select class="custom-select PresentacionMed inputSize" id="PresentacionMed" style="width: 80%;">
+                                                <option value="0">Seleccionar una opcion..</option>
+                                                <option value="NA">NA</option>
+                                                <option value="ml">Mililitros</option>
+                                                <option value="tab">Tableta</option>
+                                                <option value="cap">Capsula</option>
+                                                <option value="pza">Pieza</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="CantPresentacion">Cantidad X Presentacion</label>
+                                            <input type="text" class="form-control" id="CantPresentacion" placeholder="" value="" required="true" style="width: 50%;">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <hr class="mb-4">
+                                        <button class="btn btn-outline-success" id="save-cmed" type="button" data-toggle="tooltip" data-placement="top" title="Guardar la Información capturada">Guardar</button>
+                                        <button class="btn btn-outline-info" id="upd-cmed" type="button" style="display: none;" data-toggle="tooltip" data-placement="top" title="Actualizar">
+                                            Actualizar
+                                        </button>
+                                        <button class="btn btn-outline-info" id="clean-cmed" type="button" data-toggle="tooltip" data-placement="top" title="Limpiar Campos">
+                                            <i class="fas fa-recycle"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <br>
+                            <div class="col-lg-12">
+                                <table class="table mb-0" id="tbl_cmed">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Clasificacion Medicamento</th>
+                                            <th scope="col">Descripcion</th>
+                                            <th scope="col">Presentacion</th>
+                                            <th scope="col">Cantidad de Presentacion</th>
+                                            <th scope="col">Inventario Minimo</th>
+                                            <th scope="col">Inventario Total</th>
+                                            <th scope="col">Fecha Creacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-mod-medic" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>

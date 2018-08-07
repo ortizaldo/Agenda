@@ -1,0 +1,13 @@
+.select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 38px !important;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.med {
+    max-width: 80% !important;
+    margin-left: 18% !important;
+}

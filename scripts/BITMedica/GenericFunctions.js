@@ -51,7 +51,7 @@ function GetListCat(idCat, bandera, select_html, value) {
                 select_html.html("");
 
                 select_html.html(html);
-                //select_html.select2();
+                select_html.select2();
 
                 if( !_.isEmpty(value) ){
                     SetDD(select_html, value);
@@ -510,7 +510,7 @@ function BuildModalEditAgenda(rows) {
     $("#apellidos-edit").val(rows.apellidos);
     $("#dir-edit").val(rows.direccion);
     $("#idagenda-edit").val(rows.idagenda);
-
+    ChangeClassActive($(".add-agenda"), "agenda");
     $('#modal-edit-agenda').modal({backdrop: 'static', keyboard: false});
 }
 
@@ -785,4 +785,96 @@ function CleanModalAdd(){
     $("#list-telefonos tbody").html("");
     $("#telefono").val("");
     $('#modal-add-agenda').modal('toggle');
+}
+
+function HideModalsF(flag) {
+    
+    switch (flag) {
+        case "bitacora":
+            $('.modal').modal('hide');
+            GetBitacora(0,false, false);
+            break;
+        case "otros":
+            $('.modal').modal('hide');
+            break;
+    }
+}
+
+function ChangeClassActive(element, flag) {
+    if(!element.hasClass( "active" )){
+        element.addClass( "active" );
+    }
+    //other elements
+    switch (flag) {
+        case "dash":
+            if($(".add-agenda").hasClass("active")){
+                $(".add-agenda").removeClass("active")
+            }
+            if($("#empleados").hasClass("active")){
+                $("#empleados").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+            if($("#personal-med").hasClass("active")){
+                $("#personal-med").removeClass("active")
+            }
+        break;
+        case "agenda":
+            if($("#bitacorad").hasClass("active")){
+                $("#bitacorad").removeClass("active")
+            }
+            if($("#empleados").hasClass("active")){
+                $("#empleados").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+            if($("#personal-med").hasClass("active")){
+                $("#personal-med").removeClass("active")
+            }
+        break;
+        case "emp":
+            if($("#bitacorad").hasClass("active")){
+                $("#bitacorad").removeClass("active")
+            }
+            if($(".add-agenda").hasClass("active")){
+                $(".add-agenda").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+            if($("#personal-med").hasClass("active")){
+                $("#personal-med").removeClass("active")
+            }
+        break;
+        case "med":
+            if($("#bitacorad").hasClass("active")){
+                $("#bitacorad").removeClass("active")
+            }
+            if($(".add-agenda").hasClass("active")){
+                $(".add-agenda").removeClass("active")
+            }
+            if($("#empleados").hasClass("active")){
+                $("#empleados").removeClass("active")
+            }
+            if($("#personal-med").hasClass("active")){
+                $("#personal-med").removeClass("active")
+            }
+        break;
+        case "pmed":
+            if($("#bitacorad").hasClass("active")){
+                $("#bitacorad").removeClass("active")
+            }
+            if($(".add-agenda").hasClass("active")){
+                $(".add-agenda").removeClass("active")
+            }
+            if($("#empleados").hasClass("active")){
+                $("#empleados").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+        break;
+    }
 }

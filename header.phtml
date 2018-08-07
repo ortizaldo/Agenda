@@ -1,105 +1,116 @@
 <!doctype html>
 <html class="no-js h-100" lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>BITMedica</title>
-    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="styles/shards-dashboards.1.0.0.min.css">
-    <link rel="stylesheet" href="styles/extras.1.0.0.min.css">
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-  </head>
-  <body class="h-100">
-      <div class="container-fluid">
-         <div class="row">
-         <!-- Main Sidebar -->
-         <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
-               <div class="main-navbar">
-                  <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-                  <a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
-                     <div class="d-table m-auto">
-                     <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="images/shards-dashboards-logo.svg" alt="Shards Dashboard">
-                     <span class="d-none d-md-inline ml-1">BitMedica</span>
-                     </div>
-                  </a>
-                  <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
-                     <i class="material-icons">&#xE5C4;</i>
-                  </a>
-                  </nav>
-               </div>
-               <form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
-                  <div class="input-group input-group-seamless ml-3">
-                  <div class="input-group-prepend">
-                     <div class="input-group-text">
-                     <i class="fas fa-search"></i>
-                     </div>
-                  </div>
-                  <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search"> </div>
-               </form>
-               <div class="nav-wrapper">
-                  <ul class="nav flex-column">
-                     <li class="nav-item">
-                        <a class="nav-link active" href="index.php">
-                        <i class="material-icons">edit</i>
-                        <span>Dashboard</span>
-                        </a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link " href="#">
-                        <i class="fas fa-user-circle"></i>
-                        <span>Agenda</span>
-                        </a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link " href="#">
-                        <i class="fas fa-users"></i>
-                        <span>Empleados</span>
-                        </a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link " href="#">
-                        <i class="fas fa-medkit"></i>
-                        <span>Medicamentos</span>
-                        </a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link " href="#">
-                        <i class="fas fa-user-md"></i>
-                        <span>Personal Medico</span>
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-         </aside>
-         <!-- End Main Sidebar -->
-         <?php include("container.phtml") ?>
-         </div>
-      </div>
-   <script type="text/javascript" src="js/alertify.min.js"></script>
-   <script type="text/javascript" src="js/underscore-min.js"></script>
-   <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-   <script type="text/javascript" src="js/bootstrap-switch.min.js"></script>
-   <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-   <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-   <script type="text/javascript" src="js/dataTables.bootstrap4.min.js"></script>
-   <script type="text/javascript" src="js/notify.js"></script>
-   <script type="text/javascript" src="js/pace.js"></script>
-   <script type="text/javascript" src="js/papaparse.js"></script>
-   <script type="text/javascript" src="js/select2.min.js"></script>
-   <script type="text/javascript" src="js/moment.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-   <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sharrre/2.0.1/jquery.sharrre.min.js"></script>
-   <script src="scripts/extras.1.0.0.min.js"></script>
-   <script src="scripts/shards-dashboards.1.0.0.min.js"></script>
+  	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>BITMedica</title>
+		<meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="styles/shards-dashboards.1.0.0.min.css">
+		
+		<link rel="stylesheet" href="styles/alertify.min.css"/>
+		<link rel="stylesheet" href="styles/themes/default.min.css"/>
+		<link rel="stylesheet" href="styles/themes/semantic.min.css"/>
+		<link rel="stylesheet" href="styles/themes/bootstrap.min.css"/>
+		<link rel="stylesheet" href="styles/gijgo.min.css"/>
+		<link rel="stylesheet" href="styles/select2.min.css"/>
+		<link rel="stylesheet" href="styles/style.css"/>
 
-   <script type="text/javascript" src="scripts/BITMedica/GenericFunctions.js"></script>
-   <script type="text/javascript" src="scripts/BITMedica/Bitacora.js"></script>
-  </body>
+		<script async defer src="https://buttons.github.io/buttons.js"></script>
+  	</head>
+  	<body class="h-100">
+      	<div class="container-fluid">
+         	<div class="row">
+				<!-- Main Sidebar -->
+				<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+					<div class="main-navbar">
+						<nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+							<a class="navbar-brand w-100 mr-0" href="#" style="line-height: 25px;">
+								<div class="d-table m-auto">
+									<img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="images/MedSymbol.png" alt="Shards Dashboard">
+									<span class="d-none d-md-inline ml-1">BitMedica</span>
+								</div>
+							</a>
+							<a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+								<i class="material-icons">&#xE5C4;</i>
+							</a>
+						</nav>
+					</div>
+					<form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
+						<div class="input-group input-group-seamless ml-3">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-search"></i>
+								</div>
+							</div>
+							<input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">
+						</div>
+					</form>
+					<div class="nav-wrapper">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link active" href="index.php" id="bitacorad">
+								<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANPSURBVGhD7ZnLaxRBEMZX8OLurDloQI8qgvgAQdC74ONqIPg4elBQT4KQswEV/wHJa2d2Qw6rBxXxrCKePXjyIBgI3iSKoCZotd/XqSRL7/RmlpmOJs4PilRXV3VX9WPTyVZK/ifqDdkfJXKVQl3NG4taIjeiWBZqsbynWB027d4YVBNzjIljJ86pqRI1ZIg29qnp71BryWEcj8tRYq6sJdiBZ0i6zbiBKbOXYseI5ZHtS4lxhXNxTsYVRjWWs0jsF1b4I47HhxT5jL4fnbZ6LLcYi8SvU6yOo9XpozHznbZl4Vycs5rIacYWAgaehDzWZhdRbEaQ7GttZoYxGPeuNrvgnPCZ0GZ+sDozFG0y8aTekhPaXCokkTfazAxjkOioNrtw582NO+D2RI7vmJS6NpeOXiKLkBYSG8siODbTjKk25YwO04U7b27cAd1CCJK7gBV+4CbsFfo25byGpxK8EPdohSJ4IetF8EI2zY6k3ZEQlIX4cAcsL3ufBC+kvOx98s8UgmfILJ7kxgp0NWcmeCG9jlatIaeiGbOTOpPHc+QOZbkQ9tGH+loEL8RHNTa7kPRXvKPmo6ZcQ/JzSPoShTpt7KMPfTXMS/BCfDuCZPmifYvH4M1aYr7wSK0UQh029tEHvk0N8+LOmxt3wLQ7MtCSPfBZxGq/Qv++6rTsZrLYgYsU6rSxjz70ZYyGp+LOmxt3QN9lx8ofqcXmJZL+juRvV9qyrfLCbLUCnTbbBx/6apiX4IWscdlP2iPEv+MbMqRm+18U2mwffNTck+CFpBFNySBWuw2/3zg6Y/x0QsEHcKmPUqjbTyz2wcf6IkbDU8kyb1+4A6btyOBDEyG5Oaz6OHX8vI/2Ai86xeqwad84falreCrBC/HdERQ4DL+fSPIThL9Dvi0XQp0222d9zLCGeXHnzY07oK8QAr/nSHqUl9sWs7ojs/bCo48+6t4Td97cuAOmHa0VjNmiGn+vcAfeqaw+UTp8ehG8kKyg4BF81N6jUFdzZoIX0nNHCiR4Ib3uSJGUhfhwB9w0R2u9CF5Iedn7pCzEhzvghj1aeB9NQJ5oc93AnE85tzbzk+HL0MJF32nFfhlKMPihrF9PFyF2rik5qNOXlJSUkErlDxCOYmzSFqwUAAAAAElFTkSuQmCC">
+								<span>Consultas</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link add-agenda" href="#">
+								<i class="fas fa-user-circle"></i>
+								<span>Agenda</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="#" id="empleados">
+								<i class="fas fa-users"></i>
+								<span>Empleados</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="#" id="medicamentos">
+								<i class="fas fa-medkit"></i>
+								<span>Medicamentos</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link " href="#" id="personal-med">
+								<i class="fas fa-user-md"></i>
+								<span>Personal Medico</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</aside>
+         		<!-- End Main Sidebar -->
+         		<?php include("container.phtml") ?>
+         	</div>
+      	</div>
+   		<script type="text/javascript" src="js/alertify.min.js"></script>
+   		<script type="text/javascript" src="js/underscore-min.js"></script>
+   		<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+   		<script type="text/javascript" src="js/bootstrap-switch.min.js"></script>
+   		<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+   		<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+   		<script type="text/javascript" src="js/dataTables.bootstrap4.min.js"></script>
+   		<script type="text/javascript" src="js/notify.js"></script>
+   		<script type="text/javascript" src="js/pace.js"></script>
+   		<script type="text/javascript" src="js/papaparse.js"></script>
+   		<script type="text/javascript" src="js/select2.min.js"></script>
+   		<script type="text/javascript" src="js/moment.min.js"></script>
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+   		<script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>
+   		<script src="scripts/shards-dashboards.1.0.0.min.js"></script>
+
+   		<script type="text/javascript" src="scripts/BITMedica/GenericFunctions.js"></script>
+   		<script type="text/javascript" src="scripts/BITMedica/Bitacora.js"></script>
+   		<script type="text/javascript" src="scripts/BITMedica/Employes.js"></script>
+    	<script type="text/javascript" src="scripts/BITMedica/Schedule.js"></script>
+    	<script type="text/javascript" src="scripts/BITMedica/Pills.js"></script>
+    	<script type="text/javascript" src="scripts/BITMedica/PersMed.js"></script>
+  	</body>
 </html>
