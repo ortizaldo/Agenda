@@ -1,3 +1,4 @@
+GetListCat(0, "Area", $(".filter_area"));
 
 $(".add-bitacora").on("click", function(e) {
     e.preventDefault();
@@ -60,34 +61,37 @@ $("#SelectEmpleado").on("change", function(e) {
     $("#InfoEmpleado").html("");
     $("#InfoEmpleado").hide();
     if(IdEmp > 0){
-        $.ajax({
-            method: "GET",
-            url: "CallsWeb/Empleados/ListEmpleados.php",
-            data: {id_empleado: IdEmp},
-            dataType: "JSON",
-            success: function (data) {
-                if(parseInt(data.code) === 200){
-                    var html = "",
-                        nombre = data.response[0].Nombre + " " + data.response[0].ApellidoPaterno + " " + data.response[0].ApellidoMaterno;
-                    if(data.response.length === 1){
-                        html += '<address>';
-                            html += '<strong>Informacion del Empleado</strong><br>';
-                            html += '<strong>Nombre:</strong> '+nombre+'<br>';
-                            html += '<strong>Sexo:</strong> '+data.response[0].sexo+'<br>';
-                            html += '<strong>Area:</strong> '+data.response[0].Area+'<br>';
-                            html += '<strong>Depto:</strong> '+data.response[0].NombreDepto+'<br>';
-                            html += '<strong>Actividad:</strong> '+data.response[0].actividad+'<br>';
-                            html += '<strong>Antiguedad:</strong> '+data.response[0].FecAntiguedad+'<br>';
-                        html += '</address>';
-                        $("#InfoEmpleado").html(html);
-                        $("#InfoEmpleado").show();
+        Pace.restart();
+        Pace.track(function () {
+            $.ajax({
+                method: "GET",
+                url: "CallsWeb/Empleados/ListEmpleados.php",
+                data: {id_empleado: IdEmp},
+                dataType: "JSON",
+                success: function (data) {
+                    if(parseInt(data.code) === 200){
+                        var html = "",
+                            nombre = data.response[0].Nombre + " " + data.response[0].ApellidoPaterno + " " + data.response[0].ApellidoMaterno;
+                        if(data.response.length === 1){
+                            html += '<address>';
+                                html += '<strong>Informacion del Empleado</strong><br>';
+                                html += '<strong>Nombre:</strong> '+nombre+'<br>';
+                                html += '<strong>Sexo:</strong> '+data.response[0].sexo+'<br>';
+                                html += '<strong>Area:</strong> '+data.response[0].Area+'<br>';
+                                html += '<strong>Depto:</strong> '+data.response[0].NombreDepto+'<br>';
+                                html += '<strong>Actividad:</strong> '+data.response[0].actividad+'<br>';
+                                html += '<strong>Antiguedad:</strong> '+data.response[0].FecAntiguedad+'<br>';
+                            html += '</address>';
+                            $("#InfoEmpleado").html(html);
+                            $("#InfoEmpleado").show();
+                        }
+                    }else{
+                        $("#InfoEmpleado").html("");
+                        $("#InfoEmpleado").hide();
+                        alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                     }
-                }else{
-                    $("#InfoEmpleado").html("");
-                    $("#InfoEmpleado").hide();
-                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                 }
-            }
+            });
         });
     }else{
         $("#InfoEmpleado").html("");
@@ -191,22 +195,25 @@ $("#upd-bitacora").on("click", function(e) {
 });
 
 function SaveBitacora(obj, url, method_url, IsUpdate) {
-    $.ajax({
-        method: method_url,
-        url: url,
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                $("#FormBitacora").hide();
-                BuildDetailBitacora(data.bitacora);
-                IBitacora = data.bitacora.idBitacoraConsulta;
-                GetBitacora(IBitacora, IsUpdate, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: method_url,
+            url: url,
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    $("#FormBitacora").hide();
+                    BuildDetailBitacora(data.bitacora);
+                    IBitacora = data.bitacora.idBitacoraConsulta;
+                    GetBitacora(IBitacora, IsUpdate, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 }
 
@@ -229,19 +236,22 @@ $("#tbl_bitmed").on("click", ".btn-del-bmed", function(e) {
 });
 
 function DelMedBit(IdMedBit) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Bitacora/DeleteMedBitacora.php",
-        data: {IdMedBit: IdMedBit},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                alertify.success(data.response);
-                GetBitacoraMed(IBitacora,0, false);
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Bitacora/DeleteMedBitacora.php",
+            data: {IdMedBit: IdMedBit},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetBitacoraMed(IBitacora,0, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+                }
             }
-        }
+        });
     });
 }
 
@@ -280,8 +290,6 @@ $(".InfoBitacora").on("click", "#update-bitacora", function(e) {
     IBitacora = $(this).attr("data-id");
 });
 
-
-
 $("#cancel-upd").on("click",function(e) {
     e.preventDefault();
     var IdBitacora = $(this).attr("data-id");
@@ -304,9 +312,16 @@ $(".add-med-bit").on("click", function(e) {
         return false;
     }
 
-    if( TotQuantity === 0  && TMed !== "PADECIMIENTOS"){
+    if(_.isEmpty(TotQuantity)){
         alertify.error("El campo 'Cantidad' es obligatorio");
         return false;
+    }
+
+    if( !_.isEmpty(TotQuantity)  && TMed !== "PADECIMIENTOS"){
+        if(parseInt(TotQuantity) === 0){
+            alertify.error("El campo 'Cantidad' es obligatorio");
+            return false;
+        }
     }
 
     var obj = {
@@ -314,89 +329,97 @@ $(".add-med-bit").on("click", function(e) {
         'Medicamento': SelectMedicamento,
         'TotQuantity': TotQuantity
     }
-
-    console.log("obj", obj);
-    
-    return false;
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Bitacora/InsMedBitacora.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            console.log("data", data);
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                GetBitacoraMed(IBitacora,0, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Bitacora/InsMedBitacora.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                console.log("data", data);
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    GetBitacoraMed(IBitacora,0, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 
 $("#bitacorad").on("click", function(e) {
     e.preventDefault();
+    $(".agenda-dash").hide();
+    $(".bitacora-dash").show();
+    $(".page-title").text("CONSULTAS MEDICAS");
     HideModalsF("bitacora");
     ChangeClassActive($("#bitacorad"), "dash");
 });
 
 function GetBitacoraMed(IdBitacora,IdMedBit, IsUpdate) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Bitacora/GetListBitMed.php",
-        data: {
-            'IdBitacora': IdBitacora,
-            'IdMedBit': IdMedBit,
-        },
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if(IsUpdate){
-                    if(data.response.length === 1){
-                        console.log('res', data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Bitacora/GetListBitMed.php",
+            data: {
+                'IdBitacora': IdBitacora,
+                'IdMedBit': IdMedBit,
+            },
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate){
+                        if(data.response.length === 1){
+                            console.log('res', data.response);
+                        }
+                    }else{
+                        BuildArrTBLBitMed(data.response);
                     }
                 }else{
-                    BuildArrTBLBitMed(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
             }
-        }
+        });
     });
 }
 
 function GetBitacora(IdBitacora,IsUpdate, IsModal) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Bitacora/GetListBitacoras.php",
-        data: {
-            'IdBitacora': IdBitacora,
-        },
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if(IsUpdate){
-                    if(data.response.length === 1){
-                        $("#FormBitacora").hide();
-                        Bitacora = data.response[0];
-                        BuildDetailBitacora(data.response[0]);
-                        GetBitacoraMed(IdBitacora,0, false);
-                        BuildFormAddBitacora();
-                        if(IsModal){
-                            ChangeClassActive($("#bitacorad"), "dash");
-                            HideModalsF("bitacora");
-                            $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Bitacora/GetListBitacoras.php",
+            data: {
+                'IdBitacora': IdBitacora,
+            },
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate){
+                        if(data.response.length === 1){
+                            $("#FormBitacora").hide();
+                            Bitacora = data.response[0];
+                            BuildDetailBitacora(data.response[0]);
+                            GetBitacoraMed(IdBitacora,0, false);
+                            BuildFormAddBitacora();
+                            if(IsModal){
+                                ChangeClassActive($("#bitacorad"), "dash");
+                                HideModalsF("bitacora");
+                                $('#modal-add-bitacora').modal({backdrop: 'static', keyboard: false});
+                            }
                         }
+                    }else{
+                        Bitacoras = data.response;
+                        BuildArrTBLBitacora(data.response);
                     }
                 }else{
-                    Bitacoras = data.response;
-                    BuildArrTBLBitacora(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
             }
-        }
+        });
     });
 }
 
@@ -432,6 +455,7 @@ function BuildDetailBitacora(data) {
     $(".InfoPaciente").html(html);
     $(".InfoBitacora").html(html_bit);
     $("#DetailFormBitacora").show();
+    $("#TotQuantity").val("");
 
     $(".addMedBit").show();
 }
@@ -460,6 +484,7 @@ function CleanModalAddBitacora() {
     $("#upd-bitacora").hide();
     $("#cancel-upd").hide();
     $("#FormBitacora").show();
+    $("#TotQuantity").val("");
 
     $("#tbl_bitmed").DataTable().destroy();
     $("#tbl_bitmed tbody").html("");
@@ -482,27 +507,30 @@ $( "#TotQuantity" ).keypress(function(e) {
 $("#SelectMedicamento").on("change", function(e) {
     var IdMed = $(this).val();
     if(IdMed > 0){
-        $.ajax({
-            method: "GET",
-            url: "CallsWeb/Medicamentos/ListMedicamentos.php",
-            data: {id_medicamento: IdMed},
-            dataType: "JSON",
-            success: function (data) {
-                if(parseInt(data.code) === 200){
-                    console.log("data", data);
-                    if(data.response.length === 1){
-                        var row = data.response[0];
-                        TMed = row.ClasifMedDescripcion.toUpperCase();
-                        if(row.ClasifMedDescripcion.toUpperCase() !== "PADECIMIENTOS"){
-                            $(".TotQuantity").show();
-                        }else{
-                            $(".TotQuantity").hide();
+        Pace.restart();
+        Pace.track(function () {
+            $.ajax({
+                method: "GET",
+                url: "CallsWeb/Medicamentos/ListMedicamentos.php",
+                data: {id_medicamento: IdMed},
+                dataType: "JSON",
+                success: function (data) {
+                    if(parseInt(data.code) === 200){
+                        console.log("data", data);
+                        if(data.response.length === 1){
+                            var row = data.response[0];
+                            TMed = row.ClasifMedDescripcion.toUpperCase();
+                            if(row.ClasifMedDescripcion.toUpperCase() !== "PADECIMIENTOS"){
+                                $(".TotQuantity").show();
+                            }else{
+                                $(".TotQuantity").hide();
+                            }
                         }
+                    }else{
+                        alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                     }
-                }else{
-                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                 }
-            }
+            });
         });
     }
 });

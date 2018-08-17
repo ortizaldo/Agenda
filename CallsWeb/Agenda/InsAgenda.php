@@ -51,7 +51,6 @@ function InsertTelefonos($tels, $id_agenda, $conn)
 	    $createTelefonoSQL="INSERT INTO telefonosagenda(IdAgenda, Telefono, FecCreacion, Habilitado) VALUES(?, ?, NOW(), 1);";
 	    if ($createTelefono = $conn->prepare($createTelefonoSQL)) {
 		    $createTelefono->bind_param("is", $id_agenda, $value[0]);
-		    var_dump($createTelefono);
 		    if (!$createTelefono->execute()) {
 		    	$response["done"] = false;
 	    		$response["err"] = $conn->error;

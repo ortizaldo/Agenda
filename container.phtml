@@ -32,12 +32,57 @@
         <div class="row">
             
             <!-- TBL Bitacora -->
-            <div class="row">
+            <div class="row bitacora-dash">
                 <div class="col">
                     <div class="card card-small mb-4">
                         <div class="card-header border-bottom">
-                            <h6 class="m-0">Historial de Consultas</h6> &nbsp;
-                            <button type="button" class="btn btn-secondary add-bitacora">Agregar Bitacora</button>
+                            <button type="button" class="btn btn-info add-bitacora">
+                                <i class="fas fa-file-medical fa-lg"></i>&nbsp;<span>Bitacora</span>
+                            </button>
+                        </div>
+                        <div class="card-body p-0 pb-3 text-center">
+                            <table class="table mb-0" id="tbl_filters" style="width: 70%">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="border-0" scope="col">Filtrar por Area</th>
+                                        <th class="border-0" scope="col">Filtrar por Fechas</th>
+                                        <th class="border-0" scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td scope="col">
+                                            <select class="custom-select filter_area inputSize"  id="filter_area">
+                                                <option value="0">Seleccionar una Opcion</option>
+                                            </select>
+                                        </td>
+                                        <td scope="col">
+                                            <div id="bitacora-date-range" class="input-daterange input-group input-group-sm my-auto ml-auto mr-auto ml-sm-auto mr-sm-0" style="max-width: 350px;">
+                                                <input type="text" class="input-sm form-control" name="start" placeholder="Start Date" id="date-range-1" data-toggle="tooltip" data-placement="top" title="Fecha Desde..">
+                                                <input type="text" class="input-sm form-control" name="end" placeholder="End Date" id="date-range-2" data-toggle="tooltip" data-placement="top" title="Fecha Hasta..">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="material-icons"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td scope="col">
+                                            <button type="button" class="btn btn-info search-bit" data-toggle="tooltip" data-placement="top" title="Filtrar Información..">
+                                                <i class="fas fa-search fa-lg"></i>
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-success exp-bit" data-toggle="tooltip" data-placement="top" title="Exportar Información..">
+                                                <i class="fas fa-file-export"></i>
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-warning imp-bit" data-toggle="tooltip" data-placement="top" title="Importar Información..">
+                                                <i class="fas fa-upload"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="card-body p-0 pb-3 text-center">
                             <table class="table mb-0" id="tbl_bitacora">
@@ -63,6 +108,37 @@
                 </div>
             </div>
             <!-- End TBL Bitacora -->
+
+            <!-- TBL Agenda -->
+            <div class="row agenda-dash" style="display: none">
+                <div class="col">
+                    <div class="card card-small mb-4">
+                        <div class="card-header border-bottom">
+                            <button type="button" class="btn btn-info add-contacto">
+                                <i class="fas fa-user-plus fa-lg"></i>&nbsp;<span>Agregar Contacto</span>
+                            </button>
+                        </div>
+                        <div class="card-body p-0 pb-3 text-center">
+                            <table class="table mb-0 table-responsive" id="tbl_agenda">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="border-0" scope="col" style="width: 111px;"></th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Apellidos</th>
+                                        <th scope="col">Direccion</th>
+                                        <th scope="col">Telefonos</th>
+                                        <th scope="col">Fecha de Creacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End TBL agenda -->
         
         </div>
 
@@ -328,7 +404,7 @@
 
                                             <div class="col-md-2 mb-3">
                                                 <label for="edit-phone">Editar</label>
-                                            <button class="btn btn-primary btn-lg btn-block" id="edit-phone" type="button"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-primary" id="edit-phone" type="button"><i class="fas fa-plus"></i></button>
                                             </div>
                                     </div>
 
@@ -638,6 +714,7 @@
                                                 <option value="0">Seleccionar una opcion..</option>
                                                 <option value="NA">NA</option>
                                                 <option value="ml">Mililitros</option>
+                                                <option value="mg">Mililitros</option>
                                                 <option value="tab">Tableta</option>
                                                 <option value="cap">Capsula</option>
                                                 <option value="pza">Pieza</option>
@@ -659,6 +736,11 @@
                                         <button class="btn btn-outline-info" id="clean-cmed" type="button" data-toggle="tooltip" data-placement="top" title="Limpiar Campos">
                                             <i class="fas fa-recycle"></i>
                                         </button>
+                                        <label class="btn btn-warning" for="UploadCSVMed" style="margin-top: 9px" data-toggle="tooltip" data-placement="top" title="Importar desde un CSV">
+                                            <input id="UploadCSVMed" type="file" style="display:none;">
+                                            <i class="fas fa-file-excel" aria-hidden="true">
+                                            </i>
+                                        </label>
                                     </div>
                                 </form>
                             </div>

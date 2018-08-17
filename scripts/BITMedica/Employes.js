@@ -129,21 +129,23 @@ $("#save-emp").on("click", function(e) {
         'actividad':actividad,
         'antiguedad':antiguedad
     }
-    
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Empleados/InsEmpleados.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                CleanModalAddEmpleados();
-                GetEmpleados(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/InsEmpleados.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddEmpleados();
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 
 });
@@ -220,21 +222,24 @@ $("#upd-emp").on("click", function(e) {
         'IdEmp': IEmp
     }
 
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Empleados/UpdateEmpleados.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                IDoc = 0;
-                alertify.success(data.response);
-                CleanModalAddEmpleados();
-                GetEmpleados(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/UpdateEmpleados.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    IDoc = 0;
+                    alertify.success(data.response);
+                    CleanModalAddEmpleados();
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 
@@ -301,13 +306,13 @@ $('#UploadCSV').change(function(evt){
     if (input.files && input.files[0] && (types_img.indexOf(ext) >= 0)){
         //procedemos a procesar el csv
 
-        var file = input.files[0], data = [];
+        var file = input.files[0], data = [], url = "CallsWeb/Empleados/InsEmpleadosImport.php";
         Papa.parse(file, {
             header: true,
             dynamicTyping: true,
             complete: function(results) {
                 data = results.data;
-                SendData(data, btn);
+                SendData(data, btn, url, true);
             }
         });
 

@@ -1,4 +1,17 @@
 $('[data-toggle="tooltip"]').tooltip();
+$('#date-range-1').datepicker({
+    uiLibrary: 'bootstrap4'
+});
+$('#date-range-2').datepicker({
+    uiLibrary: 'bootstrap4'
+});
+
+Pace.options = {
+    ajax: false
+}
+
+//Pace.stop();
+
 var IDoc = 0;
 var IEmp = 0;
 var ICMed = 0;
@@ -8,24 +21,32 @@ var Bitacora = {};
 var Bitacoras = [];
 var TMed = "";
 
-function SendData(data_, btn) {
+function SendData(data_, btn, url, IsEMp) {
     if(data_.length > 0){
-        $.ajax({
-            method: "POST",
-            url: "CallsWeb/Empleados/InsEmpleadosImport.php",
-            dataType: "JSON",
-            data: {data_},
-            success: function (data) {
-                if(parseInt(data.code) == 200){
-                    //Cargamos la tabla de empleados
-                    GetEmpleados(0, false, false);
-                    alertify.success(data.response);
-                    btn.prop("disabled", false);
-                    $('#UploadCSV').val("");
-                }else{
-                    alertify.error(data.response);
+        Pace.restart();
+        Pace.track(function () {
+            $.ajax({
+                method: "POST",
+                url: url,
+                dataType: "JSON",
+                data: {data_},
+                success: function (data) {
+                    if(parseInt(data.code) == 200){
+                        //Cargamos la tabla de empleados
+                        if(IsEMp){
+                            GetEmpleados(0, false, false);
+                            $('#UploadCSV').val("");
+                        }else{
+                            GetMedicamentos(0, false, false);
+                            $('#UploadCSVMed').val("");
+                        }
+                        btn.prop("disabled", false);
+                        alertify.success(data.response);
+                    }else{
+                        alertify.error(data.response);
+                    }
                 }
-            }
+            });
         });
     }else{
         alertify.error("No se obtuvieron datos del Archivo Seleccionado");
@@ -34,30 +55,33 @@ function SendData(data_, btn) {
 }
 
 function GetListCat(idCat, bandera, select_html, value) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Catalogs/GetListCat.php",
-        data: {idCat: idCat, bandera:bandera},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                var html = "";
-                html = '<option value="0">Seleccionar una Opcion</option>';
-                
-                _.each(data.response.respuesta, function(rows) {
-                    html += '<option value="'+rows.Id+'">'+rows.Desc+'</option>';
-                });
-
-                select_html.html("");
-
-                select_html.html(html);
-                select_html.select2();
-
-                if( !_.isEmpty(value) ){
-                    SetDD(select_html, value);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Catalogs/GetListCat.php",
+            data: {idCat: idCat, bandera:bandera},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    var html = "";
+                    html = '<option value="0">Seleccionar una Opcion</option>';
+                    
+                    _.each(data.response.respuesta, function(rows) {
+                        html += '<option value="'+rows.Id+'">'+rows.Desc+'</option>';
+                    });
+    
+                    select_html.html("");
+    
+                    select_html.html(html);
+                    select_html.select2();
+    
+                    if( !_.isEmpty(value) ){
+                        SetDD(select_html, value);
+                    }
                 }
             }
-        }
+        });
     });
 }
 
@@ -81,112 +105,127 @@ function buildConfig()
 }
 
 function GetPersonalMedico(IdPersonalMed, update, dd, value) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/PersonalMedico/GetListPMed.php",
-        data: {IdPersonalMed: IdPersonalMed},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if(update && !dd){
-                    console.log('res', data.response);
-                    if(data.response.length === 1){
-
-                        $("#nomb_personal").val(data.response[0].Nombre);
-                        $("#ape_pat").val(data.response[0].ApellidoPaterno);
-                        $("#ape_mat").val(data.response[0].ApellidoMaterno);
-                        $("#SelectTitulo").val(data.response[0].Titulo).change();
-
-                        IDoc = data.response[0].IdDoc;
-
-                        $("#save-item-med").hide();
-                        $("#upd-item-med").show();
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/PersonalMedico/GetListPMed.php",
+            data: {IdPersonalMed: IdPersonalMed},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(update && !dd){
+                        console.log('res', data.response);
+                        if(data.response.length === 1){
+    
+                            $("#nomb_personal").val(data.response[0].Nombre);
+                            $("#ape_pat").val(data.response[0].ApellidoPaterno);
+                            $("#ape_mat").val(data.response[0].ApellidoMaterno);
+                            $("#SelectTitulo").val(data.response[0].Titulo).change();
+    
+                            IDoc = data.response[0].IdDoc;
+    
+                            $("#save-item-med").hide();
+                            $("#upd-item-med").show();
+                        }
+                    }else if(dd && !update){
+                        BuildDD(data.response, $("#SelectAtendio"));
+                        SetDD($("#SelectAtendio"), value);
+                    }else{
+                        BuildArr(data.response);
                     }
-                }else if(dd && !update){
-                    BuildDD(data.response, $("#SelectAtendio"));
-                    SetDD($("#SelectAtendio"), value);
                 }else{
-                    BuildArr(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
             }
-        }
+        });
     });
 }
 
 function GetListAgenda(id_agenda, IsUpdate) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Agenda/GetListAgenda.php",
-        data: {id_agenda: id_agenda},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if (IsUpdate) {
-                    //mandamos a crear el formulario de edicion
-                    if(data.response.length === 1){
-                        BuildModalEditAgenda(data.response[0]);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Agenda/GetListAgenda.php",
+            data: {id_agenda: id_agenda},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if (IsUpdate) {
+                        //mandamos a crear el formulario de edicion
+                        if(data.response.length === 1){
+                            BuildModalEditAgenda(data.response[0]);
+                        }
+                    }else{
+                        console.log('data.response',data.response)
+                        BuildArrTBLAgenda(data.response);
                     }
                 }else{
-                    console.log('data.response',data.response)
-                    BuildArrTBLAgenda(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
             }
-        }
+        });
     });
 }
 
 function DelPersonalMedico(IdPersonalMed) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/PersonalMedico/DelPMedico.php",
-        data: {IdDoc: IdPersonalMed},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                alertify.success(data.response);
-                GetPersonalMedico(0, false);
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/PersonalMedico/DelPMedico.php",
+            data: {IdDoc: IdPersonalMed},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetPersonalMedico(0, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion del Personal Medico..");
+                }
             }
-        }
+        });
     });
 }
 
 function DelEmpleados(IdEmpleado) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Empleados/DelEmpleado.php",
-        data: {IdEmpleado: IdEmpleado},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                alertify.success(data.response);
-                GetEmpleados(0, false, false);
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Empleados/DelEmpleado.php",
+            data: {IdEmpleado: IdEmpleado},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetEmpleados(0, false, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+                }
             }
-        }
+        });
     });
 }
 
 function DelMedicamentos(IdMedicamento) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Medicamentos/DelMedicamento.php",
-        data: {IdMedicamento: IdMedicamento},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                alertify.success(data.response);
-                GetMedicamentos(0, false, false);
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/DelMedicamento.php",
+            data: {IdMedicamento: IdMedicamento},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    alertify.success(data.response);
+                    GetMedicamentos(0, false, false);
+                }else{
+                    alertify.error("Ocurrio un error al obtener la informacion de los empleados..");
+                }
             }
-        }
+        });
     });
 }
 
@@ -500,7 +539,7 @@ function BuildModalEditAgenda(rows) {
         _.each(rows.telefonos, function(row_) {
             html_tbl += '<tr data-id="'+row_.telefono+'">';
             html_tbl += '<td>'+row_.telefono+'</td>';
-            html_tbl += '<td><button class="btn btn-danger btn-lg btn-block del-edit-phone" type="button"><i class="fas fa-trash"></i></button></td>';
+            html_tbl += '<td><button class="btn btn-danger del-edit-phone" type="button"><i class="fas fa-trash"></i></button></td>';
             html_tbl += '</tr>';
         });
     }
@@ -545,6 +584,11 @@ function FillDTPersonalMed(data) {
         },
     });
     $('#tbl_personalmed').not('.initialized').addClass('initialized').dataTable();
+    $(".dataTables_info").css( "margin-top", "10px" );
+    $(".dataTables_filter").css("float", "right");
+    $(".dataTables_filter").css( "margin-right", "10px" );
+    $(".dataTables_length").css("float", "left");
+    $(".dataTables_length").css( "margin-left", "10px" );
 }
 
 function FillDTabs(data, tbl, tbl_body) {
@@ -578,49 +622,60 @@ function FillDTabs(data, tbl, tbl_body) {
         },
     });
     tbl.not('.initialized').addClass('initialized').dataTable();
+    $(".dataTables_info").css( "margin-top", "10px" );
+    $(".dataTables_filter").css("float", "right");
+    $(".dataTables_filter").css( "margin-right", "10px" );
+    $(".dataTables_length").css("float", "left");
+    $(".dataTables_length").css( "margin-left", "10px" );
 }
 
 function AddArea(obj, modal) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Catalogs/InsArea.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                GetListCat(0, "Area", $(".SelectArea"));
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Catalogs/InsArea.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    GetListCat(0, "Area", $(".SelectArea"));
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 }
 
 function AddCatalog(obj) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Catalogs/InsCatalog.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                switch (obj.cat) {
-                    case 'Supervisor':
-                        GetListCat(0, "Supervisor", $("#SelectSupervisor"));
-                        break;
-                    case 'ClasifBit':
-                        GetListCat(0, "ClasifBit", $("#SelectClasificacion"));
-                        break;
-                    case 'depto':
-                        GetListCat(0, "depto", $(".sel_dpto"));
-                        break;
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Catalogs/InsCatalog.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    switch (obj.cat) {
+                        case 'Supervisor':
+                            GetListCat(0, "Supervisor", $("#SelectSupervisor"));
+                            break;
+                        case 'ClasifBit':
+                            GetListCat(0, "ClasifBit", $("#SelectClasificacion"));
+                            break;
+                        case 'depto':
+                            GetListCat(0, "depto", $(".sel_dpto"));
+                            break;
+                    }
+                }else{
+                    alertify.error(data.response);
                 }
-            }else{
-                alertify.error(data.response);
             }
-        }
+        });
     });
 }
 
@@ -643,48 +698,51 @@ function CleanModalAddEmpleados(){
 }
 
 function GetEmpleados(IdEmpleado, IsUpdate, dd) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Empleados/ListEmpleados.php",
-        data: {id_empleado: IdEmpleado},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if(IsUpdate && !dd){
-                    if(data.response.length === 1){
-                        
-                        $("#num_emp").val(data.response[0].NumEmpleado);
-                        $("#nomb_emp").val(data.response[0].Nombre);
-                        $("#ape_pat_emp").val(data.response[0].ApellidoPaterno);
-                        $("#ape_mat_emp").val(data.response[0].ApellidoMaterno);
-                        $("#actividad").val(data.response[0].actividad);
-                        $("#antiguedad").val(data.response[0].FecAntiguedad);
-                        
-                        var select_html = $("#sel_area");
-                        SetDD(select_html, data.response[0].Area);
-                        
-                        select_html = $("#sexo");
-                        SetDD(select_html, data.response[0].sexo);
-
-                        select_html = $(".sel_dpto");
-                        SetDD(select_html, data.response[0].NombreDepto);
-
-                        IEmp = data.response[0].IdEmpleado;
-
-                        $("#save-emp").hide();
-                        $("#upd-emp").show();
-
-                        $( "#num_emp" ).focus();
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Empleados/ListEmpleados.php",
+            data: {id_empleado: IdEmpleado},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate && !dd){
+                        if(data.response.length === 1){
+                            
+                            $("#num_emp").val(data.response[0].NumEmpleado);
+                            $("#nomb_emp").val(data.response[0].Nombre);
+                            $("#ape_pat_emp").val(data.response[0].ApellidoPaterno);
+                            $("#ape_mat_emp").val(data.response[0].ApellidoMaterno);
+                            $("#actividad").val(data.response[0].actividad);
+                            $("#antiguedad").val(data.response[0].FecAntiguedad);
+                            
+                            var select_html = $("#sel_area");
+                            SetDD(select_html, data.response[0].Area);
+                            
+                            select_html = $("#sexo");
+                            SetDD(select_html, data.response[0].sexo);
+    
+                            select_html = $(".sel_dpto");
+                            SetDD(select_html, data.response[0].NombreDepto);
+    
+                            IEmp = data.response[0].IdEmpleado;
+    
+                            $("#save-emp").hide();
+                            $("#upd-emp").show();
+    
+                            $( "#num_emp" ).focus();
+                        }
+                    }else if(dd && !IsUpdate){
+                        //BuildArrTBLEmp(data.response);
+                    }else{
+                        BuildArrTBLEmp(data.response);
                     }
-                }else if(dd && !IsUpdate){
-                    //BuildArrTBLEmp(data.response);
                 }else{
-                    BuildArrTBLEmp(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
             }
-        }
+        });
     });
 }
 
@@ -697,19 +755,22 @@ function SetDD(select_html, Val) {
 }
 
 function AddClasifMed(obj, modal) {
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Catalogs/InsClasifMed.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                GetListCat(0, "CMed", $(".ClasifMed"));
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Catalogs/InsClasifMed.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    GetListCat(0, "CMed", $(".ClasifMed"));
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 }
 
@@ -730,42 +791,45 @@ function CleanModalAddMedicamento(){
 }
 
 function GetMedicamentos(IdMedicamento, IsUpdate, dd) {
-    $.ajax({
-        method: "GET",
-        url: "CallsWeb/Medicamentos/ListMedicamentos.php",
-        data: {id_medicamento: IdMedicamento},
-        dataType: "JSON",
-        success: function (data) {
-            if(parseInt(data.code) === 200){
-                if(IsUpdate && !dd){
-                    if(data.response.length === 1){
-                        var data_ = data.response[0];
-                        
-                        $("#DescripcionMedicamento").val(data_.Descripcion);
-                        $("#InvMinimo").val(data_.CantidadMinima);
-                        $("#Inventario").val(data_.Total);
-                        $("#CantPresentacion").val(data_.CantidadPresentacion).prop("disabled", true);
-                        $("#PresentacionMed").val(data_.Presentacion).change().prop("disabled", true);
-                        
-                        var select_html = $("#AddClasifMed");
-                        SetDD(select_html, data.response[0].ClasifMedDescripcion);
-
-                        ICMed = data.response[0].idMedicamento;
-
-                        $("#save-cmed").hide();
-                        $("#upd-cmed").show();
-
-                        $( "#AddClasifMed" ).focus();
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "GET",
+            url: "CallsWeb/Medicamentos/ListMedicamentos.php",
+            data: {id_medicamento: IdMedicamento},
+            dataType: "JSON",
+            success: function (data) {
+                if(parseInt(data.code) === 200){
+                    if(IsUpdate && !dd){
+                        if(data.response.length === 1){
+                            var data_ = data.response[0];
+                            
+                            $("#DescripcionMedicamento").val(data_.Descripcion);
+                            $("#InvMinimo").val(data_.CantidadMinima);
+                            $("#Inventario").val(data_.Total);
+                            $("#CantPresentacion").val(data_.CantidadPresentacion).prop("disabled", true);
+                            $("#PresentacionMed").val(data_.Presentacion).change().prop("disabled", true);
+                            
+                            var select_html = $("#AddClasifMed");
+                            SetDD(select_html, data.response[0].ClasifMedDescripcion);
+    
+                            ICMed = data.response[0].idMedicamento;
+    
+                            $("#save-cmed").hide();
+                            $("#upd-cmed").show();
+    
+                            $( "#AddClasifMed" ).focus();
+                        }
+                    }else if(dd && !IsUpdate){
+                        //BuildArrTBLEmp(data.response);
+                    }else{
+                        BuildArrTBLCMed(data.response);
                     }
-                }else if(dd && !IsUpdate){
-                    //BuildArrTBLEmp(data.response);
                 }else{
-                    BuildArrTBLCMed(data.response);
+                    alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
                 }
-            }else{
-                alertify.error("Ocurrio un error al obtener la informacion de los Empleados..");
             }
-        }
+        });
     });
 }
 

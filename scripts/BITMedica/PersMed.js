@@ -39,21 +39,23 @@ $("#save-item-med").on("click", function(e) {
         'apellido_mat':ape_mat,
         'titulo':SelectTitulo
     }
-
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/PersonalMedico/InsPersonalMed.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                CleanModalAddPersMed();
-                GetPersonalMedico(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/PersonalMedico/InsPersonalMed.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddPersMed();
+                    GetPersonalMedico(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 
@@ -91,22 +93,24 @@ $("#upd-item-med").on("click", function(e) {
         'titulo':SelectTitulo,
         'IdDoc' : IDoc
     }
-
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/PersonalMedico/UpdatePMedico.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                IDoc = 0;
-                alertify.success(data.response);
-                CleanModalAddPersMed();
-                GetPersonalMedico(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/PersonalMedico/UpdatePMedico.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    IDoc = 0;
+                    alertify.success(data.response);
+                    CleanModalAddPersMed();
+                    GetPersonalMedico(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 

@@ -1,7 +1,5 @@
-$(".add-agenda").on("click", function(e) {
+$(".add-contacto").on("click", function(e) {
     e.preventDefault();
-    ChangeClassActive($(".add-agenda"), "agenda");
-    HideModalsF("otros");
     $('#modal-add-agenda').modal({backdrop: 'static', keyboard: false});
 });
 
@@ -46,19 +44,22 @@ $("#save-item").on("click", function(e) {
         'telefonos':arr_tel
     }
 
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Agenda/InsAgenda.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                CleanModalAdd();
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Agenda/InsAgenda.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAdd();
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 
@@ -102,21 +103,23 @@ $("#update-item").on("click", function(e) {
         'dir':dir,
         'telefonos':arr_tel
     }
-
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Agenda/UpdateAgenda.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                GetListAgenda(0, false);
-                CleanModalEdit();
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Agenda/UpdateAgenda.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    GetListAgenda(0, false);
+                    CleanModalEdit();
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 });
 
@@ -161,7 +164,12 @@ $("#modal-add-agenda .cerrar").on("click", function() {
 });
 
 //tabs
-$("#agenda-tab").on("click", function(argument) {
+$(".add-agenda").on("click", function(argument) {
+    ChangeClassActive($(".add-agenda"), "agenda");
+    HideModalsF("otros");
+    $(".bitacora-dash").hide();
+    $(".agenda-dash").show();
+    $(".page-title").text("AGENDA");
     GetListAgenda(0, false);
 });
 
@@ -179,19 +187,22 @@ $("#tbl_agenda").on("click", ".btn-del-agenda", function(e) {
             var obj = {
                 'id_agenda':id
             }
-            $.ajax({
-                method: "POST",
-                url: "CallsWeb/Agenda/DelAgenda.php",
-                dataType: "JSON",
-                data: {obj},
-                success: function (data) {
-                    if(parseInt(data.code) == 200){
-                        alertify.success(data.response);
-                        GetListAgenda(0, false);
-                    }else{
-                        alertify.error(data.response);
+            Pace.restart();
+            Pace.track(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "CallsWeb/Agenda/DelAgenda.php",
+                    dataType: "JSON",
+                    data: {obj},
+                    success: function (data) {
+                        if(parseInt(data.code) == 200){
+                            alertify.success(data.response);
+                            GetListAgenda(0, false);
+                        }else{
+                            alertify.error(data.response);
+                        }
                     }
-                }
+                });
             });
         }, 
         function(){ 

@@ -103,20 +103,23 @@ $("#save-cmed").on("click", function(e) {
         }
     }
 
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Medicamentos/InsMedicamento.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                CleanModalAddMedicamento();
-                GetMedicamentos(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/InsMedicamento.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddMedicamento();
+                    GetMedicamentos(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
 
 });
@@ -180,21 +183,53 @@ $("#upd-cmed").on("click", function(e) {
         }
     }
 
-    $.ajax({
-        method: "POST",
-        url: "CallsWeb/Medicamentos/UpdateMedicamentos.php",
-        dataType: "JSON",
-        data: {obj},
-        success: function (data) {
-            if(parseInt(data.code) == 200){
-                alertify.success(data.response);
-                CleanModalAddMedicamento();
-                GetMedicamentos(0, false, false);
-            }else{
-                alertify.error(data.response);
+    Pace.restart();
+    Pace.track(function () {
+        $.ajax({
+            method: "POST",
+            url: "CallsWeb/Medicamentos/UpdateMedicamentos.php",
+            dataType: "JSON",
+            data: {obj},
+            success: function (data) {
+                if(parseInt(data.code) == 200){
+                    alertify.success(data.response);
+                    CleanModalAddMedicamento();
+                    GetMedicamentos(0, false, false);
+                }else{
+                    alertify.error(data.response);
+                }
             }
-        }
+        });
     });
+});
+
+//upload csv
+$('#UploadCSVMed').change(function(evt){
+    var input = this;
+    var url = $(this).val();
+    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+    var types_img = ["csv"];
+    var btn = $(this);    
+    btn.prop('disabled', true);
+
+    if (input.files && input.files[0] && (types_img.indexOf(ext) >= 0)){
+        //procedemos a procesar el csv
+
+        var file = input.files[0], data = [], url = "CallsWeb/Medicamentos/InsImportMed.php";
+        Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                data = results.data;
+                console.log("data", data);
+                SendData(data, btn, url, false);
+            }
+        });
+
+    }else{
+        alertify.error("Formato de archivo seleccionado es incorrecto..");
+        btn.prop('disabled', false);
+    }
 });
 
 $("#tbl_cmed").on("click", ".btn-update-cmed", function(e) {
