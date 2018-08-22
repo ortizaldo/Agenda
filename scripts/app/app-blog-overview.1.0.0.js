@@ -202,7 +202,7 @@
         intersect: false
       }
     };
-
+    console.log("bouData",bouData);
     // Generate the Analytics Overview chart.
     window.BlogOverviewUsers = new Chart(bouCtx, {
       type: 'LineWithLine',

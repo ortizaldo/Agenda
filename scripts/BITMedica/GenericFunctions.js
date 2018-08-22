@@ -21,7 +21,7 @@ var Bitacora = {};
 var Bitacoras = [];
 var TMed = "";
 
-function SendData(data_, btn, url, IsEMp) {
+function SendData(data_, btn, url, IsEMp, Bita) {
     if(data_.length > 0){
         Pace.restart();
         Pace.track(function () {
@@ -36,6 +36,9 @@ function SendData(data_, btn, url, IsEMp) {
                         if(IsEMp){
                             GetEmpleados(0, false, false);
                             $('#UploadCSV').val("");
+                        }else if (Bita) {
+                            GetBitacora(0,false, false);
+                            $('#ImpBit').val("");
                         }else{
                             GetMedicamentos(0, false, false);
                             $('#UploadCSVMed').val("");
@@ -883,10 +886,33 @@ function ChangeClassActive(element, flag) {
             if($("#personal-med").hasClass("active")){
                 $("#personal-med").removeClass("active")
             }
+            if($("#chart-med").hasClass("active")){
+                $("#chart-med").removeClass("active")
+            }
         break;
         case "agenda":
             if($("#bitacorad").hasClass("active")){
                 $("#bitacorad").removeClass("active")
+            }
+            if($("#empleados").hasClass("active")){
+                $("#empleados").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+            if($("#personal-med").hasClass("active")){
+                $("#personal-med").removeClass("active")
+            }
+            if($("#chart-med").hasClass("active")){
+                $("#chart-med").removeClass("active")
+            }
+        break;
+        case "graph":
+            if($("#bitacorad").hasClass("active")){
+                $("#bitacorad").removeClass("active")
+            }
+            if($(".add-agenda").hasClass("active")){
+                $(".add-agenda").removeClass("active")
             }
             if($("#empleados").hasClass("active")){
                 $("#empleados").removeClass("active")
@@ -911,6 +937,9 @@ function ChangeClassActive(element, flag) {
             if($("#personal-med").hasClass("active")){
                 $("#personal-med").removeClass("active")
             }
+            if($("#chart-med").hasClass("active")){
+                $("#chart-med").removeClass("active")
+            }
         break;
         case "med":
             if($("#bitacorad").hasClass("active")){
@@ -925,6 +954,9 @@ function ChangeClassActive(element, flag) {
             if($("#personal-med").hasClass("active")){
                 $("#personal-med").removeClass("active")
             }
+            if($("#chart-med").hasClass("active")){
+                $("#chart-med").removeClass("active")
+            }
         break;
         case "pmed":
             if($("#bitacorad").hasClass("active")){
@@ -938,6 +970,12 @@ function ChangeClassActive(element, flag) {
             }
             if($("#medicamentos").hasClass("active")){
                 $("#medicamentos").removeClass("active")
+            }
+            if($("#medicamentos").hasClass("active")){
+                $("#medicamentos").removeClass("active")
+            }
+            if($("#chart-med").hasClass("active")){
+                $("#chart-med").removeClass("active")
             }
         break;
     }

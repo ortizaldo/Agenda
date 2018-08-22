@@ -312,7 +312,7 @@ $('#UploadCSV').change(function(evt){
             dynamicTyping: true,
             complete: function(results) {
                 data = results.data;
-                SendData(data, btn, url, true);
+                SendData(data, btn, url, true, false);
             }
         });
 

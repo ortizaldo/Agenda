@@ -194,6 +194,8 @@ $("#upd-bitacora").on("click", function(e) {
     SaveBitacora(obj, "CallsWeb/Bitacora/UpdateBitacora.php", "POST", true);
 });
 
+
+
 function SaveBitacora(obj, url, method_url, IsUpdate) {
     Pace.restart();
     Pace.track(function () {
@@ -356,6 +358,15 @@ $("#bitacorad").on("click", function(e) {
     $(".page-title").text("CONSULTAS MEDICAS");
     HideModalsF("bitacora");
     ChangeClassActive($("#bitacorad"), "dash");
+});
+
+$(".search-bit").on("click", function(e) {
+    e.preventDefault();
+    $("#filter_area").val(0).change();
+    $("#date-range-1").val("");
+    $("#date-range-2").val("");
+    var oTable = $("#tbl_bitacora").dataTable();
+    oTable.fnDraw();
 });
 
 function GetBitacoraMed(IdBitacora,IdMedBit, IsUpdate) {
@@ -532,6 +543,80 @@ $("#SelectMedicamento").on("change", function(e) {
                 }
             });
         });
+    }
+});
+
+$("#date-range-2").on("change", function (e) {
+    console.log("entre");
+    var from = $("#date-range-1").val();
+    var to = $("#date-range-2").val();
+    if(!_.isEmpty(from) && !_.isEmpty(to)){
+        var oTable = $("#tbl_bitacora").dataTable();
+        oTable.fnDraw();
+    }
+});
+
+$('#filter_area').on("change", function(){
+    if(!_.isEmpty($(this).val())){
+        var table = $('#tbl_bitacora').DataTable();
+        var buscar= $('#filter_area option:selected').text();
+        if (parseInt(this.value) > 0) {
+            table.columns(5).search('^'+buscar+'$', true).draw();
+        }else if (parseInt(this.value) === 0) {
+            table.search('').columns().search( '' ).draw();
+        }
+    }
+});
+
+$.fn.dataTableExt.afnFiltering.push(
+    function(oSettings, aData, iDataIndex) {
+        //console.log('aData', aData);
+        var iFini = $("#date-range-1").val();
+        console.log("iFini", iFini);
+        var iFfin = $("#date-range-2").val();
+        console.log("iFfin", iFfin);
+        if(!_.isEmpty(iFini) && !_.isEmpty(iFfin)){
+            var fecData = moment(aData[1]).format('YYYY-MM-DD');
+            if((typeof(iFini) !== 'undefined' && iFini !== null && iFini !== '')){
+                if ((moment(fecData).isSame(iFini) || moment(fecData).isAfter(iFini)) && 
+                    (moment(fecData).isSame(iFfin) || moment(fecData).isBefore(iFfin)) ) {
+                    return true;
+                }else {
+                    return false;
+                }
+            }else{
+                return true;
+            }
+        }else{
+            return true;
+        }
+    }
+);
+
+$('#ImpBit').change(function(evt){
+    var input = this;
+    var url = $(this).val();
+    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+    var types_img = ["csv"];
+    var btn = $(this);    
+    btn.prop('disabled', true);
+
+    if (input.files && input.files[0] && (types_img.indexOf(ext) >= 0)){
+        //procedemos a procesar el csv
+
+        var file = input.files[0], data = [], url = "CallsWeb/Bitacora/InsImportBitacoras.php";
+        Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                data = results.data;
+                SendData(data, btn, url, false, true);
+            }
+        });
+
+    }else{
+        alertify.error("Formato de archivo seleccionado es incorrecto..");
+        btn.prop('disabled', false);
     }
 });
 

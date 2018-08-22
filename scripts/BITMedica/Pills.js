@@ -222,7 +222,7 @@ $('#UploadCSVMed').change(function(evt){
             complete: function(results) {
                 data = results.data;
                 console.log("data", data);
-                SendData(data, btn, url, false);
+                SendData(data, btn, url, false, false);
             }
         });
 
