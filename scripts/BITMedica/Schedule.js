@@ -168,6 +168,7 @@ $(".add-agenda").on("click", function(argument) {
     ChangeClassActive($(".add-agenda"), "agenda");
     HideModalsF("otros");
     $(".bitacora-dash").hide();
+    $(".graph-med").hide();
     $(".agenda-dash").show();
     $(".page-title").text("AGENDA");
     GetListAgenda(0, false);

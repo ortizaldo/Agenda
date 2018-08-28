@@ -1,8 +1,18 @@
 $('[data-toggle="tooltip"]').tooltip();
+
 $('#date-range-1').datepicker({
     uiLibrary: 'bootstrap4'
 });
+
 $('#date-range-2').datepicker({
+    uiLibrary: 'bootstrap4'
+});
+
+$('#StartFiltr').datepicker({
+    uiLibrary: 'bootstrap4'
+});
+
+$('#EndFiltr').datepicker({
     uiLibrary: 'bootstrap4'
 });
 
@@ -20,6 +30,7 @@ var IBitacora = 0;
 var Bitacora = {};
 var Bitacoras = [];
 var TMed = "";
+var myChart = null;
 
 function SendData(data_, btn, url, IsEMp, Bita) {
     if(data_.length > 0){
@@ -923,6 +934,7 @@ function ChangeClassActive(element, flag) {
             if($("#personal-med").hasClass("active")){
                 $("#personal-med").removeClass("active")
             }
+            $("#stackchart").html("");
         break;
         case "emp":
             if($("#bitacorad").hasClass("active")){

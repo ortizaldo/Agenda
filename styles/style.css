@@ -11,3 +11,11 @@
     max-width: 80% !important;
     margin-left: 18% !important;
 }
+
+.shards-landing-page--1 .welcome {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    background: url(../images_landing/landing.jpg) no-repeat center center fixed !important;
+    background-size: cover;
+}

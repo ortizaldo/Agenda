@@ -354,6 +354,7 @@ $(".add-med-bit").on("click", function(e) {
 $("#bitacorad").on("click", function(e) {
     e.preventDefault();
     $(".agenda-dash").hide();
+    $(".graph-med").hide();
     $(".bitacora-dash").show();
     $(".page-title").text("CONSULTAS MEDICAS");
     HideModalsF("bitacora");
@@ -570,11 +571,8 @@ $('#filter_area').on("change", function(){
 
 $.fn.dataTableExt.afnFiltering.push(
     function(oSettings, aData, iDataIndex) {
-        //console.log('aData', aData);
         var iFini = $("#date-range-1").val();
-        console.log("iFini", iFini);
         var iFfin = $("#date-range-2").val();
-        console.log("iFfin", iFfin);
         if(!_.isEmpty(iFini) && !_.isEmpty(iFfin)){
             var fecData = moment(aData[1]).format('YYYY-MM-DD');
             if((typeof(iFini) !== 'undefined' && iFini !== null && iFini !== '')){

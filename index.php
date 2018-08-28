@@ -1,1 +1,4 @@
-<?php include("header.phtml") ?>
+<?php 
+//include("header.phtml")
+include("header.phtml")
+?>

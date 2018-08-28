@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>BitMedica</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- CSS Dependencies -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+        <link rel="stylesheet" href="css_landing/shards.min.css?version=2.0.1">
+        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="css_landing/shards-extras.min.css?version=2.0.1">
+        
+    </head>
+    <body class="shards-landing-page--1">
+        <!-- Welcome Section -->
+        <div class="welcome d-flex justify-content-center flex-column">
+            <div class="container">
+            <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark pt-4 px-0">
+                <a class="navbar-brand" href="#">
+                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="images/MedSymbolG.png">
+                    BitMedica
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://twitter.com/DesignRevision"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://www.facebook.com/designrevision"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://dribbble.com/hisk"><i class="fa fa-dribbble"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/designrevision"><i class="fa fa-github"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- / Navigation -->
+            </div> <!-- .container -->
+
+            <!-- Inner Wrapper -->
+            <div class="inner-wrapper mt-auto mb-auto container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h1 class="welcome-heading display-4 text-white">BitMedica</h1>
+                        <p class="text-white">Sistema de ayuda para la captura de informacion obtenida por medio de la atencion medica en los pacientes.. </p>
+                        <a href="#" class="btn btn-lg btn-outline-white btn-pill align-self-center" id="btn-login" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fas fa-user-md"></i> <span>Iniciar Sesion</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- / Inner Wrapper -->
+        </div>
+        <!-- / Welcome Section -->
+
+        <!-- modal login Section -->
+        <div class="modal" id="exampleModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="images/MedSymbol.png">
+                            <span>Iniciar Sesion</span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-seamless">
+                                    <span class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </span>
+                                    <input type="text" class="form-control" id="form1-username" placeholder="Username">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group input-group-seamless"><input type="password" class="form-control" id="form2-password" placeholder="Password">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="login">Iniciar Sesion</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal login Section -->
+
+        <!-- JavaScript Dependencies -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
