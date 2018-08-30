@@ -6,14 +6,14 @@ $conn = $DB->getConnect();
 $arrdoc =  [];
 $IdPersonalMed = $_GET["IdPersonalMed"];
 if($IdPersonalMed > 0){
-    $query = "SELECT IdDoc, Nombre, ApellidoPaterno, ApellidoMaterno, Titulo, CreatedAt 
+    $query = "SELECT IdDoc, Nombre, ApellidoPaterno, ApellidoMaterno, Titulo, CreatedAt, Usuario 
               FROM enfdoctable 
               where 0=0 
               and IdDoc = ? 
               and IsEnabled = 1 
               order by IdDoc desc;";
 }else{
-    $query = "SELECT IdDoc, Nombre, ApellidoPaterno, ApellidoMaterno, Titulo, CreatedAt 
+    $query = "SELECT IdDoc, Nombre, ApellidoPaterno, ApellidoMaterno, Titulo, CreatedAt, Usuario 
               FROM enfdoctable 
               WHERE 0=0
               AND IsEnabled = 1
@@ -26,7 +26,7 @@ if ($cmd = $conn->prepare($query)) {
     }
     if ($cmd->execute()) {
         $cmd->store_result();
-        $cmd->bind_result($IdDoc,$Nombre,$ApellidoPaterno,$ApellidoMaterno,$Titulo, $CreatedAt);
+        $cmd->bind_result($IdDoc,$Nombre,$ApellidoPaterno,$ApellidoMaterno,$Titulo, $CreatedAt, $usuario);
         $cont=0;
         while ($cmd->fetch()) {
             $arrdoc[$cont]["IdDoc"] = $IdDoc;
@@ -35,6 +35,7 @@ if ($cmd = $conn->prepare($query)) {
             $arrdoc[$cont]["ApellidoMaterno"] = $ApellidoMaterno;
             $arrdoc[$cont]["Titulo"] = $Titulo;
             $arrdoc[$cont]["CreatedAt"] = $CreatedAt;
+            $arrdoc[$cont]["usuario"] = $usuario;
             $cont++;
         }
         $requests = null;

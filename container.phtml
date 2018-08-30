@@ -474,6 +474,7 @@
                 <div class="modal-dialog modal-lg" role="document" style="width: 70%;">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px; font: bold" src="images/MedSymbol.png">
                             <h5 class="modal-title">Agregar Personal Medico</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -482,6 +483,18 @@
                         <div class="modal-body">
                             <div class="col-md-8 order-md-1">
                                 <form>
+                                    <div class="row">
+                                        <img class="card-img-top" src="images/not-found.png" alt="Card image cap" style="width:50%;height:50%">
+                                    </div>
+                                    <div class="row image">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="file" class="custom-file-input" id="FileImage">
+                                            <label class="custom-file-label" for="FileImage">
+                                                <i class="fas fa-file-upload"></i> Cargar Imagen
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="nombre">Nombre</label>
@@ -512,6 +525,40 @@
                                                 <option selected value="Dra.">Dra.</option>
                                                 <option selected value="Enfermero/a">Enfermero/a</option>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row user">
+                                        <div class="form-group col-md-6">
+                                            <div class="input-group input-group-seamless">
+                                                <span class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-user"></i>
+                                                    </span>
+                                                </span>
+                                                <input type="text" class="form-control" id="username" placeholder="Usuario">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row pass" style="display:none">
+                                        <div class="form-group col-md-6">
+                                            <div class="input-group input-group-seamless">
+                                                <span class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-lock"></i>
+                                                    </span>
+                                                </span>
+                                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="input-group input-group-seamless">
+                                                <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar Password">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
 

@@ -136,7 +136,7 @@ function GetPersonalMedico(IdPersonalMed, update, dd, value) {
                             $("#ape_pat").val(data.response[0].ApellidoPaterno);
                             $("#ape_mat").val(data.response[0].ApellidoMaterno);
                             $("#SelectTitulo").val(data.response[0].Titulo).change();
-    
+
                             IDoc = data.response[0].IdDoc;
     
                             $("#save-item-med").hide();

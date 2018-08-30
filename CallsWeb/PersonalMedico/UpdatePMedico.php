@@ -16,7 +16,9 @@ if(isset($nombre) && isset($ape_pat) && isset($ape_mat) && $titulo != "0"){
         $response["response"] = "Ya existe un un registro con la informacion que esta tratando de enviar..";
         echo json_encode($response);
 	}else{
-		$createItemSQL="UPDATE enfdoctable SET Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Titulo = ? where IdDoc = ?;";
+		$createItemSQL="UPDATE enfdoctable 
+		SET Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Titulo = ? 
+		where IdDoc = ?;";
 		if ($createItem = $conn->prepare($createItemSQL)) {
 		    $createItem->bind_param("ssssi", $nombre, $ape_pat, $ape_mat, $titulo, $IdDoc);
 		    if (!$createItem->execute()) {
@@ -57,7 +59,7 @@ function GetPersMedExists($nombre, $ape_pat, $ape_mat, $titulo)
 			  and Nombre = ? 
 			  and ApellidoMaterno = ? 
 			  and ApellidoPaterno = ? 
-			  and Titulo = ? 
+			  and Titulo = ?  
 			  order by IdDoc desc limit 1;";
 
 	if ($cmd = $conn->prepare($query)) {
